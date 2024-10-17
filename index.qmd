@@ -1,0 +1,82 @@
+---
+pagetitle: "GLOSSA"
+page-layout: custom
+section-divs: false
+toc: false
+from: markdown+emoji
+---
+
+:::{.welcome-block}
+<div class="welcome-image">
+<img src="images/logo_glossa_text.png" alt="GLOSSA Logo">
+</div>
+<div class="welcome-text">
+<h3>Model marine species distribution interactively with our R Shiny app</h3>
+<h3>Easily explore species distributions with just a few clicks—no coding required!</h3>
+</div>
+:::
+
+:::{.description-block}
+
+:::{.description-content}
+
+:::{.description-text}
+
+## Welcome to GLOSSA
+
+GLOSSA is a user-friendly R Shiny app created for marine species distribution modeling. While our app is designed to be easy to use and interactive, it provides valuable tools to support your analysis. We offer detailed documentation and step-by-step tutorials to guide you along the way:
+
+-  **Interactive interface**: Analyze species occurrences with an intuitive interface.
+- **Less effort**: Analyze independently multiple species in a single run.
+- **Habitat forecasting**: Predict suitable habitats across past, present, and future scenarios.
+- **Flexible modeling**: Use Bayesian Additive Regression Trees (BART).
+- **Comprehensive  visualizations**: Create visualizations and easily export plots and results for your presentations.
+
+:::
+
+<img src="images/welcome_image.png" alt="GLOSSA welcome image" class="description-image">
+
+:::
+
+:::
+
+<div class="card-container">
+<div class="card-deck">
+<a href="get_started.qmd" class="card custom-card">
+<div class="card-body">
+<div class="card-icon">
+<i class="bi bi-rocket-takeoff"></i>
+</div>
+<h5 class="card-title">Get started</h5>
+<p class="card-text">To get started, install GLOSSA and explore our quickstart guide to learn how to use the app and the essentials with visual aid.</p>
+</div>
+</a>
+<a href="index2.qmd" class="card custom-card">
+<div class="card-body">
+<div class="card-icon">
+<i class="bi bi-files"></i>
+</div>
+<h5 class="card-title">Documentation</h5>
+<p class="card-text">Learn the details about the GLOSSA options and functionalities.</p>
+</div>
+</a>
+<a href="pages/tutorials_examples/index.qmd" class="card custom-card">
+<div class="card-body">
+<div class="card-icon">
+<i class="bi bi-puzzle"></i>
+</div>
+<h5 class="card-title">Tutorials and examples</h5>
+<p class="card-text">Take a look at our tutorials and end-to-end worked examples, including our video tutorial.</p>
+</div>
+</a>
+<a href="index2.qmd" class="card custom-card">
+<div class="card-body">
+<div class="card-icon">
+<i class="bi bi-question-circle"></i>
+</div>
+<h5 class="card-title">Support and FAQs</h5>
+<p class="card-text">Find answers to common questions or report a bug.</p>
+</div>
+</a>
+</div>
+</div>

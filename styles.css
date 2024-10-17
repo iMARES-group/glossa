@@ -1,0 +1,167 @@
+/* Styles for the welcome block  ------------------------ */
+.welcome-block {
+  padding: 2rem; /* Add padding around the block */
+  background-image: url('images/home_background.jpg'); /* Replace with your background image path */
+  background-size: cover; /* Cover the entire block */
+  background-position: center; /* Center the image */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  margin-bottom: 2rem; /* Space below the welcome block */
+  text-align: center; /* Center text */
+  color: white; /* Change text color if needed for contrast */
+}
+
+
+.welcome-image img {
+  width: 100%; /* Make the image responsive */
+  max-width: 400px; /* Maximum width for the image */
+}
+
+.welcome-text {
+  margin-top: 1rem; /* Space between the image and the text */
+}
+
+.welcome-text h1 {
+  font-size: 2rem; /* Larger font for the main title */
+  color: white; /* Darker color for better readability */
+}
+
+.welcome-text h3 {
+  font-size: 1.5rem; /* Slightly smaller font for the subtitle */
+  color: white; /* Soft gray color for the subtitle */
+  text-shadow: -1px -1px 0 #000,  
+               1px -1px 0 #000, 
+               -1px 1px 0 #000, 
+               1px 1px 0 #000;
+}
+
+.welcome-text ul {
+  margin-top: 1rem; /* Space above the list */
+  list-style-type: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+}
+
+.welcome-text li {
+  font-size: 1rem; /* Standard font size for list items */
+  color: white; /* Dark gray for list item text */
+}
+
+/* Description block  ------------------------ */
+.description-block {
+  padding: 2rem; /* Add padding around the description */
+  background-color: #ffffff; /* White background for contrast */
+  margin: 0rem 5rem; /* Space above and below, and left and right */
+}
+
+.description-block h2 {
+  font-size: 1.75rem; /* Larger font size for the heading */
+  color: #333; /* Darker color for better readability */
+}
+
+.description-block p {
+  font-size: 1rem; /* Standard font size for the paragraph */
+  color: #555; /* Dark gray for paragraph text */
+  margin-top: 1rem; /* Space above the paragraph */
+}
+
+.description-content {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Center items vertically */
+  flex-wrap: wrap; /* Ensure content wraps on smaller screens */
+}
+
+.description-image {
+  width: 250px; /* Fixed width for the image */
+  height: auto; /* Keep aspect ratio */
+  margin-right: 1.5rem; /* Space between image and text */
+  border-radius: 10px; /* Optional: round corners */
+  flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.description-text {
+  flex: 1; /* Take up available space */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .description-content {
+    flex-direction: column; /* Stack the image and text vertically */
+    text-align: center; /* Center-align text for better readability */
+  }
+
+  .description-image {
+    margin: 0 0 1rem 0; /* Adjust margin to center image and add space below */
+    width: 100%; /* Make image responsive */
+    max-width: 250px; /* Ensure image doesn't exceed its original width */
+  }
+
+  .description-block {
+    margin: 0 1rem; /* Reduce side margins for smaller screens */
+    padding: 1rem; /* Adjust padding for smaller screens */
+  }
+}
+
+
+/* Custom styles for the cards ------------------------ */
+.custom-card {
+  background-color: #ffffff; /* White background */
+  border-radius: 10px; /* Rounded corners */
+  border: 1px solid #e0e0e0; /* Light border for better definition */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  text-decoration: none; /* Remove underline from links */
+  color: inherit; /* Inherit color for the entire card */
+}
+
+.custom-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+  transform: translateY(-3px); /* Slight lift on hover */
+}
+
+.custom-card .card-body {
+  padding: 1.5rem; /* Padding inside the card */
+}
+
+.custom-card .card-title {
+  font-size: 1rem; /* Larger font size for the title */
+  font-weight: bold; /* Bold text for the title */
+  color: black; /* Black color for the title */
+  margin-bottom: 0.75rem; /* Space between title and text */
+}
+
+.custom-card .card-text {
+  font-size: 0.875rem; /* Smaller text for the card content */
+  color: #555555; /* Dark gray color for the text */
+  margin: 0; /* Remove default margin */
+}
+
+.card-deck {
+  display: flex;
+  gap: 1rem; /* Space between cards */
+  justify-content: space-between; /* Evenly space cards */
+  margin: 1.5rem 5rem; /* Space above and below, and left and right */
+}
+
+.card-deck a {
+  flex: 1; /* Ensure cards stretch equally */
+}
+
+@media (max-width: 768px) {
+  .card-deck {
+    flex-direction: column; /* Stack cards vertically on small screens */
+  }
+}
+
+.custom-card .card-icon i {
+  font-size: 1.5rem; /* Set the icon size */
+  color: #888888; /* Default gray color for icons */
+}
+
+.card-container {
+  padding: 0 2rem; /* Left and right padding */
+}
+
+/* Inline figure ------------------------ */
+.inline{
+  margin: 0!important;
+  height: 30px;
+}

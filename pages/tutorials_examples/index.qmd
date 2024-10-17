@@ -1,0 +1,15 @@
+---
+title: "Tutorials and Examples"
+pagetitle: "Tutorials"
+sidebar: tutorials_examples
+toc: false
+listing:
+  type: grid
+  contents:
+    - Thunnus_albacares_example1.qmd
+    - Caretta_caretta_example2.qmd
+    - Siganus_luridus_example3.qmd
+  fields: [image, title, subtitle, description, reading-time]
+  image-placeholder: "images/home_background.png"
+---
+

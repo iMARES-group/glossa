@@ -1,0 +1,65 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Quarto"
+  favicon: "images/logo_glossa.png"
+  repo-url: https://github.com/iMARES-group/glossa
+  repo-actions: [edit, issue]
+  page-navigation: true
+  page-footer:
+    left: |
+      Developed by
+      [![](images/logo_imares.png){fig-alt="iMARES" width=65px}](https://imares.science/)
+  navbar:
+    background: light
+    logo: "images/logo_glossa_text.png"
+    logo-alt: "GLOSSA logo"
+    title: false
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Get started
+        href: get_started.qmd
+      - text: Documentation
+        href: index2.qmd
+      - text: Tutorials
+        href: pages/tutorials_examples/index.qmd
+      - href: publications.qmd
+        text: Publications
+      - href: how_to_cite.qmd
+        text: Cite us
+      - href: contact_us.qmd
+        text: Contact us
+      - text: Help
+        menu:
+          - href: index2.qmd
+            text: Report a bug
+          - href: index2.qmd
+            text: FAQs
+            
+    tools:
+      - icon: github
+        href: https://github.com/iMARES-group/glossa
+        
+    sidebar:
+      - id: tutorials_examples
+        title: "Tutorials and Examples"
+        contents:
+          - pages/tutorials_examples/index.qmd
+          - text: "Example: Global scale yellowfin tuna"
+            href: pages/tutorials_examples/Thunnus_albacares_example1.qmd
+          - text: "Example: Mediterranean Sea logerhead turtle"
+            href: pages/tutorials_examples/Caretta_caretta_example2.qmd
+          - text: "Example: Greek Seas risk of invasive species"
+            href: pages/tutorials_examples/Siganus_luridus_example3.qmd
+                  
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    sidebar: true
+
+editor: source
