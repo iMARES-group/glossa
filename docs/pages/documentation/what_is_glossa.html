@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Documentation - GLOSSA</title>
+<title>What is GLOSSA? - GLOSSA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/documentation/what_is_glossa.html" rel="next">
+<link href="../../pages/documentation/installation_setup.html" rel="next">
+<link href="../../pages/documentation/index.html" rel="prev">
 <link href="../../images/logo_glossa.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -138,7 +139,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/index.html">GLOSSA documentation guide</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/what_is_glossa.html">New to GLOSSA?</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -152,13 +153,13 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/documentation/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../pages/documentation/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GLOSSA documentation guide</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../pages/documentation/what_is_glossa.html" class="sidebar-item-text sidebar-link">
+            <a href="../../pages/documentation/what_is_glossa.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">New to GLOSSA?</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -167,7 +168,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/documentation/what_is_glossa.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/documentation/what_is_glossa.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">What is GLOSSA?</span></a>
   </div>
 </li>
@@ -242,21 +243,24 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#new-to-glossa" id="toc-new-to-glossa" class="nav-link active" data-scroll-target="#new-to-glossa">New to GLOSSA?</a></li>
-  <li><a href="#tutorials-and-examples" id="toc-tutorials-and-examples" class="nav-link" data-scroll-target="#tutorials-and-examples">Tutorials and examples</a></li>
-  <li><a href="#explanations-and-reference-docs" id="toc-explanations-and-reference-docs" class="nav-link" data-scroll-target="#explanations-and-reference-docs">Explanations and reference docs</a></li>
-  <li><a href="#common-issues-and-troubleshooting" id="toc-common-issues-and-troubleshooting" class="nav-link" data-scroll-target="#common-issues-and-troubleshooting">Common issues and troubleshooting</a></li>
-  <li><a href="#contributing-to-glossa" id="toc-contributing-to-glossa" class="nav-link" data-scroll-target="#contributing-to-glossa">Contributing to GLOSSA</a></li>
-  <li><a href="#glossa-resources" id="toc-glossa-resources" class="nav-link" data-scroll-target="#glossa-resources">GLOSSA resources</a></li>
+  <li><a href="#how-glossa-works" id="toc-how-glossa-works" class="nav-link active" data-scroll-target="#how-glossa-works">How GLOSSA works?</a>
+  <ul class="collapse">
+  <li><a href="#data-upload" id="toc-data-upload" class="nav-link" data-scroll-target="#data-upload">1. Data upload</a></li>
+  <li><a href="#data-processing" id="toc-data-processing" class="nav-link" data-scroll-target="#data-processing">2. Data processing</a></li>
+  <li><a href="#model-fitting-and-prediction" id="toc-model-fitting-and-prediction" class="nav-link" data-scroll-target="#model-fitting-and-prediction">3. Model fitting and prediction</a></li>
+  <li><a href="#visualization-and-export" id="toc-visualization-and-export" class="nav-link" data-scroll-target="#visualization-and-export">4. Visualization and export</a></li>
+  </ul></li>
+  <li><a href="#why-use-glossa" id="toc-why-use-glossa" class="nav-link" data-scroll-target="#why-use-glossa">Why use GLOSSA?</a></li>
+  <li><a href="#ready-to-get-started" id="toc-ready-to-get-started" class="nav-link" data-scroll-target="#ready-to-get-started">Ready to get started?</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/what_is_glossa.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GLOSSA documentation guide</h1>
+<h1 class="title">What is GLOSSA?</h1>
 </div>
 
 
@@ -271,64 +275,58 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Welcome to the <strong>GLOSSA</strong> documentation! Here, you’ll find everything you need to understand, use, and get the most out of GLOSSA for species distribution modeling. Whether you’re new to modeling or already experienced, we’ve got guides, examples, and detailed explanations to help you.</p>
-<p>If you’d like to <strong>contribute</strong>, check out our <a href="../../under_construction.html">contribution guidelines</a>. For questions, feel free to reach out via the contact form on the <a href="https://imares.science/">iMARES website</a>.</p>
-<section id="new-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="new-to-glossa">New to GLOSSA?</h2>
-<p>Start with our <strong>how-to guides</strong>, which provide simple, step-by-step instructions for common tasks:</p>
+<p><strong>GLOSSA</strong> is a simple, interactive R Shiny app designed to help you model species distributions without needing to code. Using <strong>Bayesian Additive Regression Trees (BART)</strong>, GLOSSA predicts species habitats based on presence and environmental data, allowing you to visualize both current and future distributions.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/glossa_workflow.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+<section id="how-glossa-works" class="level2">
+<h2 class="anchored" data-anchor-id="how-glossa-works">How GLOSSA works?</h2>
+<p>GLOSSA’s workflow is designed to be intuitive, with four main steps:</p>
+<section id="data-upload" class="level3">
+<h3 class="anchored" data-anchor-id="data-upload">1. Data upload</h3>
 <ul>
-<li><a href="../../pages/documentation/what_is_glossa.html">What is GLOSSA?</a></li>
-<li><a href="../../pages/documentation/installation_setup.html">Installing and setting up GLOSSA</a></li>
-<li><a href="../../pages/documentation/working_with_input_data.html">Preparing your data</a></li>
-<li><a href="../../pages/documentation/run_new_analysis.html">Running a new analysis</a></li>
-<li><a href="../../pages/documentation/explore_results.html">Explore the results</a></li>
-<li><a href="../../pages/documentation/export_outputs.html">Exporting results and maps</a></li>
+<li><strong>Species occurrence</strong>: Upload your species data with either presence/absence or presence-only records. GLOSSA can work with multiple species in one session, generating pseudo-absences when needed.</li>
+<li><strong>Environmental data</strong>: Upload environmental rasters (e.g., from sources like Bio-ORACLE) matched to the occurrence points by location and time.</li>
+<li><strong>Projections</strong>: Include layers representing future time periods or climate scenarios to generate predictions for each.</li>
+<li><strong>Study area</strong>: Upload a polygon to define your study region, or let GLOSSA use the extent of your environmental data.</li>
 </ul>
 </section>
-<section id="tutorials-and-examples" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials-and-examples">Tutorials and examples</h2>
-<p>Explore real-world examples that guide you through complete analyses, from start to finish. You’ll also find specific tutorials on how to source and prepare your data for modeling:</p>
+<section id="data-processing" class="level3">
+<h3 class="anchored" data-anchor-id="data-processing">2. Data processing</h3>
 <ul>
-<li><a href="../../under_construction.html">Download and prepare occurrence data</a></li>
-<li><a href="../../under_construction.html">Download and prepare environmental data</a></li>
-<li><a href="../../pages/tutorials_examples/Thunnus_albacares_example1.html">Global species distribution model</a></li>
-<li><a href="../../pages/tutorials_examples/Caretta_caretta_example2.html">Using a polygon to define the study area</a></li>
-<li><a href="../../pages/tutorials_examples/Siganus_luridus_example3.html">Running GLOSSA on a regional scale</a></li>
+<li><strong>Coordinate cleaning</strong>: GLOSSA automatically removes duplicate records, filters out invalid points, and applies spatial thinning if needed.</li>
+<li><strong>Layer processing</strong>: Environmental rasters are cropped, masked, and can be standardized.</li>
+<li><strong>Generate pseudo-absences</strong>: For presence-only data, GLOSSA creates randomly distributed pseudo-absences across the study area.</li>
 </ul>
 </section>
-<section id="explanations-and-reference-docs" class="level2">
-<h2 class="anchored" data-anchor-id="explanations-and-reference-docs">Explanations and reference docs</h2>
-<p>Want to know what’s happening behind the scenes? Here’s where you can dive deeper into the concepts, like how GLOSSA’s BART model works, how we generate pseudo-absences or detailed technical information about data formats and specific settings:</p>
+<section id="model-fitting-and-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="model-fitting-and-prediction">3. Model fitting and prediction</h3>
 <ul>
-<li><a href="../../under_construction.html">How does GLOSSA work?</a></li>
-<li><a href="../../under_construction.html">What is Bayesian Additive Regression Trees (BART)?</a></li>
-<li><a href="../../under_construction.html">Handling presence-only data with pseudo-absences</a></li>
+<li><strong>Fit BART model</strong>: GLOSSA fits a BART model, generating predictions for suitable habitats and native ranges, and computes an optimal threshold for presence/absence classification.</li>
+<li><strong>Model output</strong>: The output includes metrics like AUC, ROC curve, confusion matrix, functional response curves, and variable importance.</li>
+<li><strong>Projections</strong>: Projections can be made to different areas, time periods, and climate scenarios.</li>
 </ul>
 </section>
-<section id="common-issues-and-troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="common-issues-and-troubleshooting">Common issues and troubleshooting</h2>
-<p>Find solutions to common issues, such as installation problems, data formatting errors, and model performance concerns:</p>
+<section id="visualization-and-export" class="level3">
+<h3 class="anchored" data-anchor-id="visualization-and-export">4. Visualization and export</h3>
+<p>After the analysis, GLOSSA provides interactive maps and charts to explore model results, allowing you to export data and visuals for further use.</p>
+</section>
+</section>
+<section id="why-use-glossa" class="level2">
+<h2 class="anchored" data-anchor-id="why-use-glossa">Why use GLOSSA?</h2>
+<p>GLOSSA simplifies species distribution modeling by:</p>
 <ul>
-<li><a href="../../under_construction.html">Troubleshooting</a></li>
-<li><a href="../../under_construction.html">FAQs</a></li>
+<li>Making modeling accessible with a no-code interface.</li>
+<li>Offering robust machine learning predictions with BART.</li>
+<li>Supporting independent multi-species and scenario-based analysis in a single run.</li>
+<li>Providing detailed visualizations and export options for further analysis or publication.</li>
 </ul>
 </section>
-<section id="contributing-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="contributing-to-glossa">Contributing to GLOSSA</h2>
-<p>Interested in contributing to GLOSSA? Learn how to get involved and what kinds of contributions we’re looking for:</p>
-<ul>
-<li><a href="../../under_construction.html">Contribution guidelines</a></li>
-</ul>
-</section>
-<section id="glossa-resources" class="level2">
-<h2 class="anchored" data-anchor-id="glossa-resources">GLOSSA resources</h2>
-<p>Here are some useful links to access GLOSSA resources:</p>
-<ul>
-<li><a href="https://cran.r-project.org/package=glossa">CRAN repository</a></li>
-<li><a href="https://github.com/iMARES-group/glossa">GitHub repository</a></li>
-<li><a href="https://imares.science/">iMARES website</a></li>
-<li><a href="https://github.com/iMARES-group/glossa/issues">Issues and feature requests</a></li>
-</ul>
+<section id="ready-to-get-started" class="level2">
+<h2 class="anchored" data-anchor-id="ready-to-get-started">Ready to get started?</h2>
+<p>Learn how to install and set up GLOSSA: <a href="../../pages/documentation/installation_setup.html">Installation guide</a>.</p>
 
 
 </section>
@@ -569,10 +567,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../pages/documentation/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">GLOSSA documentation guide</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../pages/documentation/what_is_glossa.html" class="pagination-link">
-        <span class="nav-page-text">New to GLOSSA?</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../pages/documentation/installation_setup.html" class="pagination-link">
+        <span class="nav-page-text">Installing and setting up GLOSSA</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

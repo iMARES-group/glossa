@@ -3,21 +3,27 @@ title: "Get started"
 pagetitle: "Get started - GLOSSA"
 ---
 
-**Welcome to GLOSSA, our Shiny app for species distribution modeling!** This tool allows you to predict species distributions using **occurrence data and environmental data**. Below is a quick guide to help you get started. Please ensure that you have R version 4.0.0 or higher installed before proceeding:
+## Welcome to GLOSSA
+
+GLOSSA is a user-friendly R `shiny` app designed to help you model marine species distributions using **species occurrences and environmental data**. Below is a quick guide to help you get started.
+
+### Requirements
+
+Before you begin, ensure you have **R version 4.0.0 or higher** installed on your system:
 
 ::: {.callout appearance="minimal"}
 [Download R](https://cran.rstudio.com/)
 :::
 
-## Installation
+### Installation
 
-To install the GLOSSA shiny app, run the following command in your R console:
+To install GLOSSA, simply run the following command in your R console:
 
 ``` r
 install.packages("glossa")
 ```
 
-Alternatively, you can install the latest development version from GitHub to get the newest updates and fixes:
+Alternatively, you can install the latest development version from GitHub to get the latest updates and fixes:
 
 ``` r
 if (!require("devtools")) 
@@ -26,30 +32,43 @@ if (!require("devtools"))
 devtools::install_github("iMARES-group/glossa")
 ```
 
-## GLOSSA workflow summary
+After installation, you can launch the GLOSSA app by running this command:
+
+```r
+library(glossa)
+run_glossa()
+```
+
+---
+
+## GLOSSA workflow overview
+
+GLOSSA is designed to be intuitive, with a simple step-by-step workflow:
 
 1. **Data input**:
-   - **Load species occurrence data**: Upload species occurrence data, either presence-absence or presence-only (with pseudo-absences generated). Multiple species can be modeled in one session.
-   - **Upload environmental data**: Provide environmental variables in raster format, used as predictors in the model. These layers also define the study area unless a polygon is provided.
-   - **Upload projection layers**: Optionally, upload layers to forecast for different time periods or climate scenarios.
-   - **Define study area**: Optionally, upload a polygon to define the study area, which will filter occurrences and crop environmental layers.
-
+  - Upload **species occurrence data**, either presence-absence or presence-only data (in which case, pseudo-absences will be generated).
+  - Upload **environmental data**, for example, climate variables in raster format.
+  - Optionally, provide **projection layers**, for example, to project future scenarios.
+  - Optionnally, provide a **study area polygon** to define the study area.
+  
 2. **Data processing**:
-   - **Coordinate cleaning**: GLOSSA cleans coordinates by removing duplicates and points outside the study area.
-   - **Layers processing**: Environmental layers are cropped, masked, and optionally standardized using Z-score.
-   - **Generate pseudo-absences**: For presence-only data, pseudo-absences are randomly generated.
+  - **Clean coordinates**: GLOSSA automatically removes duplicates and points outside the study area.
+  - **Process layers**: Environmental layers are cropped and Z-score standardized if needed.
+  - **Generate pseudo-absences**: For presence-only data, pseudo-absences are randomly generated.
 
-3. **Model fitting and Pprediction**:
-   - **Fit BART model**: Two models are fitted—one based on environmental data and another including spatial smoothing.
-   - **Model output**: Predict species occurrence probabilities and determine optimal classification cutoffs. Evaluate predictive performance using cross-validation, and assess variable importance and functional responses.
-   - **Projections**: Generate projections for different areas, time periods, and climate scenarios using the Bayesian framework.
+3. **Model fitting and prediction**:
+  - GLOSSA fits the **BART (Bayesian Additive Regression Trees)** model to predict species distributions. **Two models** can be fitted—one based on environmental data and another including spatial smoothing.
+  - You can explore model outputs, including probability maps, performance metrics, and variable importance.
 
-4. **Visualization and export**:
-   - Explore and save interactive results once the analysis is complete.
-   
-![](images/glossa_small_workflow.png){width=80% fig-align="center"}
+4. **Results and visualization**:
+  - Explore interactive maps and charts showing predictions and analysis results.
+  - Export results for further use or reporting.
 
-## Quick start guide
+![GLOSSA workflow overview.](images/glossa_small_workflow.png){width=80% fig-align="center"}
+
+---
+
+## Running your first analysis
 
 Here’s a quick guide on how to use the app. First, launch the app by running the `run_glossa()` function:
 
@@ -58,9 +77,9 @@ library(glossa)
 run_glossa()
 ```
 
-This will open the app on the **Home** tab, the landing page of the app. From here, you can start a new analysis, watch our demo video, explore the documentation, read tutorials, or even meet the team that built the app! 
+This will open the app in your web browser directly in the **Home** tab. Here, you can start a new analysis, watch a demo, or read tutorials.
 
-![](images/home_tab.png){width=80% fig-align="center"}
+![Screenshot of the "Home" tab, the landing page.](images/home_tab.png){width=80% fig-align="center"}
 
 Clicking on the question mark icon ![](images/question_icon.png){.inline} on the top right corner will bring up a brief explanation of what each tab and button does.
 

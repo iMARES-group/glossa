@@ -125,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Get started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./index2.html" rel="" target="">
+    <a class="nav-link" href="./pages/documentation/index.html" rel="" target="">
  <span class="menu-text">Documentation</span></a>
   </li>  
   <li class="nav-item">
@@ -150,11 +150,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-help">    
         <li>
-    <a class="dropdown-item" href="./index2.html" rel="" target="">
+    <a class="dropdown-item" href="./under_construction.html" rel="" target="">
  <span class="dropdown-text">Report a bug</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./index2.html" rel="" target="">
+    <a class="dropdown-item" href="./under_construction.html" rel="" target="">
  <span class="dropdown-text">FAQs</span></a>
   </li>  
     </ul>
@@ -176,13 +176,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#glossa-workflow-summary" id="toc-glossa-workflow-summary" class="nav-link" data-scroll-target="#glossa-workflow-summary">GLOSSA workflow summary</a></li>
-  <li><a href="#quick-start-guide" id="toc-quick-start-guide" class="nav-link" data-scroll-target="#quick-start-guide">Quick start guide</a>
+  <li><a href="#welcome-to-glossa" id="toc-welcome-to-glossa" class="nav-link active" data-scroll-target="#welcome-to-glossa">Welcome to GLOSSA</a>
+  <ul class="collapse">
+  <li><a href="#requirements" id="toc-requirements" class="nav-link" data-scroll-target="#requirements">Requirements</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  </ul></li>
+  <li><a href="#glossa-workflow-overview" id="toc-glossa-workflow-overview" class="nav-link" data-scroll-target="#glossa-workflow-overview">GLOSSA workflow overview</a></li>
+  <li><a href="#running-your-first-analysis" id="toc-running-your-first-analysis" class="nav-link" data-scroll-target="#running-your-first-analysis">Running your first analysis</a>
   <ul class="collapse">
   <li><a href="#sidebar-overview" id="toc-sidebar-overview" class="nav-link" data-scroll-target="#sidebar-overview">Sidebar overview</a></li>
   </ul></li>
-  <li><a href="#running-your-first-analysis" id="toc-running-your-first-analysis" class="nav-link" data-scroll-target="#running-your-first-analysis">Running your first analysis</a>
+  <li><a href="#running-your-first-analysis-1" id="toc-running-your-first-analysis-1" class="nav-link" data-scroll-target="#running-your-first-analysis-1">Running your first analysis</a>
   <ul class="collapse">
   <li><a href="#required-files-for-analysis" id="toc-required-files-for-analysis" class="nav-link" data-scroll-target="#required-files-for-analysis">Required files for analysis</a></li>
   <li><a href="#analysis-options" id="toc-analysis-options" class="nav-link" data-scroll-target="#analysis-options">Analysis options</a></li>
@@ -222,7 +226,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p><strong>Welcome to GLOSSA, our Shiny app for species distribution modeling!</strong> This tool allows you to predict species distributions using <strong>occurrence data and environmental data</strong>. Below is a quick guide to help you get started. Please ensure that you have R version 4.0.0 or higher installed before proceeding:</p>
+<section id="welcome-to-glossa" class="level2">
+<h2 class="anchored" data-anchor-id="welcome-to-glossa">Welcome to GLOSSA</h2>
+<p>GLOSSA is a user-friendly R <code>shiny</code> app designed to help you model marine species distributions using <strong>species occurrences and environmental data</strong>. Below is a quick guide to help you get started.</p>
+<section id="requirements" class="level3">
+<h3 class="anchored" data-anchor-id="requirements">Requirements</h3>
+<p>Before you begin, ensure you have <strong>R version 4.0.0 or higher</strong> installed on your system:</p>
 <div class="callout callout-style-simple callout-none no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -233,58 +242,74 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>To install the GLOSSA shiny app, run the following command in your R console:</p>
+</section>
+<section id="installation" class="level3">
+<h3 class="anchored" data-anchor-id="installation">Installation</h3>
+<p>To install GLOSSA, simply run the following command in your R console:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"glossa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Alternatively, you can install the latest development version from GitHub to get the newest updates and fixes:</p>
+<p>Alternatively, you can install the latest development version from GitHub to get the latest updates and fixes:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"devtools"</span>)) </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"iMARES-group/glossa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After installation, you can launch the GLOSSA app by running this command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glossa)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_glossa</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
 </section>
-<section id="glossa-workflow-summary" class="level2">
-<h2 class="anchored" data-anchor-id="glossa-workflow-summary">GLOSSA workflow summary</h2>
+</section>
+<section id="glossa-workflow-overview" class="level2">
+<h2 class="anchored" data-anchor-id="glossa-workflow-overview">GLOSSA workflow overview</h2>
+<p>GLOSSA is designed to be intuitive, with a simple step-by-step workflow:</p>
 <ol type="1">
-<li><strong>Data input</strong>:
-<ul>
-<li><strong>Load species occurrence data</strong>: Upload species occurrence data, either presence-absence or presence-only (with pseudo-absences generated). Multiple species can be modeled in one session.</li>
-<li><strong>Upload environmental data</strong>: Provide environmental variables in raster format, used as predictors in the model. These layers also define the study area unless a polygon is provided.</li>
-<li><strong>Upload projection layers</strong>: Optionally, upload layers to forecast for different time periods or climate scenarios.</li>
-<li><strong>Define study area</strong>: Optionally, upload a polygon to define the study area, which will filter occurrences and crop environmental layers.</li>
-</ul></li>
-<li><strong>Data processing</strong>:
-<ul>
-<li><strong>Coordinate cleaning</strong>: GLOSSA cleans coordinates by removing duplicates and points outside the study area.</li>
-<li><strong>Layers processing</strong>: Environmental layers are cropped, masked, and optionally standardized using Z-score.</li>
-<li><strong>Generate pseudo-absences</strong>: For presence-only data, pseudo-absences are randomly generated.</li>
-</ul></li>
-<li><strong>Model fitting and Pprediction</strong>:
-<ul>
-<li><strong>Fit BART model</strong>: Two models are fitted—one based on environmental data and another including spatial smoothing.</li>
-<li><strong>Model output</strong>: Predict species occurrence probabilities and determine optimal classification cutoffs. Evaluate predictive performance using cross-validation, and assess variable importance and functional responses.</li>
-<li><strong>Projections</strong>: Generate projections for different areas, time periods, and climate scenarios using the Bayesian framework.</li>
-</ul></li>
-<li><strong>Visualization and export</strong>:
-<ul>
-<li>Explore and save interactive results once the analysis is complete.</li>
-</ul></li>
+<li><strong>Data input</strong>:</li>
 </ol>
+<ul>
+<li>Upload <strong>species occurrence data</strong>, either presence-absence or presence-only data (in which case, pseudo-absences will be generated).</li>
+<li>Upload <strong>environmental data</strong>, for example, climate variables in raster format.</li>
+<li>Optionally, provide <strong>projection layers</strong>, for example, to project future scenarios.</li>
+<li>Optionnally, provide a <strong>study area polygon</strong> to define the study area.</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Data processing</strong>:</li>
+</ol>
+<ul>
+<li><strong>Clean coordinates</strong>: GLOSSA automatically removes duplicates and points outside the study area.</li>
+<li><strong>Process layers</strong>: Environmental layers are cropped and Z-score standardized if needed.</li>
+<li><strong>Generate pseudo-absences</strong>: For presence-only data, pseudo-absences are randomly generated.</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Model fitting and prediction</strong>:</li>
+</ol>
+<ul>
+<li>GLOSSA fits the <strong>BART (Bayesian Additive Regression Trees)</strong> model to predict species distributions. <strong>Two models</strong> can be fitted—one based on environmental data and another including spatial smoothing.</li>
+<li>You can explore model outputs, including probability maps, performance metrics, and variable importance.</li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Results and visualization</strong>:</li>
+</ol>
+<ul>
+<li>Explore interactive maps and charts showing predictions and analysis results.</li>
+<li>Export results for further use or reporting.</li>
+</ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/glossa_small_workflow.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption class="figure-caption">GLOSSA workflow overview.</figcaption>
 </figure>
 </div>
+<hr>
 </section>
-<section id="quick-start-guide" class="level2">
-<h2 class="anchored" data-anchor-id="quick-start-guide">Quick start guide</h2>
+<section id="running-your-first-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="running-your-first-analysis">Running your first analysis</h2>
 <p>Here’s a quick guide on how to use the app. First, launch the app by running the <code>run_glossa()</code> function:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glossa)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_glossa</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will open the app on the <strong>Home</strong> tab, the landing page of the app. From here, you can start a new analysis, watch our demo video, explore the documentation, read tutorials, or even meet the team that built the app!</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glossa)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_glossa</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will open the app in your web browser directly in the <strong>Home</strong> tab. Here, you can start a new analysis, watch a demo, or read tutorials.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/home_tab.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption class="figure-caption">Screenshot of the “Home” tab, the landing page.</figcaption>
 </figure>
 </div>
 <p>Clicking on the question mark icon <img src="images/question_icon.png" class="inline img-fluid"> on the top right corner will bring up a brief explanation of what each tab and button does.</p>
@@ -312,8 +337,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="running-your-first-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="running-your-first-analysis">Running your first analysis</h2>
+<section id="running-your-first-analysis-1" class="level2">
+<h2 class="anchored" data-anchor-id="running-your-first-analysis-1">Running your first analysis</h2>
 <p>To run your first analysis, go to the <em>New Analysis</em> tab. This tab looks like this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -332,22 +357,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>GLOSSA can function with just occurrence data and environmental variables, but additional options are available. Let’s briefly go through the necessary files:</p>
 <ol type="1">
 <li><p><strong>Occurrences:</strong> Upload a tab-separated CSV file with four columns indicating the occurrence location, whether it is a presence or absence, and the time it was recorded. The columns must be named exactly as follows: <code>decimalLongitude</code>, <code>decimalLatitude</code>, <code>pa</code>, and <code>timestamp</code>. If the <code>pa</code> column is missing, GLOSSA will assume all rows are presences. If <code>timestamp</code> is missing, GLOSSA will assume all observations occurred at the same time. GLOSSA also supports presence-only data but will generate randomly distributed balanced pseudo-absences to fit the model.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">head</span>(sp1)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  decimalLongitude decimalLatitude timestamp pa</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>          <span class="fl">5.42909</span>        <span class="fl">43.20937</span>         <span class="dv">1</span>  <span class="dv">1</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>           <span class="sc">-</span><span class="fl">43.05</span>           <span class="fl">49.03</span>         <span class="dv">1</span>  <span class="dv">0</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>         <span class="sc">-</span><span class="fl">2.52369</span>        <span class="fl">47.29234</span>         <span class="dv">2</span>  <span class="dv">1</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>           <span class="fl">34.054</span>         <span class="sc">-</span><span class="fl">26.913</span>         <span class="dv">2</span>  <span class="dv">1</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>           <span class="sc">-</span><span class="fl">41.63</span>            <span class="fl">46.3</span>         <span class="dv">2</span>  <span class="dv">0</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>           <span class="sc">-</span><span class="fl">174.5</span>            <span class="fl">27.5</span>         <span class="dv">3</span>  <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">head</span>(sp1)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  decimalLongitude decimalLatitude timestamp pa</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>          <span class="fl">5.42909</span>        <span class="fl">43.20937</span>         <span class="dv">1</span>  <span class="dv">1</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>           <span class="sc">-</span><span class="fl">43.05</span>           <span class="fl">49.03</span>         <span class="dv">1</span>  <span class="dv">0</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>         <span class="sc">-</span><span class="fl">2.52369</span>        <span class="fl">47.29234</span>         <span class="dv">2</span>  <span class="dv">1</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>           <span class="fl">34.054</span>         <span class="sc">-</span><span class="fl">26.913</span>         <span class="dv">2</span>  <span class="dv">1</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>           <span class="sc">-</span><span class="fl">41.63</span>            <span class="fl">46.3</span>         <span class="dv">2</span>  <span class="dv">0</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>           <span class="sc">-</span><span class="fl">174.5</span>            <span class="fl">27.5</span>         <span class="dv">3</span>  <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Environmental data:</strong> Upload environmental data as raster files (e.g., .tif or .nc format) in a ZIP file with a specific structure. The ZIP file should contain a subdirectory for each environmental variable, with files sorted by time period. For example, if you have two variables (<code>x1</code> and <code>x2</code>) and your observations are from two different years, your ZIP file should look like this:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fit_layers.zip</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    ├───x1</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    │       x1_1.tif</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    │       x1_2.tif</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    └───x2</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            x2_1.tif</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            x2_2.tif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit_layers.zip</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    ├───x1</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    │       x1_1.tif</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    │       x1_2.tif</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    └───x2</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            x2_1.tif</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            x2_2.tif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Ensure that all layers have the same resolution, the same number of layers, and that they match the number of years in your occurrence files. If you want to use the same layer for all observations, include just one file in the subdirectory and set all <code>timestamp</code> values to 1 or remove the <code>timestamp</code> column.</p></li>
 <li><p><strong>Projection layers (Optional):</strong> If you want to make predictions, upload your projection data here. This file has the same format as the environmental data file, and the subdirectories must match those used for fitting the model. You can upload multiple ZIP files if you want to predict multiple scenarios (e.g., different temperature increase scenarios).</p></li>
 <li><p><strong>Study area (Optional):</strong> If your rasters cover a larger area than your study region, you can provide a polygon to delimit your study area (formats: GPKG, KML or GeoJSON). This will remove points outside the polygon and mask the environmental variables accordingly.</p></li>

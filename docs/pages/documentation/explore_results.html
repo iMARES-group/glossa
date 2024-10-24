@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Documentation - GLOSSA</title>
+<title>Results - GLOSSA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/documentation/what_is_glossa.html" rel="next">
+<link href="../../pages/documentation/export_outputs.html" rel="next">
+<link href="../../pages/documentation/run_new_analysis.html" rel="prev">
 <link href="../../images/logo_glossa.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -138,7 +139,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/index.html">GLOSSA documentation guide</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/what_is_glossa.html">New to GLOSSA?</a></li><li class="breadcrumb-item"><a href="../../pages/documentation/explore_results.html">Explore the results</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -152,7 +153,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/documentation/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../pages/documentation/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GLOSSA documentation guide</span></a>
   </div>
 </li>
@@ -191,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/documentation/explore_results.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/documentation/explore_results.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Explore the results</span></a>
   </div>
 </li>
@@ -242,21 +243,23 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#new-to-glossa" id="toc-new-to-glossa" class="nav-link active" data-scroll-target="#new-to-glossa">New to GLOSSA?</a></li>
-  <li><a href="#tutorials-and-examples" id="toc-tutorials-and-examples" class="nav-link" data-scroll-target="#tutorials-and-examples">Tutorials and examples</a></li>
-  <li><a href="#explanations-and-reference-docs" id="toc-explanations-and-reference-docs" class="nav-link" data-scroll-target="#explanations-and-reference-docs">Explanations and reference docs</a></li>
-  <li><a href="#common-issues-and-troubleshooting" id="toc-common-issues-and-troubleshooting" class="nav-link" data-scroll-target="#common-issues-and-troubleshooting">Common issues and troubleshooting</a></li>
-  <li><a href="#contributing-to-glossa" id="toc-contributing-to-glossa" class="nav-link" data-scroll-target="#contributing-to-glossa">Contributing to GLOSSA</a></li>
-  <li><a href="#glossa-resources" id="toc-glossa-resources" class="nav-link" data-scroll-target="#glossa-resources">GLOSSA resources</a></li>
+  <li><a href="#select-species-or-occurrence-file" id="toc-select-species-or-occurrence-file" class="nav-link active" data-scroll-target="#select-species-or-occurrence-file">Select species or occurrence file</a></li>
+  <li><a href="#key-metrics-in-the-first-row" id="toc-key-metrics-in-the-first-row" class="nav-link" data-scroll-target="#key-metrics-in-the-first-row">Key metrics in the first row</a></li>
+  <li><a href="#explore-input-data" id="toc-explore-input-data" class="nav-link" data-scroll-target="#explore-input-data">Explore input data</a></li>
+  <li><a href="#glossa-projections" id="toc-glossa-projections" class="nav-link" data-scroll-target="#glossa-projections">GLOSSA projections</a></li>
+  <li><a href="#additional-results" id="toc-additional-results" class="nav-link" data-scroll-target="#additional-results">Additional results</a></li>
+  <li><a href="#model-summary" id="toc-model-summary" class="nav-link" data-scroll-target="#model-summary">Model Summary</a></li>
+  <li><a href="#exporting-results" id="toc-exporting-results" class="nav-link" data-scroll-target="#exporting-results">Exporting Results</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/explore_results.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GLOSSA documentation guide</h1>
+<h1 class="title">Explore the results</h1>
 </div>
 
 
@@ -271,64 +274,109 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Welcome to the <strong>GLOSSA</strong> documentation! Here, you’ll find everything you need to understand, use, and get the most out of GLOSSA for species distribution modeling. Whether you’re new to modeling or already experienced, we’ve got guides, examples, and detailed explanations to help you.</p>
-<p>If you’d like to <strong>contribute</strong>, check out our <a href="../../under_construction.html">contribution guidelines</a>. For questions, feel free to reach out via the contact form on the <a href="https://imares.science/">iMARES website</a>.</p>
-<section id="new-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="new-to-glossa">New to GLOSSA?</h2>
-<p>Start with our <strong>how-to guides</strong>, which provide simple, step-by-step instructions for common tasks:</p>
-<ul>
-<li><a href="../../pages/documentation/what_is_glossa.html">What is GLOSSA?</a></li>
-<li><a href="../../pages/documentation/installation_setup.html">Installing and setting up GLOSSA</a></li>
-<li><a href="../../pages/documentation/working_with_input_data.html">Preparing your data</a></li>
-<li><a href="../../pages/documentation/run_new_analysis.html">Running a new analysis</a></li>
-<li><a href="../../pages/documentation/explore_results.html">Explore the results</a></li>
-<li><a href="../../pages/documentation/export_outputs.html">Exporting results and maps</a></li>
-</ul>
+<p>After running your analysis in GLOSSA, the <strong>Reports</strong> tab presents several outputs and visualizations to help you interpret your species distribution model. This section walks you through each component of the results panel and explains how to explore and understand your model’s predictions, performance, and other key metrics.</p>
+<section id="select-species-or-occurrence-file" class="level2">
+<h2 class="anchored" data-anchor-id="select-species-or-occurrence-file">Select species or occurrence file</h2>
+<p>If you’ve uploaded multiple species occurrence files, you can select which species’ results to view using the dropdown menu in the top-left corner. This will update all the plots, so they represent the predictions, validation metrics, and other outputs for the selected species.</p>
+<p>For most of the visualizations, you can customize the view using the three dots icon <img src="images/options_icon.png" class="inline img-fluid">. This allows you to change how the data is displayed, select between the native range and the suitable habitat model, select different projection layers, or explore various aspects of the model results in more detail.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/results_explanation.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
 </section>
-<section id="tutorials-and-examples" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials-and-examples">Tutorials and examples</h2>
-<p>Explore real-world examples that guide you through complete analyses, from start to finish. You’ll also find specific tutorials on how to source and prepare your data for modeling:</p>
-<ul>
-<li><a href="../../under_construction.html">Download and prepare occurrence data</a></li>
-<li><a href="../../under_construction.html">Download and prepare environmental data</a></li>
-<li><a href="../../pages/tutorials_examples/Thunnus_albacares_example1.html">Global species distribution model</a></li>
-<li><a href="../../pages/tutorials_examples/Caretta_caretta_example2.html">Using a polygon to define the study area</a></li>
-<li><a href="../../pages/tutorials_examples/Siganus_luridus_example3.html">Running GLOSSA on a regional scale</a></li>
-</ul>
+<section id="key-metrics-in-the-first-row" class="level2">
+<h2 class="anchored" data-anchor-id="key-metrics-in-the-first-row">Key metrics in the first row</h2>
+<p>At the top of the results panel, you’ll find key metrics summarizing the model’s predictions. First, there’s the species selector, which we discussed above. Next, you’ll see sparklines representing potential suitability for the selected projection scenario in the <strong>GLOSSA Predictions</strong> box.</p>
+<ol type="1">
+<li><p><strong>Potential suitable area (km2)</strong>: This metric represents the total area (in square kilometers) predicted to be suitable for the species, calculated based on predicted presence/absence using the computed optimal cutoff.</p></li>
+<li><p><strong>Mean suitable probability</strong>: This value represents the average of all grid cells in the study area. For each grid cell, as we have a posterior predictive distribution, we used the mean of each grid cell to calculate the mean of the whole raster.</p></li>
+</ol>
+<p>These two metrics help you inspect trends in suitable habitat over time. The big value represent the value of the last year, the sparkline shows year-by-year changes, and the displayed percentage indicates the change between the first 5% and the last 5% of the projection period. For instance, if your projection covers 100 years, the percentage shows the difference between the first five years and the last five years.</p>
+<ol start="3" type="1">
+<li><strong>Presences/Absences</strong>: This box tells you how many presence and absence (or pseudo-absence) records were used to fit the model, providing valuable information about the sample size.</li>
+</ol>
+<p>In the example below, the habitat suitability has a decreasing trend, with around a 10% reduction from the beginning of the projection period. The model was fitted using a total of 800 points.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/first_row_results.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+<p>These metrics give you a quick overview of your model’s predictions and the data used for fitting.</p>
 </section>
-<section id="explanations-and-reference-docs" class="level2">
-<h2 class="anchored" data-anchor-id="explanations-and-reference-docs">Explanations and reference docs</h2>
-<p>Want to know what’s happening behind the scenes? Here’s where you can dive deeper into the concepts, like how GLOSSA’s BART model works, how we generate pseudo-absences or detailed technical information about data formats and specific settings:</p>
-<ul>
-<li><a href="../../under_construction.html">How does GLOSSA work?</a></li>
-<li><a href="../../under_construction.html">What is Bayesian Additive Regression Trees (BART)?</a></li>
-<li><a href="../../under_construction.html">Handling presence-only data with pseudo-absences</a></li>
-</ul>
+<section id="explore-input-data" class="level2">
+<h2 class="anchored" data-anchor-id="explore-input-data">Explore input data</h2>
+<p>On the two panels on the right we can explore the environmental variables used to fit the model and the occurrences that were kept and discarded (duplicates, thinning, missing values, etc.). These two plots are very useful because you can explore patterns in the environmental variables that could be related to patterns in species occurrences and predictions comparing with the plot on the left that we will discuss next. The environmental variables are represented in the scale they were used to fit the model, so if you choose to standardize you’ll see the standardized covariates. And the plot of the occurrences allows you to know which records has been filtered by GLOSSA.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/results_input.png" class="img-fluid figure-img" style="width:40.0%"></p>
+</figure>
+</div>
 </section>
-<section id="common-issues-and-troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="common-issues-and-troubleshooting">Common issues and troubleshooting</h2>
-<p>Find solutions to common issues, such as installation problems, data formatting errors, and model performance concerns:</p>
+<section id="glossa-projections" class="level2">
+<h2 class="anchored" data-anchor-id="glossa-projections">GLOSSA projections</h2>
+<p>This section provides a map showing the predicted species distribution across the study area. The heat map uses color gradients to represent the probability of species presence, where warmer colors indicate higher probabilities, and cooler colors indicate lower probabilities or unsuitable habitats. You can adjust the view to show different projection layers, timestamps, and metrics from the model’s posterior distribution (e.g., mean probability, median, or quantiles).</p>
+<p>Using the three-dot icon <img src="images/options_icon.png" class="inline img-fluid">, you can open the sidebar to customize the display:</p>
 <ul>
-<li><a href="../../under_construction.html">Troubleshooting</a></li>
-<li><a href="../../under_construction.html">FAQs</a></li>
+<li>Choose between predictions based on fitting layers or projection layers.</li>
+<li>Toggle between viewing the native range or the suitable habitat predictions.</li>
+<li>Select which value from the posterior distribution to display (e.g., mean probability, median, etc.).</li>
+<li>Overlay points used to fit the model to visualize how occurrence data aligns with the predictions.</li>
 </ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/reports_options.png" class="img-fluid figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Changing the projection scenario in this panel will also update the sparklines at the top of the results panel, reflecting the trend in habitat suitability for that scenario.</p>
+</div>
+</div>
 </section>
-<section id="contributing-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="contributing-to-glossa">Contributing to GLOSSA</h2>
-<p>Interested in contributing to GLOSSA? Learn how to get involved and what kinds of contributions we’re looking for:</p>
+<section id="additional-results" class="level2">
+<h2 class="anchored" data-anchor-id="additional-results">Additional results</h2>
+<p>In the next row of the results panel, you can view the additional analyses that you requested in GLOSSA:</p>
 <ul>
-<li><a href="../../under_construction.html">Contribution guidelines</a></li>
+<li><strong>Functional responses</strong>: Shows the functional responses for each environmental variable, showing how changes in each variable affect the probability of species presence. These curves are partial dependence plots that provide insights into the environmental factors driving species distributions.</li>
+<li><strong>Variable importance</strong>: The variable importance plot shows how much each environmental variable influences the model’s predictions. GLOSSA uses a permutation-based approach to measure the effect of shuffling each variable’s values on the model’s prediction accuracy. Variables with high importance scores play a larger role in predicting species presence, helping you identify the key drivers of habitat suitability.</li>
+<li><strong>Cross-Validation</strong>: If you enabled cross-validation, this panel shows the performance metrics from k-fold cross-validation. The radar plot displays metrics such as precision, sensitivity, specificity, false discovery rate, F-score, accuracy, and TSS (True Skill Statistic).</li>
 </ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/additional_results.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
 </section>
-<section id="glossa-resources" class="level2">
-<h2 class="anchored" data-anchor-id="glossa-resources">GLOSSA resources</h2>
-<p>Here are some useful links to access GLOSSA resources:</p>
+<section id="model-summary" class="level2">
+<h2 class="anchored" data-anchor-id="model-summary">Model Summary</h2>
+<p>The model summary panel provides key validation metrics for the model fitting:</p>
 <ul>
-<li><a href="https://cran.r-project.org/package=glossa">CRAN repository</a></li>
-<li><a href="https://github.com/iMARES-group/glossa">GitHub repository</a></li>
-<li><a href="https://imares.science/">iMARES website</a></li>
-<li><a href="https://github.com/iMARES-group/glossa/issues">Issues and feature requests</a></li>
+<li><strong>ROC Curve</strong>: This plot evaluates the model’s ability to distinguish between species presence and absence across different probability thresholds, showing the <strong>AUC (Area Under the Curve)</strong> as an overall measure of accuracy.</li>
+<li><strong>Confusion Matrix Plot</strong>: This plot breaks down true positives, false positives, true negatives, and false negatives, and shows their predicted probability with the computed optimal cutoff. classification performance.</li>
+<li><strong>Distribution of Fitted Values</strong>: This histogram shows the distribution of predicted probabilities across the study area.</li>
 </ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/model_summary_results.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</section>
+<section id="exporting-results" class="level2">
+<h2 class="anchored" data-anchor-id="exporting-results">Exporting Results</h2>
+<p>Once you’re satisfied with your results, you can use the download icon <img src="images/download_icon.png" class="inline img-fluid"> to export any plot or visualization. Export formats include PNG, JPG, SVG, and PGF. You can also adjust the height and width of the exported plot.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>You’ve now learned how to navigate the GLOSSA report panel to explore key metrics, validate model performance, and gain insights into the factors driving species distributions. The next step is to export your results, save the projection rasters, the data used for model fitting, and other analysis outputs: <a href="../../pages/documentation/export_outputs.html">Exporting results and maps</a>.</p>
 
 
 </section>
@@ -569,10 +617,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../pages/documentation/run_new_analysis.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Running a new analysis</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../pages/documentation/what_is_glossa.html" class="pagination-link">
-        <span class="nav-page-text">New to GLOSSA?</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../pages/documentation/export_outputs.html" class="pagination-link">
+        <span class="nav-page-text">Exporting results and maps</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,7 +1,7 @@
 ---
-title: "Tutorials and Examples"
-pagetitle: "Tutorials"
-sidebar: tutorials_examples
+title: "Tutorials and examples"
+pagetitle: "Tutorials - GLOSSA"
+sidebar: false
 toc: false
 listing:
   type: grid

@@ -6,8 +6,6 @@ pagetitle: "Contact us - GLOSSA"
 
 We value your feedback! Whether you have questions about GLOSSA, need technical support, or are interested in collaboration, please feel free to reach out through any of the options below.
 
----
-
 ## GitHub
 
 For issues, feature requests, questions, or general feedback, please use the Issues tab on our GitHub repository:
@@ -25,8 +23,6 @@ Stay connected and follow our latest news and updates on social media:
 For special support requests, or collaborations, please contact us via the contact form at the end of the iMARES website:
 
 - [iMARES](https://imares.science/)
-
----
 
 ### Thank You!
 

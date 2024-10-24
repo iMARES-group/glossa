@@ -5,7 +5,6 @@ pagetitle: "Cite us - GLOSSA"
 # How to cite GLOSSA
 
 Thank you for using GLOSSA. Proper citation helps to further develop the tool and highlight its impact on the research community.
----
 
 ### Main citation for GLOSSA
 
@@ -34,7 +33,6 @@ If you use the BART model in your analyses, please include this reference:
 > Chipman, H. A., George, E. I., & McCulloch, R. E. (2010). BART: Bayesian Additive Regression Trees. *The Annals of Applied Statistics*, 4(1), 266–298. doi: <https://doi.org/10.1214/09-AOAS285>
 
 #### Global-scale BART modeling
-
 
 For global-scale analyses using BART, please include the following citation:
 

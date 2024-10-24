@@ -1,0 +1,65 @@
+---
+pagetitle: "Installation - GLOSSA"
+title: "Installing and setting up GLOSSA"
+editor: source
+---
+
+This guide will walk you through installing **GLOSSA** on your machine, setting up your environment, and preparing to run your first analysis. By the end, you’ll be ready to use GLOSSA for species distribution modeling.
+
+## 1. System requirements
+
+Before installing GLOSSA, ensure that your system meets the following requirements:
+
+- **R version**: GLOSSA requires **R version 4.0.0** or higher. If you don’t have R installed, you can download it from [CRAN](https://cran.r-project.org/).
+- **Operating system**: GLOSSA is compatible with Windows, macOS, and Linux.
+- **RStudio (optional but recommended)**: We recommend using RStudio as it provides useful tools for working with R. Download RStudio [here](https://posit.co/download/rstudio-desktop/).
+
+## 2. Installing GLOSSA
+
+### Install from CRAN (stable version)
+
+To install the latest stable version of GLOSSA from CRAN, open R or RStudio and run the following command:
+
+```r
+install.packages("glossa")
+```
+
+### Install the development version from GitHub (latest features)
+For the latest features or bug fixes, you can install the development version from GitHub. First, install `devtools`:
+
+```r
+install.packages("devtools")
+```
+
+Then, install GLOSSA from GitHub:
+
+```r
+devtools::install_github("iMARES-group/glossa")
+```
+
+## 3. Launching GLOSSA
+
+Once GLOSSA is installed, you can launch it in R or RStudio by running:
+
+```r
+library(glossa)
+run_glossa()
+```
+
+This command starts the GLOSSA `shiny` web app, which will open in your default browser.
+
+## 4. Verifying Your Installation
+
+After installation, you can verify that GLOSSA is correctly installed by checking the package version:
+
+```r
+packageVersion("glossa")
+```
+
+If GLOSSA has been installed successfully, this will return the installed version number. The app should open in your web browser and be ready to use.
+
+## Conclusion
+
+You're now ready to start working with GLOSSA! After installation, you can move on to preparing your data and running your first analysis. Head over to the [Preparing your data](working_with_input_data.qmd) section to learn how to format your species occurrence data and environmental layers for GLOSSA.
+
+If you encounter any issues during installation, visit our [Common issues and troubleshooting](../../under_construction.qmd) page for solutions.

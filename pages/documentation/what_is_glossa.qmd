@@ -1,0 +1,50 @@
+---
+pagetitle: "What is GLOSSA? - GLOSSA"
+title: "What is GLOSSA?"
+editor: source
+---
+
+**GLOSSA** is a simple, interactive R Shiny app designed to help you model species distributions without needing to code. Using **Bayesian Additive Regression Trees (BART)**, GLOSSA predicts species habitats based on presence and environmental data, allowing you to visualize both current and future distributions.
+
+![](images/glossa_workflow.png){width=100% fig-align="center"}
+
+## How GLOSSA works?
+
+GLOSSA’s workflow is designed to be intuitive, with four main steps:
+
+### 1. Data upload
+
+- **Species occurrence**: Upload your species data with either presence/absence or presence-only records. GLOSSA can work with multiple species in one session, generating pseudo-absences when needed.
+- **Environmental data**: Upload environmental rasters (e.g., from sources like Bio-ORACLE) matched to the occurrence points by location and time.
+- **Projections**: Include layers representing future time periods or climate scenarios to generate predictions for each.
+- **Study area**: Upload a polygon to define your study region, or let GLOSSA use the extent of your environmental data.
+
+### 2. Data processing
+
+- **Coordinate cleaning**: GLOSSA automatically removes duplicate records, filters out invalid points, and applies spatial thinning if needed.
+- **Layer processing**: Environmental rasters are cropped, masked, and can be standardized.
+- **Generate pseudo-absences**: For presence-only data, GLOSSA creates randomly distributed pseudo-absences across the study area.
+
+### 3. Model fitting and prediction
+
+- **Fit BART model**: GLOSSA fits a BART model, generating predictions for suitable habitats and native ranges, and computes an optimal threshold for presence/absence classification.
+- **Model output**: The output includes metrics like AUC, ROC curve, confusion matrix, functional response curves, and variable importance.
+- **Projections**: Projections can be made to different areas, time periods, and climate scenarios.
+  
+### 4. Visualization and export
+
+After the analysis, GLOSSA provides interactive maps and charts to explore model results, allowing you to export data and visuals for further use.
+
+
+## Why use GLOSSA?
+
+GLOSSA simplifies species distribution modeling by:
+
+- Making modeling accessible with a no-code interface.
+- Offering robust machine learning predictions with BART.
+- Supporting independent multi-species and scenario-based analysis in a single run.
+- Providing detailed visualizations and export options for further analysis or publication.
+
+## Ready to get started?
+
+Learn how to install and set up GLOSSA: [Installation guide](installation_setup.qmd).

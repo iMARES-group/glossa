@@ -1,0 +1,9 @@
+---
+title: "Under construction"
+pagetitle: "Under construction - GLOSSA"
+sidebar: false
+---
+
+Our team is hard at work to provide you with comprehensive guides and resources.
+
+Thank you for your patience. Stay tuned for updates!

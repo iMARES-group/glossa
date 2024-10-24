@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Documentation - GLOSSA</title>
+<title>Prepare data - GLOSSA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/documentation/what_is_glossa.html" rel="next">
+<link href="../../pages/documentation/run_new_analysis.html" rel="next">
+<link href="../../pages/documentation/installation_setup.html" rel="prev">
 <link href="../../images/logo_glossa.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -138,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/index.html">GLOSSA documentation guide</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/what_is_glossa.html">New to GLOSSA?</a></li><li class="breadcrumb-item"><a href="../../pages/documentation/working_with_input_data.html">Preparing your data</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -152,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/documentation/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../pages/documentation/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GLOSSA documentation guide</span></a>
   </div>
 </li>
@@ -179,7 +214,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/documentation/working_with_input_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/documentation/working_with_input_data.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Preparing your data</span></a>
   </div>
 </li>
@@ -242,21 +277,32 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#new-to-glossa" id="toc-new-to-glossa" class="nav-link active" data-scroll-target="#new-to-glossa">New to GLOSSA?</a></li>
-  <li><a href="#tutorials-and-examples" id="toc-tutorials-and-examples" class="nav-link" data-scroll-target="#tutorials-and-examples">Tutorials and examples</a></li>
-  <li><a href="#explanations-and-reference-docs" id="toc-explanations-and-reference-docs" class="nav-link" data-scroll-target="#explanations-and-reference-docs">Explanations and reference docs</a></li>
-  <li><a href="#common-issues-and-troubleshooting" id="toc-common-issues-and-troubleshooting" class="nav-link" data-scroll-target="#common-issues-and-troubleshooting">Common issues and troubleshooting</a></li>
-  <li><a href="#contributing-to-glossa" id="toc-contributing-to-glossa" class="nav-link" data-scroll-target="#contributing-to-glossa">Contributing to GLOSSA</a></li>
-  <li><a href="#glossa-resources" id="toc-glossa-resources" class="nav-link" data-scroll-target="#glossa-resources">GLOSSA resources</a></li>
+  <li><a href="#species-occurrence-data" id="toc-species-occurrence-data" class="nav-link active" data-scroll-target="#species-occurrence-data">Species occurrence data</a>
+  <ul class="collapse">
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example:</a></li>
+  </ul></li>
+  <li><a href="#environmental-data" id="toc-environmental-data" class="nav-link" data-scroll-target="#environmental-data">Environmental data</a>
+  <ul class="collapse">
+  <li><a href="#example-zip-structure" id="toc-example-zip-structure" class="nav-link" data-scroll-target="#example-zip-structure">Example ZIP structure:</a></li>
+  </ul></li>
+  <li><a href="#projection-layers-optional-but-likely-your-primary-interest" id="toc-projection-layers-optional-but-likely-your-primary-interest" class="nav-link" data-scroll-target="#projection-layers-optional-but-likely-your-primary-interest">Projection layers (optional, but likely your primary interest)</a>
+  <ul class="collapse">
+  <li><a href="#example-projection-zip-structure" id="toc-example-projection-zip-structure" class="nav-link" data-scroll-target="#example-projection-zip-structure">Example projection ZIP structure:</a></li>
+  </ul></li>
+  <li><a href="#study-area-polygon-optional" id="toc-study-area-polygon-optional" class="nav-link" data-scroll-target="#study-area-polygon-optional">Study area polygon (optional)</a>
+  <ul class="collapse">
+  <li><a href="#example-use-case" id="toc-example-use-case" class="nav-link" data-scroll-target="#example-use-case">Example use case:</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/working_with_input_data.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GLOSSA documentation guide</h1>
+<h1 class="title">Preparing your data</h1>
 </div>
 
 
@@ -271,64 +317,150 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Welcome to the <strong>GLOSSA</strong> documentation! Here, you’ll find everything you need to understand, use, and get the most out of GLOSSA for species distribution modeling. Whether you’re new to modeling or already experienced, we’ve got guides, examples, and detailed explanations to help you.</p>
-<p>If you’d like to <strong>contribute</strong>, check out our <a href="../../under_construction.html">contribution guidelines</a>. For questions, feel free to reach out via the contact form on the <a href="https://imares.science/">iMARES website</a>.</p>
-<section id="new-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="new-to-glossa">New to GLOSSA?</h2>
-<p>Start with our <strong>how-to guides</strong>, which provide simple, step-by-step instructions for common tasks:</p>
+<p>To ensure smooth and accurate analyses in GLOSSA, your data must be formatted correctly. This guide will walk you through preparing the necessary files: <strong>species occurrence data</strong>, <strong>environmental data</strong>, and optional <strong>projection layers</strong> and <strong>study area polygons</strong>.</p>
+<section id="species-occurrence-data" class="level2">
+<h2 class="anchored" data-anchor-id="species-occurrence-data">Species occurrence data</h2>
+<p>Species occurrence data must be provided in a <strong>tab-separated file</strong> (TSV, tab-separated CSV, etc.). This file should include the following columns:</p>
 <ul>
-<li><a href="../../pages/documentation/what_is_glossa.html">What is GLOSSA?</a></li>
-<li><a href="../../pages/documentation/installation_setup.html">Installing and setting up GLOSSA</a></li>
-<li><a href="../../pages/documentation/working_with_input_data.html">Preparing your data</a></li>
-<li><a href="../../pages/documentation/run_new_analysis.html">Running a new analysis</a></li>
-<li><a href="../../pages/documentation/explore_results.html">Explore the results</a></li>
-<li><a href="../../pages/documentation/export_outputs.html">Exporting results and maps</a></li>
+<li><code>decimalLongitude</code>: Longitude of the occurrence point in decimal degrees.</li>
+<li><code>decimalLatitude</code>: Latitude of the occurrence point in decimal degrees.</li>
+<li><code>pa</code>: Presence (<code>1</code>) or absence (<code>0</code>) of the species. If this column is missing, GLOSSA will assume all rows represent presences (<code>1</code>, presence-only) and will generate pseudo-absences before the modeling step.</li>
+<li><code>timestamp</code>: The time when the occurrence was recorded. This column is optional. If used, GLOSSA will match each occurrence to the environmental data from that specific time period. If omitted, GLOSSA will assume all occurrences occurred at the same time.</li>
 </ul>
+<section id="example" class="level3">
+<h3 class="anchored" data-anchor-id="example">Example:</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>decimalLongitude decimalLatitude pa   timestamp</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fl">5.42909</span>          <span class="fl">43.20937</span>        <span class="dv">1</span>    <span class="dv">1</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fl">43.05000</span>        <span class="fl">49.03000</span>        <span class="dv">0</span>    <span class="dv">1</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fl">2.52369</span>         <span class="fl">47.29234</span>        <span class="dv">1</span>    <span class="dv">2</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fl">34.05400</span>         <span class="sc">-</span><span class="fl">26.91300</span>       <span class="dv">1</span>    <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Ensure that all occurrence points fall within the study area defined by your environmental data to avoid losing data points due to missing covariate values.</li>
+<li>Double-check for formatting errors or missing columns before uploading to avoid processing issues.</li>
+</ul>
+</div>
+</div>
 </section>
-<section id="tutorials-and-examples" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials-and-examples">Tutorials and examples</h2>
-<p>Explore real-world examples that guide you through complete analyses, from start to finish. You’ll also find specific tutorials on how to source and prepare your data for modeling:</p>
-<ul>
-<li><a href="../../under_construction.html">Download and prepare occurrence data</a></li>
-<li><a href="../../under_construction.html">Download and prepare environmental data</a></li>
-<li><a href="../../pages/tutorials_examples/Thunnus_albacares_example1.html">Global species distribution model</a></li>
-<li><a href="../../pages/tutorials_examples/Caretta_caretta_example2.html">Using a polygon to define the study area</a></li>
-<li><a href="../../pages/tutorials_examples/Siganus_luridus_example3.html">Running GLOSSA on a regional scale</a></li>
-</ul>
 </section>
-<section id="explanations-and-reference-docs" class="level2">
-<h2 class="anchored" data-anchor-id="explanations-and-reference-docs">Explanations and reference docs</h2>
-<p>Want to know what’s happening behind the scenes? Here’s where you can dive deeper into the concepts, like how GLOSSA’s BART model works, how we generate pseudo-absences or detailed technical information about data formats and specific settings:</p>
+<section id="environmental-data" class="level2">
+<h2 class="anchored" data-anchor-id="environmental-data">Environmental data</h2>
+<p>Environmental data is provided as raster layers in formats like <strong>.tif</strong> or <strong>.nc</strong> (NetCDF). These layers are used as predictors for species distributions and should represent variables like temperature, salinity, or other relevant data. All environmental layers must be uploaded as a <strong>ZIP file</strong>, with each variable organized into separate subdirectories. Each subdirectory should contain raster files corresponding to the relevant time periods.</p>
+<p>Here you have some guidelines for when you prepare your files:</p>
 <ul>
-<li><a href="../../under_construction.html">How does GLOSSA work?</a></li>
-<li><a href="../../under_construction.html">What is Bayesian Additive Regression Trees (BART)?</a></li>
-<li><a href="../../under_construction.html">Handling presence-only data with pseudo-absences</a></li>
+<li><strong>Consistent resolution and extent</strong>: Ensure that all raster layers have the <strong>same resolution</strong> and <strong>geographic extent</strong>. GLOSSA will check for mismatches and notify you with warnings or errors:
+<ul>
+<li>If the <strong>geographic extents</strong> differ, GLOSSA will extend the smaller layers with missing values to match the largest raster.</li>
+<li>If the <strong>resolutions</strong> differ, GLOSSA will stop and return an error, as all layers need to be at the same resolution.</li>
+</ul></li>
+<li><strong>Temporal alignment</strong>: If your occurrence data contains multiple time periods (<code>timestamp</code> column in the occurrence data), the rasters must align with those timestamps. GLOSSA expects the raster files to be ordered alphabetically by time. For example, if your occurrence data includes years 1 and 3, you should have raster files for <strong>each</strong> environmental variable for <strong>years 1, 2, and 3</strong> (even if you don’t have occurrence data for year 2). In this case, you can provide a blank or duplicate raster for year 2, but the file must exist to ensure proper indexing for year 3.</li>
 </ul>
+<section id="example-zip-structure" class="level3">
+<h3 class="anchored" data-anchor-id="example-zip-structure">Example ZIP structure:</h3>
+<pre class="plaintext"><code>environmental_data.zip
+    ├── temperature
+    │     ├── temp_1.tif
+    │     ├── temp_2.tif
+    │     └── temp_3.tif
+    ├── salinity
+    │     ├── sal_1.tif
+    │     ├── sal_2.tif
+    │     └── sal_3.tif</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Large raster files may slow down the processing. For testing purposes, consider using lower-resolution rasters or aggregating the cells using the <code>terra::aggregate()</code> function in R</li>
+<li>Use clear and consistent file names, especially when handling multiple time periods or variables.</li>
+</ul>
+</div>
+</div>
 </section>
-<section id="common-issues-and-troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="common-issues-and-troubleshooting">Common issues and troubleshooting</h2>
-<p>Find solutions to common issues, such as installation problems, data formatting errors, and model performance concerns:</p>
-<ul>
-<li><a href="../../under_construction.html">Troubleshooting</a></li>
-<li><a href="../../under_construction.html">FAQs</a></li>
-</ul>
 </section>
-<section id="contributing-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="contributing-to-glossa">Contributing to GLOSSA</h2>
-<p>Interested in contributing to GLOSSA? Learn how to get involved and what kinds of contributions we’re looking for:</p>
+<section id="projection-layers-optional-but-likely-your-primary-interest" class="level2">
+<h2 class="anchored" data-anchor-id="projection-layers-optional-but-likely-your-primary-interest">Projection layers (optional, but likely your primary interest)</h2>
+<p>Projection layers allow you to <strong>forecast species distributions</strong> under different environmental conditions, such as future climate scenarios. These layers should follow the exact format as the environmental data, with <strong>identical subdirectory names</strong> and <strong>matching variable names</strong>.</p>
+<p>Some guidelines for preparing your files:</p>
 <ul>
-<li><a href="../../under_construction.html">Contribution guidelines</a></li>
+<li><strong>File order</strong>: Ensure that the files within each subdirectory are <strong>ordered consistently</strong> across variables. The first file of each variable (e.g., temperature, salinity) will be treated as corresponding to the same time period, and GLOSSA will stack and project them together as part of the same time series. That is, in the following example, GLOSSA will make one projection for the <code>temp_projection_1.tif</code> and <code>sal_projection_1.tif</code> scenario, and a different projection for the conditions of <code>temp_projection_2.tif</code> and <code>sal_projection_2.tif</code>.</li>
+<li><strong>Multiple scenarios</strong>: If you’re working with multiple independent scenarios (e.g., two different climate models), upload each scenario in a separate <strong>ZIP file</strong>. This way, they won’t be included in the same time series, allowing you to compare scenarios separately during plotting and exporting.</li>
 </ul>
+<section id="example-projection-zip-structure" class="level3">
+<h3 class="anchored" data-anchor-id="example-projection-zip-structure">Example projection ZIP structure:</h3>
+<pre class="plaintext"><code>projection_layers.zip
+    ├── temperature
+    │     ├── temp_projection_1.tif
+    │     └── temp_projection_2.tif
+    ├── salinity
+    │     ├── sal_projection_1.tif
+    │     └── sal_projection_2.tif</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Ensure that projection layers have the <strong>same resolution</strong>, <strong>geographic extent</strong>, <strong>coordinate reference systems (CRS - WGS84)</strong>, and <strong>variable names</strong> as the environmental layers used during model fitting. This consistency is crucial for accurate forecasting and projections.</li>
+<li>If your projections involve different time periods, ensure the raster files are clearly organized and ordered to reflect these periods accurately.</li>
+</ul>
+</div>
+</div>
 </section>
-<section id="glossa-resources" class="level2">
-<h2 class="anchored" data-anchor-id="glossa-resources">GLOSSA resources</h2>
-<p>Here are some useful links to access GLOSSA resources:</p>
+</section>
+<section id="study-area-polygon-optional" class="level2">
+<h2 class="anchored" data-anchor-id="study-area-polygon-optional">Study area polygon (optional)</h2>
+<p>You can define a <strong>study area polygon</strong> to limit the geographic scope of your analysis. This will crop the environmental layers and filter out occurrence points that fall outside the study area. By default, GLOSSA uses the extent of your environmental rasters to define the study area, fitting the model only with occurrences that have valid values for all predictor variables. It also projects only onto cells covered by all environmental variables.</p>
+<p>However, if your rasters cover a larger region than your area of interest or if you have occurrence points outside the region you’d like to filter, you can upload a custom polygon. This allows you to specify the geographic region of interest, and GLOSSA will automatically crop the environmental layers and restrict the analysis to within the polygon boundaries.</p>
+<p>The supported formats of this file are:</p>
 <ul>
-<li><a href="https://cran.r-project.org/package=glossa">CRAN repository</a></li>
-<li><a href="https://github.com/iMARES-group/glossa">GitHub repository</a></li>
-<li><a href="https://imares.science/">iMARES website</a></li>
-<li><a href="https://github.com/iMARES-group/glossa/issues">Issues and feature requests</a></li>
+<li><strong>GPKG (GeoPackage)</strong></li>
+<li><strong>KML</strong></li>
+<li><strong>GeoJSON</strong></li>
 </ul>
+<section id="example-use-case" class="level3">
+<h3 class="anchored" data-anchor-id="example-use-case">Example use case:</h3>
+<p>You might have environmental data for an entire ocean but only want to model species distributions within the Mediterranean Sea. Uploading a Mediterranean Sea polygon will crop the data accordingly.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>If the resolution of your polygon is too coarse, you can apply a buffer to expand or refine it. This buffer option can be tuned in the next section of the documentation.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>By properly formatting your data, you’ll ensure that GLOSSA runs smoothly and provides accurate results. Once your data is ready, move on to the next step: <a href="../../pages/documentation/run_new_analysis.html">Running a new analysis</a>.</p>
 
 
 </section>
@@ -569,10 +701,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../pages/documentation/installation_setup.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Installing and setting up GLOSSA</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../pages/documentation/what_is_glossa.html" class="pagination-link">
-        <span class="nav-page-text">New to GLOSSA?</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../pages/documentation/run_new_analysis.html" class="pagination-link">
+        <span class="nav-page-text">Running a new analysis</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

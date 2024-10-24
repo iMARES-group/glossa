@@ -51,7 +51,7 @@ GLOSSA is a user-friendly R Shiny app created for marine species distribution mo
 <p class="card-text">To get started, install GLOSSA and explore our quickstart guide to learn how to use the app and the essentials with visual aid.</p>
 </div>
 </a>
-<a href="index2.qmd" class="card custom-card">
+<a href="pages/documentation/index.qmd" class="card custom-card">
 <div class="card-body">
 <div class="card-icon">
 <i class="bi bi-files"></i>
@@ -69,7 +69,7 @@ GLOSSA is a user-friendly R Shiny app created for marine species distribution mo
 <p class="card-text">Take a look at our tutorials and end-to-end worked examples, including our video tutorial.</p>
 </div>
 </a>
-<a href="index2.qmd" class="card custom-card">
+<a href="under_construction.qmd" class="card custom-card">
 <div class="card-body">
 <div class="card-icon">
 <i class="bi bi-question-circle"></i>

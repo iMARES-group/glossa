@@ -1,5 +1,7 @@
 ---
-title: "GLOSSA Documentation - Coming Soon!"
+pagetitle: "Export - GLOSSA"
+title: "Exporting results and maps"
+editor: source
 ---
 
 Our team is hard at work to provide you with comprehensive guides and resources.

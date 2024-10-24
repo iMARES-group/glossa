@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Documentation - GLOSSA</title>
+<title>Installation - GLOSSA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/documentation/what_is_glossa.html" rel="next">
+<link href="../../pages/documentation/working_with_input_data.html" rel="next">
+<link href="../../pages/documentation/what_is_glossa.html" rel="prev">
 <link href="../../images/logo_glossa.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -138,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/index.html">GLOSSA documentation guide</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/what_is_glossa.html">New to GLOSSA?</a></li><li class="breadcrumb-item"><a href="../../pages/documentation/installation_setup.html">Installing and setting up GLOSSA</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -152,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/documentation/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../pages/documentation/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GLOSSA documentation guide</span></a>
   </div>
 </li>
@@ -173,7 +208,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/documentation/installation_setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/documentation/installation_setup.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Installing and setting up GLOSSA</span></a>
   </div>
 </li>
@@ -242,21 +277,24 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#new-to-glossa" id="toc-new-to-glossa" class="nav-link active" data-scroll-target="#new-to-glossa">New to GLOSSA?</a></li>
-  <li><a href="#tutorials-and-examples" id="toc-tutorials-and-examples" class="nav-link" data-scroll-target="#tutorials-and-examples">Tutorials and examples</a></li>
-  <li><a href="#explanations-and-reference-docs" id="toc-explanations-and-reference-docs" class="nav-link" data-scroll-target="#explanations-and-reference-docs">Explanations and reference docs</a></li>
-  <li><a href="#common-issues-and-troubleshooting" id="toc-common-issues-and-troubleshooting" class="nav-link" data-scroll-target="#common-issues-and-troubleshooting">Common issues and troubleshooting</a></li>
-  <li><a href="#contributing-to-glossa" id="toc-contributing-to-glossa" class="nav-link" data-scroll-target="#contributing-to-glossa">Contributing to GLOSSA</a></li>
-  <li><a href="#glossa-resources" id="toc-glossa-resources" class="nav-link" data-scroll-target="#glossa-resources">GLOSSA resources</a></li>
+  <li><a href="#system-requirements" id="toc-system-requirements" class="nav-link active" data-scroll-target="#system-requirements">1. System requirements</a></li>
+  <li><a href="#installing-glossa" id="toc-installing-glossa" class="nav-link" data-scroll-target="#installing-glossa">2. Installing GLOSSA</a>
+  <ul class="collapse">
+  <li><a href="#install-from-cran-stable-version" id="toc-install-from-cran-stable-version" class="nav-link" data-scroll-target="#install-from-cran-stable-version">Install from CRAN (stable version)</a></li>
+  <li><a href="#install-the-development-version-from-github-latest-features" id="toc-install-the-development-version-from-github-latest-features" class="nav-link" data-scroll-target="#install-the-development-version-from-github-latest-features">Install the development version from GitHub (latest features)</a></li>
+  </ul></li>
+  <li><a href="#launching-glossa" id="toc-launching-glossa" class="nav-link" data-scroll-target="#launching-glossa">3. Launching GLOSSA</a></li>
+  <li><a href="#verifying-your-installation" id="toc-verifying-your-installation" class="nav-link" data-scroll-target="#verifying-your-installation">4. Verifying Your Installation</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/installation_setup.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GLOSSA documentation guide</h1>
+<h1 class="title">Installing and setting up GLOSSA</h1>
 </div>
 
 
@@ -271,64 +309,48 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Welcome to the <strong>GLOSSA</strong> documentation! Here, you’ll find everything you need to understand, use, and get the most out of GLOSSA for species distribution modeling. Whether you’re new to modeling or already experienced, we’ve got guides, examples, and detailed explanations to help you.</p>
-<p>If you’d like to <strong>contribute</strong>, check out our <a href="../../under_construction.html">contribution guidelines</a>. For questions, feel free to reach out via the contact form on the <a href="https://imares.science/">iMARES website</a>.</p>
-<section id="new-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="new-to-glossa">New to GLOSSA?</h2>
-<p>Start with our <strong>how-to guides</strong>, which provide simple, step-by-step instructions for common tasks:</p>
+<p>This guide will walk you through installing <strong>GLOSSA</strong> on your machine, setting up your environment, and preparing to run your first analysis. By the end, you’ll be ready to use GLOSSA for species distribution modeling.</p>
+<section id="system-requirements" class="level2">
+<h2 class="anchored" data-anchor-id="system-requirements">1. System requirements</h2>
+<p>Before installing GLOSSA, ensure that your system meets the following requirements:</p>
 <ul>
-<li><a href="../../pages/documentation/what_is_glossa.html">What is GLOSSA?</a></li>
-<li><a href="../../pages/documentation/installation_setup.html">Installing and setting up GLOSSA</a></li>
-<li><a href="../../pages/documentation/working_with_input_data.html">Preparing your data</a></li>
-<li><a href="../../pages/documentation/run_new_analysis.html">Running a new analysis</a></li>
-<li><a href="../../pages/documentation/explore_results.html">Explore the results</a></li>
-<li><a href="../../pages/documentation/export_outputs.html">Exporting results and maps</a></li>
+<li><strong>R version</strong>: GLOSSA requires <strong>R version 4.0.0</strong> or higher. If you don’t have R installed, you can download it from <a href="https://cran.r-project.org/">CRAN</a>.</li>
+<li><strong>Operating system</strong>: GLOSSA is compatible with Windows, macOS, and Linux.</li>
+<li><strong>RStudio (optional but recommended)</strong>: We recommend using RStudio as it provides useful tools for working with R. Download RStudio <a href="https://posit.co/download/rstudio-desktop/">here</a>.</li>
 </ul>
 </section>
-<section id="tutorials-and-examples" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials-and-examples">Tutorials and examples</h2>
-<p>Explore real-world examples that guide you through complete analyses, from start to finish. You’ll also find specific tutorials on how to source and prepare your data for modeling:</p>
-<ul>
-<li><a href="../../under_construction.html">Download and prepare occurrence data</a></li>
-<li><a href="../../under_construction.html">Download and prepare environmental data</a></li>
-<li><a href="../../pages/tutorials_examples/Thunnus_albacares_example1.html">Global species distribution model</a></li>
-<li><a href="../../pages/tutorials_examples/Caretta_caretta_example2.html">Using a polygon to define the study area</a></li>
-<li><a href="../../pages/tutorials_examples/Siganus_luridus_example3.html">Running GLOSSA on a regional scale</a></li>
-</ul>
+<section id="installing-glossa" class="level2">
+<h2 class="anchored" data-anchor-id="installing-glossa">2. Installing GLOSSA</h2>
+<section id="install-from-cran-stable-version" class="level3">
+<h3 class="anchored" data-anchor-id="install-from-cran-stable-version">Install from CRAN (stable version)</h3>
+<p>To install the latest stable version of GLOSSA from CRAN, open R or RStudio and run the following command:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"glossa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="explanations-and-reference-docs" class="level2">
-<h2 class="anchored" data-anchor-id="explanations-and-reference-docs">Explanations and reference docs</h2>
-<p>Want to know what’s happening behind the scenes? Here’s where you can dive deeper into the concepts, like how GLOSSA’s BART model works, how we generate pseudo-absences or detailed technical information about data formats and specific settings:</p>
-<ul>
-<li><a href="../../under_construction.html">How does GLOSSA work?</a></li>
-<li><a href="../../under_construction.html">What is Bayesian Additive Regression Trees (BART)?</a></li>
-<li><a href="../../under_construction.html">Handling presence-only data with pseudo-absences</a></li>
-</ul>
+<section id="install-the-development-version-from-github-latest-features" class="level3">
+<h3 class="anchored" data-anchor-id="install-the-development-version-from-github-latest-features">Install the development version from GitHub (latest features)</h3>
+<p>For the latest features or bug fixes, you can install the development version from GitHub. First, install <code>devtools</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, install GLOSSA from GitHub:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"iMARES-group/glossa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="common-issues-and-troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="common-issues-and-troubleshooting">Common issues and troubleshooting</h2>
-<p>Find solutions to common issues, such as installation problems, data formatting errors, and model performance concerns:</p>
-<ul>
-<li><a href="../../under_construction.html">Troubleshooting</a></li>
-<li><a href="../../under_construction.html">FAQs</a></li>
-</ul>
 </section>
-<section id="contributing-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="contributing-to-glossa">Contributing to GLOSSA</h2>
-<p>Interested in contributing to GLOSSA? Learn how to get involved and what kinds of contributions we’re looking for:</p>
-<ul>
-<li><a href="../../under_construction.html">Contribution guidelines</a></li>
-</ul>
+<section id="launching-glossa" class="level2">
+<h2 class="anchored" data-anchor-id="launching-glossa">3. Launching GLOSSA</h2>
+<p>Once GLOSSA is installed, you can launch it in R or RStudio by running:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glossa)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_glossa</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This command starts the GLOSSA <code>shiny</code> web app, which will open in your default browser.</p>
 </section>
-<section id="glossa-resources" class="level2">
-<h2 class="anchored" data-anchor-id="glossa-resources">GLOSSA resources</h2>
-<p>Here are some useful links to access GLOSSA resources:</p>
-<ul>
-<li><a href="https://cran.r-project.org/package=glossa">CRAN repository</a></li>
-<li><a href="https://github.com/iMARES-group/glossa">GitHub repository</a></li>
-<li><a href="https://imares.science/">iMARES website</a></li>
-<li><a href="https://github.com/iMARES-group/glossa/issues">Issues and feature requests</a></li>
-</ul>
+<section id="verifying-your-installation" class="level2">
+<h2 class="anchored" data-anchor-id="verifying-your-installation">4. Verifying Your Installation</h2>
+<p>After installation, you can verify that GLOSSA is correctly installed by checking the package version:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">"glossa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If GLOSSA has been installed successfully, this will return the installed version number. The app should open in your web browser and be ready to use.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>You’re now ready to start working with GLOSSA! After installation, you can move on to preparing your data and running your first analysis. Head over to the <a href="../../pages/documentation/working_with_input_data.html">Preparing your data</a> section to learn how to format your species occurrence data and environmental layers for GLOSSA.</p>
+<p>If you encounter any issues during installation, visit our <a href="../../under_construction.html">Common issues and troubleshooting</a> page for solutions.</p>
 
 
 </section>
@@ -569,10 +591,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../pages/documentation/what_is_glossa.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">New to GLOSSA?</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../pages/documentation/what_is_glossa.html" class="pagination-link">
-        <span class="nav-page-text">New to GLOSSA?</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../pages/documentation/working_with_input_data.html" class="pagination-link">
+        <span class="nav-page-text">Preparing your data</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

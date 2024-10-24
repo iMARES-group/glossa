@@ -6,15 +6,11 @@ pagetitle: "Publications - GLOSSA"
 
 Explore research articles, reports, and publications that use GLOSSA for species distribution modeling in marine and ecological research.
 
----
-
 ## Full list of publications
 
 ### 2024
 
 - **Fuster-Alonso, A., Mestre-Tomás, J., Baez, J. C., Pennino, M. G., Barber, X., Bellido, J. M., ... & Coll, M.** (2024). Machine learning applied to global scale species distribution models (SDMs). PREPRINT (Version 1) available at *Research Square*. doi: <https://doi.org/10.21203/rs.3.rs-4411399/v1>
-
----
 
 ## Submit your work
 
