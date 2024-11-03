@@ -1,0 +1,29 @@
+---
+pagetitle: "Pseudo-absences - GLOSSA"
+title: "Generating pseudo-absences for presence-only data"
+editor: source
+---
+
+When dealing with presence-only species distribution data, two main approaches are commonly used to handle the absence of true absence points. The first approach is to model the presence points directly as a **point process**, which treats presences as an observed spatial pattern. This approach doesn’t require absence data and instead estimates the intensity of occurrences across the study area. The second approach is to **generate pseudo-absence points**, creating false absences across the study region, allowing the model to learn from contrasting presence and absence locations.
+
+In GLOSSA, we take the second approach as we fit a **Bayesian Additive Regression Trees (BART) model** using a **binary response variable** (presence = 1, absence = 0) with a **probit link function**. Generating pseudo-absences allows the model to estimate the probability of species presence by learning from both the observed presences and the generated pseudo-absences.
+
+## The challenge of generating pseudo-absences
+
+Generating pseudo-absences for presence-only data is a critical decision in species distribution modeling. There exist multiple methods for generating pseudo-absences, each with its own strengths and limitations, and there is currently no consensus on a standard approach. Some common methods include random sampling, geographic exclusion (e.g., excluding areas close to presence points), and environmental filtering (e.g., selecting pseudo-absences in contrasting environmental conditions).
+
+Each method can influence model outcomes differently, depending on the study area, species, and modeling objectives. Given the absence of a definitive standard, GLOSSA uses a balanced random sampling approach that provides broad applicability and ease of use across diverse datasets.
+
+## Pseudo-absence generation with GLOSSA
+
+When you upload an occurrence file with presence-only data (the `pa` column just includes ones or is missing), GLOSSA uses a **balanced random sampling approach** for generating pseudo-absences, that is, GLOSSA generates pseudo-absence points randomly across the defined study area, ensuring that the number of pseudo-absence points matches the number of presence points.
+
+::: {.callout-note}
+The spatial extent within which pseudo-absences are generated is an essential factor.
+:::
+
+When the presence data includes several timestamps, GLOSSA generates the same number of pseudo-absences as presences for each time period.  This approach ensures that the model captures temporal variation in species occurrence, which can be important for species with temporal patterns.
+
+::: {.callout-note}
+If you prefer an alternative method for generating pseudo-absences, you can create them outside of GLOSSA using your preferred method and include them in your occurrence putting a `0` in the `pa` column of these records.
+:::

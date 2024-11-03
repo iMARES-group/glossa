@@ -199,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/documentation/export_outputs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Exporting results and maps</span></a>
+ <span class="menu-text">Exporting results</span></a>
   </div>
 </li>
       </ul>
@@ -233,6 +233,23 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/documentation/pseudo_absences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Explanations and reference docs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/documentation/pseudo_absences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Generating pseudo-absences for presence-only data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -248,8 +265,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#explore-input-data" id="toc-explore-input-data" class="nav-link" data-scroll-target="#explore-input-data">Explore input data</a></li>
   <li><a href="#glossa-projections" id="toc-glossa-projections" class="nav-link" data-scroll-target="#glossa-projections">GLOSSA projections</a></li>
   <li><a href="#additional-results" id="toc-additional-results" class="nav-link" data-scroll-target="#additional-results">Additional results</a></li>
-  <li><a href="#model-summary" id="toc-model-summary" class="nav-link" data-scroll-target="#model-summary">Model Summary</a></li>
-  <li><a href="#exporting-results" id="toc-exporting-results" class="nav-link" data-scroll-target="#exporting-results">Exporting Results</a></li>
+  <li><a href="#model-summary" id="toc-model-summary" class="nav-link" data-scroll-target="#model-summary">Model summary</a></li>
+  <li><a href="#exporting-plots" id="toc-exporting-plots" class="nav-link" data-scroll-target="#exporting-plots">Exporting plots</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/explore_results.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -357,12 +374,12 @@ Note
 </div>
 </section>
 <section id="model-summary" class="level2">
-<h2 class="anchored" data-anchor-id="model-summary">Model Summary</h2>
+<h2 class="anchored" data-anchor-id="model-summary">Model summary</h2>
 <p>The model summary panel provides key validation metrics for the model fitting:</p>
 <ul>
-<li><strong>ROC Curve</strong>: This plot evaluates the model’s ability to distinguish between species presence and absence across different probability thresholds, showing the <strong>AUC (Area Under the Curve)</strong> as an overall measure of accuracy.</li>
-<li><strong>Confusion Matrix Plot</strong>: This plot breaks down true positives, false positives, true negatives, and false negatives, and shows their predicted probability with the computed optimal cutoff. classification performance.</li>
-<li><strong>Distribution of Fitted Values</strong>: This histogram shows the distribution of predicted probabilities across the study area.</li>
+<li><strong>ROC curve</strong>: This plot evaluates the model’s ability to distinguish between species presence and absence across different probability thresholds, showing the <strong>AUC (Area Under the Curve)</strong> as an overall measure of accuracy.</li>
+<li><strong>Confusion matrix plot</strong>: This plot breaks down true positives, false positives, true negatives, and false negatives, and shows their predicted probability with the computed optimal cutoff. classification performance.</li>
+<li><strong>Distribution of fitted values</strong>: This histogram shows the distribution of predicted probabilities across the study area.</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -370,13 +387,13 @@ Note
 </figure>
 </div>
 </section>
-<section id="exporting-results" class="level2">
-<h2 class="anchored" data-anchor-id="exporting-results">Exporting Results</h2>
+<section id="exporting-plots" class="level2">
+<h2 class="anchored" data-anchor-id="exporting-plots">Exporting plots</h2>
 <p>Once you’re satisfied with your results, you can use the download icon <img src="images/download_icon.png" class="inline img-fluid"> to export any plot or visualization. Export formats include PNG, JPG, SVG, and PGF. You can also adjust the height and width of the exported plot.</p>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>You’ve now learned how to navigate the GLOSSA report panel to explore key metrics, validate model performance, and gain insights into the factors driving species distributions. The next step is to export your results, save the projection rasters, the data used for model fitting, and other analysis outputs: <a href="../../pages/documentation/export_outputs.html">Exporting results and maps</a>.</p>
+<p>You’ve now learned how to navigate the GLOSSA report panel to explore key metrics, validate model performance, and gain insights into the factors driving species distributions. The next step is to export your results, save the projection rasters, the data used for model fitting, and other analysis outputs: <a href="../../pages/documentation/export_outputs.html">Exporting results</a>.</p>
 
 
 </section>
@@ -623,7 +640,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../pages/documentation/export_outputs.html" class="pagination-link">
-        <span class="nav-page-text">Exporting results and maps</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">Exporting results</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

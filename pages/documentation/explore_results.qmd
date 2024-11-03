@@ -65,20 +65,20 @@ In the next row of the results panel, you can view the additional analyses that 
 
 ![](images/additional_results.png){width=80% fig-align="center"}
 
-## Model Summary
+## Model summary
 
 The model summary panel provides key validation metrics for the model fitting:
 
-- **ROC Curve**: This plot evaluates the model’s ability to distinguish between species presence and absence across different probability thresholds, showing the **AUC (Area Under the Curve)** as an overall measure of accuracy.
-- **Confusion Matrix Plot**: This plot breaks down true positives, false positives, true negatives, and false negatives, and shows their predicted probability with the computed optimal cutoff. classification performance.
-- **Distribution of Fitted Values**: This histogram shows  the distribution of predicted probabilities across the study area.
+- **ROC curve**: This plot evaluates the model’s ability to distinguish between species presence and absence across different probability thresholds, showing the **AUC (Area Under the Curve)** as an overall measure of accuracy.
+- **Confusion matrix plot**: This plot breaks down true positives, false positives, true negatives, and false negatives, and shows their predicted probability with the computed optimal cutoff. classification performance.
+- **Distribution of fitted values**: This histogram shows  the distribution of predicted probabilities across the study area.
 
 ![](images/model_summary_results.png){width=100% fig-align="center"}
 
-## Exporting Results
+## Exporting plots
 
 Once you're satisfied with your results, you can use the download icon ![](images/download_icon.png){.inline} to export any plot or visualization. Export formats include PNG, JPG, SVG, and PGF. You can also adjust the height and width of the exported plot.
 
 ## Conclusion
 
-You’ve now learned how to navigate the GLOSSA report panel to explore key metrics, validate model performance, and gain insights into the factors driving species distributions. The next step is to export your results, save the projection rasters, the data used for model fitting, and other analysis outputs: [Exporting results and maps](export_outputs.qmd).
+You’ve now learned how to navigate the GLOSSA report panel to explore key metrics, validate model performance, and gain insights into the factors driving species distributions. The next step is to export your results, save the projection rasters, the data used for model fitting, and other analysis outputs: [Exporting results](export_outputs.qmd).

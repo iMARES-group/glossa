@@ -66,6 +66,10 @@ website:
               href: pages/tutorials_examples/Caretta_caretta_example2.qmd
             - text: "Running GLOSSA on a regional scale"
               href: pages/tutorials_examples/Siganus_luridus_example3.qmd
+        - section: "Explanations and reference docs"
+          href: pages/documentation/pseudo_absences.qmd
+          contents:
+            - pages/documentation/pseudo_absences.qmd
     - id: tutorials_examples
       title: "Tutorials and Examples"
       contents:

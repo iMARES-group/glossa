@@ -154,151 +154,74 @@
     "text": "Conclusion\nYou’ve successfully run your first analysis in GLOSSA! Now it’s time to explore the outputs and dive into the results. Head over to the next section to learn how to interpret your findings: Explore the results."
   },
   {
-    "objectID": "pages/documentation/index.html",
-    "href": "pages/documentation/index.html",
-    "title": "GLOSSA documentation guide",
+    "objectID": "pages/documentation/installation_setup.html",
+    "href": "pages/documentation/installation_setup.html",
+    "title": "Installing and setting up GLOSSA",
     "section": "",
-    "text": "Welcome to the GLOSSA documentation! Here, you’ll find everything you need to understand, use, and get the most out of GLOSSA for species distribution modeling. Whether you’re new to modeling or already experienced, we’ve got guides, examples, and detailed explanations to help you.\nIf you’d like to contribute, check out our contribution guidelines. For questions, feel free to reach out via the contact form on the iMARES website."
+    "text": "This guide will walk you through installing GLOSSA on your machine, setting up your environment, and preparing to run your first analysis. By the end, you’ll be ready to use GLOSSA for species distribution modeling."
   },
   {
-    "objectID": "pages/documentation/index.html#new-to-glossa",
-    "href": "pages/documentation/index.html#new-to-glossa",
-    "title": "GLOSSA documentation guide",
-    "section": "New to GLOSSA?",
-    "text": "New to GLOSSA?\nStart with our how-to guides, which provide simple, step-by-step instructions for common tasks:\n\nWhat is GLOSSA?\nInstalling and setting up GLOSSA\nPreparing your data\nRunning a new analysis\nExplore the results\nExporting results and maps"
+    "objectID": "pages/documentation/installation_setup.html#system-requirements",
+    "href": "pages/documentation/installation_setup.html#system-requirements",
+    "title": "Installing and setting up GLOSSA",
+    "section": "1. System requirements",
+    "text": "1. System requirements\nBefore installing GLOSSA, ensure that your system meets the following requirements:\n\nR version: GLOSSA requires R version 4.0.0 or higher. If you don’t have R installed, you can download it from CRAN.\nOperating system: GLOSSA is compatible with Windows, macOS, and Linux.\nRStudio (optional but recommended): We recommend using RStudio as it provides useful tools for working with R. Download RStudio here."
   },
   {
-    "objectID": "pages/documentation/index.html#tutorials-and-examples",
-    "href": "pages/documentation/index.html#tutorials-and-examples",
-    "title": "GLOSSA documentation guide",
-    "section": "Tutorials and examples",
-    "text": "Tutorials and examples\nExplore real-world examples that guide you through complete analyses, from start to finish. You’ll also find specific tutorials on how to source and prepare your data for modeling:\n\nDownload and prepare occurrence data\nDownload and prepare environmental data\nGlobal species distribution model\nUsing a polygon to define the study area\nRunning GLOSSA on a regional scale"
+    "objectID": "pages/documentation/installation_setup.html#installing-glossa",
+    "href": "pages/documentation/installation_setup.html#installing-glossa",
+    "title": "Installing and setting up GLOSSA",
+    "section": "2. Installing GLOSSA",
+    "text": "2. Installing GLOSSA\n\nInstall from CRAN (stable version)\nTo install the latest stable version of GLOSSA from CRAN, open R or RStudio and run the following command:\ninstall.packages(\"glossa\")\n\n\nInstall the development version from GitHub (latest features)\nFor the latest features or bug fixes, you can install the development version from GitHub. First, install devtools:\ninstall.packages(\"devtools\")\nThen, install GLOSSA from GitHub:\ndevtools::install_github(\"iMARES-group/glossa\")"
   },
   {
-    "objectID": "pages/documentation/index.html#explanations-and-reference-docs",
-    "href": "pages/documentation/index.html#explanations-and-reference-docs",
-    "title": "GLOSSA documentation guide",
-    "section": "Explanations and reference docs",
-    "text": "Explanations and reference docs\nWant to know what’s happening behind the scenes? Here’s where you can dive deeper into the concepts, like how GLOSSA’s BART model works, how we generate pseudo-absences or detailed technical information about data formats and specific settings:\n\nHow does GLOSSA work?\nWhat is Bayesian Additive Regression Trees (BART)?\nHandling presence-only data with pseudo-absences"
+    "objectID": "pages/documentation/installation_setup.html#launching-glossa",
+    "href": "pages/documentation/installation_setup.html#launching-glossa",
+    "title": "Installing and setting up GLOSSA",
+    "section": "3. Launching GLOSSA",
+    "text": "3. Launching GLOSSA\nOnce GLOSSA is installed, you can launch it in R or RStudio by running:\nlibrary(glossa)\nrun_glossa()\nThis command starts the GLOSSA shiny web app, which will open in your default browser."
   },
   {
-    "objectID": "pages/documentation/index.html#common-issues-and-troubleshooting",
-    "href": "pages/documentation/index.html#common-issues-and-troubleshooting",
-    "title": "GLOSSA documentation guide",
-    "section": "Common issues and troubleshooting",
-    "text": "Common issues and troubleshooting\nFind solutions to common issues, such as installation problems, data formatting errors, and model performance concerns:\n\nTroubleshooting\nFAQs"
+    "objectID": "pages/documentation/installation_setup.html#verifying-your-installation",
+    "href": "pages/documentation/installation_setup.html#verifying-your-installation",
+    "title": "Installing and setting up GLOSSA",
+    "section": "4. Verifying Your Installation",
+    "text": "4. Verifying Your Installation\nAfter installation, you can verify that GLOSSA is correctly installed by checking the package version:\npackageVersion(\"glossa\")\nIf GLOSSA has been installed successfully, this will return the installed version number. The app should open in your web browser and be ready to use."
   },
   {
-    "objectID": "pages/documentation/index.html#contributing-to-glossa",
-    "href": "pages/documentation/index.html#contributing-to-glossa",
-    "title": "GLOSSA documentation guide",
-    "section": "Contributing to GLOSSA",
-    "text": "Contributing to GLOSSA\nInterested in contributing to GLOSSA? Learn how to get involved and what kinds of contributions we’re looking for:\n\nContribution guidelines"
-  },
-  {
-    "objectID": "pages/documentation/index.html#glossa-resources",
-    "href": "pages/documentation/index.html#glossa-resources",
-    "title": "GLOSSA documentation guide",
-    "section": "GLOSSA resources",
-    "text": "GLOSSA resources\nHere are some useful links to access GLOSSA resources:\n\nCRAN repository\nGitHub repository\niMARES website\nIssues and feature requests"
-  },
-  {
-    "objectID": "pages/documentation/explore_results.html",
-    "href": "pages/documentation/explore_results.html",
-    "title": "Explore the results",
-    "section": "",
-    "text": "After running your analysis in GLOSSA, the Reports tab presents several outputs and visualizations to help you interpret your species distribution model. This section walks you through each component of the results panel and explains how to explore and understand your model’s predictions, performance, and other key metrics."
-  },
-  {
-    "objectID": "pages/documentation/explore_results.html#select-species-or-occurrence-file",
-    "href": "pages/documentation/explore_results.html#select-species-or-occurrence-file",
-    "title": "Explore the results",
-    "section": "Select species or occurrence file",
-    "text": "Select species or occurrence file\nIf you’ve uploaded multiple species occurrence files, you can select which species’ results to view using the dropdown menu in the top-left corner. This will update all the plots, so they represent the predictions, validation metrics, and other outputs for the selected species.\nFor most of the visualizations, you can customize the view using the three dots icon . This allows you to change how the data is displayed, select between the native range and the suitable habitat model, select different projection layers, or explore various aspects of the model results in more detail."
-  },
-  {
-    "objectID": "pages/documentation/explore_results.html#key-metrics-in-the-first-row",
-    "href": "pages/documentation/explore_results.html#key-metrics-in-the-first-row",
-    "title": "Explore the results",
-    "section": "Key metrics in the first row",
-    "text": "Key metrics in the first row\nAt the top of the results panel, you’ll find key metrics summarizing the model’s predictions. First, there’s the species selector, which we discussed above. Next, you’ll see sparklines representing potential suitability for the selected projection scenario in the GLOSSA Predictions box.\n\nPotential suitable area (km2): This metric represents the total area (in square kilometers) predicted to be suitable for the species, calculated based on predicted presence/absence using the computed optimal cutoff.\nMean suitable probability: This value represents the average of all grid cells in the study area. For each grid cell, as we have a posterior predictive distribution, we used the mean of each grid cell to calculate the mean of the whole raster.\n\nThese two metrics help you inspect trends in suitable habitat over time. The big value represent the value of the last year, the sparkline shows year-by-year changes, and the displayed percentage indicates the change between the first 5% and the last 5% of the projection period. For instance, if your projection covers 100 years, the percentage shows the difference between the first five years and the last five years.\n\nPresences/Absences: This box tells you how many presence and absence (or pseudo-absence) records were used to fit the model, providing valuable information about the sample size.\n\nIn the example below, the habitat suitability has a decreasing trend, with around a 10% reduction from the beginning of the projection period. The model was fitted using a total of 800 points.\n\n\n\n\n\nThese metrics give you a quick overview of your model’s predictions and the data used for fitting."
-  },
-  {
-    "objectID": "pages/documentation/explore_results.html#explore-input-data",
-    "href": "pages/documentation/explore_results.html#explore-input-data",
-    "title": "Explore the results",
-    "section": "Explore input data",
-    "text": "Explore input data\nOn the two panels on the right we can explore the environmental variables used to fit the model and the occurrences that were kept and discarded (duplicates, thinning, missing values, etc.). These two plots are very useful because you can explore patterns in the environmental variables that could be related to patterns in species occurrences and predictions comparing with the plot on the left that we will discuss next. The environmental variables are represented in the scale they were used to fit the model, so if you choose to standardize you’ll see the standardized covariates. And the plot of the occurrences allows you to know which records has been filtered by GLOSSA."
-  },
-  {
-    "objectID": "pages/documentation/explore_results.html#glossa-projections",
-    "href": "pages/documentation/explore_results.html#glossa-projections",
-    "title": "Explore the results",
-    "section": "GLOSSA projections",
-    "text": "GLOSSA projections\nThis section provides a map showing the predicted species distribution across the study area. The heat map uses color gradients to represent the probability of species presence, where warmer colors indicate higher probabilities, and cooler colors indicate lower probabilities or unsuitable habitats. You can adjust the view to show different projection layers, timestamps, and metrics from the model’s posterior distribution (e.g., mean probability, median, or quantiles).\nUsing the three-dot icon , you can open the sidebar to customize the display:\n\nChoose between predictions based on fitting layers or projection layers.\nToggle between viewing the native range or the suitable habitat predictions.\nSelect which value from the posterior distribution to display (e.g., mean probability, median, etc.).\nOverlay points used to fit the model to visualize how occurrence data aligns with the predictions.\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nChanging the projection scenario in this panel will also update the sparklines at the top of the results panel, reflecting the trend in habitat suitability for that scenario."
-  },
-  {
-    "objectID": "pages/documentation/explore_results.html#additional-results",
-    "href": "pages/documentation/explore_results.html#additional-results",
-    "title": "Explore the results",
-    "section": "Additional results",
-    "text": "Additional results\nIn the next row of the results panel, you can view the additional analyses that you requested in GLOSSA:\n\nFunctional responses: Shows the functional responses for each environmental variable, showing how changes in each variable affect the probability of species presence. These curves are partial dependence plots that provide insights into the environmental factors driving species distributions.\nVariable importance: The variable importance plot shows how much each environmental variable influences the model’s predictions. GLOSSA uses a permutation-based approach to measure the effect of shuffling each variable’s values on the model’s prediction accuracy. Variables with high importance scores play a larger role in predicting species presence, helping you identify the key drivers of habitat suitability.\nCross-Validation: If you enabled cross-validation, this panel shows the performance metrics from k-fold cross-validation. The radar plot displays metrics such as precision, sensitivity, specificity, false discovery rate, F-score, accuracy, and TSS (True Skill Statistic)."
-  },
-  {
-    "objectID": "pages/documentation/explore_results.html#model-summary",
-    "href": "pages/documentation/explore_results.html#model-summary",
-    "title": "Explore the results",
-    "section": "Model Summary",
-    "text": "Model Summary\nThe model summary panel provides key validation metrics for the model fitting:\n\nROC Curve: This plot evaluates the model’s ability to distinguish between species presence and absence across different probability thresholds, showing the AUC (Area Under the Curve) as an overall measure of accuracy.\nConfusion Matrix Plot: This plot breaks down true positives, false positives, true negatives, and false negatives, and shows their predicted probability with the computed optimal cutoff. classification performance.\nDistribution of Fitted Values: This histogram shows the distribution of predicted probabilities across the study area."
-  },
-  {
-    "objectID": "pages/documentation/explore_results.html#exporting-results",
-    "href": "pages/documentation/explore_results.html#exporting-results",
-    "title": "Explore the results",
-    "section": "Exporting Results",
-    "text": "Exporting Results\nOnce you’re satisfied with your results, you can use the download icon  to export any plot or visualization. Export formats include PNG, JPG, SVG, and PGF. You can also adjust the height and width of the exported plot."
-  },
-  {
-    "objectID": "pages/documentation/explore_results.html#conclusion",
-    "href": "pages/documentation/explore_results.html#conclusion",
-    "title": "Explore the results",
+    "objectID": "pages/documentation/installation_setup.html#conclusion",
+    "href": "pages/documentation/installation_setup.html#conclusion",
+    "title": "Installing and setting up GLOSSA",
     "section": "Conclusion",
-    "text": "Conclusion\nYou’ve now learned how to navigate the GLOSSA report panel to explore key metrics, validate model performance, and gain insights into the factors driving species distributions. The next step is to export your results, save the projection rasters, the data used for model fitting, and other analysis outputs: Exporting results and maps."
+    "text": "Conclusion\nYou’re now ready to start working with GLOSSA! After installation, you can move on to preparing your data and running your first analysis. Head over to the Preparing your data section to learn how to format your species occurrence data and environmental layers for GLOSSA.\nIf you encounter any issues during installation, visit our Common issues and troubleshooting page for solutions."
   },
   {
-    "objectID": "how_to_cite.html",
-    "href": "how_to_cite.html",
-    "title": "How to cite GLOSSA",
+    "objectID": "pages/documentation/export_outputs.html",
+    "href": "pages/documentation/export_outputs.html",
+    "title": "Exporting results",
     "section": "",
-    "text": "How to cite GLOSSA\nThank you for using GLOSSA. Proper citation helps to further develop the tool and highlight its impact on the research community.\n\nMain citation for GLOSSA\nTo cite GLOSSA in publications, please use the following reference:\n\nMestre-Tomás J., Fuster-Alonso, A., Bellido, J. M., & Coll, M. (2024). glossa: User-Friendly ‘shiny’ App for Bayesian Species Distribution Models. R package version 1.0.0, https://cran.r-project.org/package=glossa\n\nCorresponding BibTeX entry:\n@Manual{,\n  title = {glossa: User-Friendly 'shiny' App for Bayesian Species Distribution Models},\n  author = {Jorge Mestre-Tomás and Alba Fuster-Alonso and José M. Bellido and Marta Coll},\n  year = {2024},\n  note = {R package version 1.0.0},\n  url = {https://cran.r-project.org/package=glossa},\n}\n\n\nAdditional citations\n\nBayesian Additive Regression Trees (BART)\nIf you use the BART model in your analyses, please include this reference:\n\nChipman, H. A., George, E. I., & McCulloch, R. E. (2010). BART: Bayesian Additive Regression Trees. The Annals of Applied Statistics, 4(1), 266–298. doi: https://doi.org/10.1214/09-AOAS285\n\n\n\nGlobal-scale BART modeling\nFor global-scale analyses using BART, please include the following citation:\n\nFuster-Alonso, A., Mestre-Tomás, J., Baez, J. C., Pennino, M. G., Barber, X., Bellido, J. M., … & Coll, M. (2024). Machine learning applied to global scale species distribution models (SDMs). PREPRINT (Version 1) available at Research Square. doi: https://doi.org/10.21203/rs.3.rs-4411399/v1."
+    "text": "In this section, we’ll learn how to export the generated results from the GLOSSA analysis, understand the structure of the downloaded files, and show tips for working with these files."
   },
   {
-    "objectID": "contact_us.html",
-    "href": "contact_us.html",
-    "title": "Contact us",
-    "section": "",
-    "text": "We value your feedback! Whether you have questions about GLOSSA, need technical support, or are interested in collaboration, please feel free to reach out through any of the options below.\n\n\nFor issues, feature requests, questions, or general feedback, please use the Issues tab on our GitHub repository:\n\nGLOSSA GitHub issues\n\n\n\n\nStay connected and follow our latest news and updates on social media:\n\n@iMARES_group\n\n\n\n\nFor special support requests, or collaborations, please contact us via the contact form at the end of the iMARES website:\n\niMARES\n\n\n\nThank you for your support! If you want to know more about the group go and visit our website: iMARES"
+    "objectID": "pages/documentation/export_outputs.html#the-export-form",
+    "href": "pages/documentation/export_outputs.html#the-export-form",
+    "title": "Exporting results",
+    "section": "The export form",
+    "text": "The export form\nWhen opening the Exports tab, you’ll find a form to select which results to export. This form provides access to all results displayed in the Reports tab, as well as the data used to fit the models.\n\n\n\n\n\nIn the first field, select the species or occurrence files you want to export—multiple species can be chosen. In the second field, choose which prediction results to export: either the predictions based on the average environmental scenario used to fit the model or predictions from the different projection layers. Next, decide whether to export the results for the native range (NR) model, the suitable habitat (SH) model, or both.\nSince GLOSSA operates within a Bayesian framework, each grid cell has an associated predictive posterior distribution. In the Fields field, you can choose which summary statistics to save:\n\nmean: mean value\nmedian: quantile 0.5\nsd: standard deviation\nq0.025: quantile 0.025\nq0.975: quantile 0.975\ndiff: difference between quantile 0.975 and 0.025\npotential_presences: predicted presences (1) and absences (0) using the estimated optimal cutoff.\n\nFor these raster files, you can select the file type in the next field (TIFF, NetCDF, or ASCII).\nAdditionally, you can export other data, such as:\n\nThe processed data used to fit the model\nThe confusion matrix of predicted vs. observed occurrences\nVariable importance scores\nFunctional response plots\nCross-validation metrics\nThe value of the estimated probability cutoff for presence/absence.\n\nIf you want to export everything, use the Select All button.\nOnce you have selected what you want to export, click on the Save GLOSSA Results button. A ZIP file containing all selected results will be downloaded to your local machine."
   },
   {
-    "objectID": "contact_us.html#github",
-    "href": "contact_us.html#github",
-    "title": "Contact us",
-    "section": "",
-    "text": "For issues, feature requests, questions, or general feedback, please use the Issues tab on our GitHub repository:\n\nGLOSSA GitHub issues"
+    "objectID": "pages/documentation/export_outputs.html#exported-zip-file",
+    "href": "pages/documentation/export_outputs.html#exported-zip-file",
+    "title": "Exporting results",
+    "section": "Exported ZIP file",
+    "text": "Exported ZIP file\nWhen you export results from GLOSSA, a ZIP file is created that organizes the outputs in a structured way, making it easier to explore specific files and load them into R for further analysis.\n\nZIP file overview\nThe ZIP file is organized by species, with a folder for each species or occurrence file you analyzed (e.g., sp1, sp2). Within each species folder, there are several subfolders and files containing specific results:\n\nsp_model_data.csv: A tab-separated file with the dataset used to fit the model after processing the data (decimalLongitude and decimalLatitude: longitude and latitude from the occurrence file., timestamp: timestamp values, pa: response variable indicating presence or absence, Xs: one column per uploaded predictor variable, grid_long and grid_lat: longitude and latitude from the raster created for the native range model).\nsp_presence_probability_cutoff.csv: Estimated optimal probability cutoff for presence/absence prediction for both the native range and suitable habitat models.\nconfusion_matrix: Contains tab-separated files (NR and SH) with confusion matrices for each model, comparing observed occurrences with predicted values and probabilities.\ncross_validation: Includes tab-separated files (NR and SH) with cross-validation results for \\(k = 10\\) folds, one row per fold.\nfunctional_responses: Contains one tab-separated file per predictor variable in the suitable habitat model, with partial dependence plot values. Each file includes a column with talues of the predictor variable used to construct the plot and the probability values (mean and quantiles 0.025 and 0.975 columns) that represent how predictor variables influence the model, that is, the changes relative to the overall central tendency.\nnative_range and suitable_habitat: These folders contain raster files with predictions for each model type (native range and suitable habitat), organized as follows:\n\nfit_layers: Results from the fitting dataset, organized by summary statistics:\n\ndiff: Difference between the 97.5th and 2.5th quantiles.\nmean: Mean prediction value.\nmedian: Median prediction (quantile 0.5).\npotential_presences: Binary presence-absence predictions based on the optimal cutoff.\nq0.025 and q0.975: Lower and upper quantiles of the posterior distribution.\nsd: Standard deviation.\n\nprojections: Contains projections for each environmental scenario (e.g., project_layers_1, project_layers_2), with the same summary statistics as above.\n\nvariable_importance: Contains a tab-separated file for each model (NR and SH) listing the variable importance score for each predictor variable. Each row represents one of the 10 permutations performed.\n\n\n\nWorking with the exported Files in R\nAll the exported files are in tab-separated format except for raster files, which are saved in the format you selected. You can load the CSV files into R with the read.csv() and read.table() functions, and raster files with the rast() function from the terra package. For example:\n# Load functional responses\nfunctional_responses &lt;- read.table(\"path/to/sp1/functional_responses/sp1_functional_response_x1.csv\", header = TRUE, sep = \"\\t\", dec = \".\")\nplot(functional_responses$value, functional_responses$mean)\n\n# Load projection file\nlibrary(terra)\nprojection &lt;- rast(\"path/to/sp1/suitable_habitat/projections/project_layers_1/mean/sp1_suitable_habitat_projections_1_mean.tif\")\nplot(projection)\n\n\n\n\n\n\nNote\n\n\n\nIf you’re exporting data for multiple species or comparing models, automating workflows in R can streamline your analysis."
   },
   {
-    "objectID": "contact_us.html#x-twitter",
-    "href": "contact_us.html#x-twitter",
-    "title": "Contact us",
-    "section": "",
-    "text": "Stay connected and follow our latest news and updates on social media:\n\n@iMARES_group"
-  },
-  {
-    "objectID": "contact_us.html#imares-website",
-    "href": "contact_us.html#imares-website",
-    "title": "Contact us",
-    "section": "",
-    "text": "For special support requests, or collaborations, please contact us via the contact form at the end of the iMARES website:\n\niMARES\n\n\n\nThank you for your support! If you want to know more about the group go and visit our website: iMARES"
+    "objectID": "pages/documentation/export_outputs.html#conclusion",
+    "href": "pages/documentation/export_outputs.html#conclusion",
+    "title": "Exporting results",
+    "section": "Conclusion",
+    "text": "Conclusion\nCongratulations! You’ve now learned how to run a complete analysis with GLOSSA, from data preparation to output export. Now it’s time for you to try it with your own data! To explore more tutorials or real case examples, visit Tutorials and Examples."
   },
   {
     "objectID": "get_started.html",
@@ -357,53 +280,172 @@
     "text": "Next Steps\nThis Quick start guide for GLOSSA should help you get up and running. For more detailed instructions, check out the Tutorial tab, where you’ll find tutorials on how to prepare your data for GLOSSA or even worked examples that guide you through using GLOSSA from end-to-end.\nAdditionally, the Documentation tab offers a comprehensive guide to every aspect of the GLOSSA app. Here, you’ll find not only in-depth information on how GLOSSA works but also tips and tricks to help you get the most out of the app.\nIf you have further questions, visit the FAQs tab, or if you still need help, you can reach us through the Contact Us tab.\nThank you for using GLOSSA, and enjoy your species distribution modeling!"
   },
   {
-    "objectID": "pages/documentation/export_outputs.html",
-    "href": "pages/documentation/export_outputs.html",
-    "title": "Exporting results and maps",
+    "objectID": "contact_us.html",
+    "href": "contact_us.html",
+    "title": "Contact us",
     "section": "",
-    "text": "Our team is hard at work to provide you with comprehensive guides and resources.\nThank you for your patience. Stay tuned for updates!"
+    "text": "We value your feedback! Whether you have questions about GLOSSA, need technical support, or are interested in collaboration, please feel free to reach out through any of the options below.\n\n\nFor issues, feature requests, questions, or general feedback, please use the Issues tab on our GitHub repository:\n\nGLOSSA GitHub issues\n\n\n\n\nStay connected and follow our latest news and updates on social media:\n\n@iMARES_group\n\n\n\n\nFor special support requests, or collaborations, please contact us via the contact form at the end of the iMARES website:\n\niMARES\n\n\n\nThank you for your support! If you want to know more about the group go and visit our website: iMARES"
   },
   {
-    "objectID": "pages/documentation/installation_setup.html",
-    "href": "pages/documentation/installation_setup.html",
-    "title": "Installing and setting up GLOSSA",
+    "objectID": "contact_us.html#github",
+    "href": "contact_us.html#github",
+    "title": "Contact us",
     "section": "",
-    "text": "This guide will walk you through installing GLOSSA on your machine, setting up your environment, and preparing to run your first analysis. By the end, you’ll be ready to use GLOSSA for species distribution modeling."
+    "text": "For issues, feature requests, questions, or general feedback, please use the Issues tab on our GitHub repository:\n\nGLOSSA GitHub issues"
   },
   {
-    "objectID": "pages/documentation/installation_setup.html#system-requirements",
-    "href": "pages/documentation/installation_setup.html#system-requirements",
-    "title": "Installing and setting up GLOSSA",
-    "section": "1. System requirements",
-    "text": "1. System requirements\nBefore installing GLOSSA, ensure that your system meets the following requirements:\n\nR version: GLOSSA requires R version 4.0.0 or higher. If you don’t have R installed, you can download it from CRAN.\nOperating system: GLOSSA is compatible with Windows, macOS, and Linux.\nRStudio (optional but recommended): We recommend using RStudio as it provides useful tools for working with R. Download RStudio here."
+    "objectID": "contact_us.html#x-twitter",
+    "href": "contact_us.html#x-twitter",
+    "title": "Contact us",
+    "section": "",
+    "text": "Stay connected and follow our latest news and updates on social media:\n\n@iMARES_group"
   },
   {
-    "objectID": "pages/documentation/installation_setup.html#installing-glossa",
-    "href": "pages/documentation/installation_setup.html#installing-glossa",
-    "title": "Installing and setting up GLOSSA",
-    "section": "2. Installing GLOSSA",
-    "text": "2. Installing GLOSSA\n\nInstall from CRAN (stable version)\nTo install the latest stable version of GLOSSA from CRAN, open R or RStudio and run the following command:\ninstall.packages(\"glossa\")\n\n\nInstall the development version from GitHub (latest features)\nFor the latest features or bug fixes, you can install the development version from GitHub. First, install devtools:\ninstall.packages(\"devtools\")\nThen, install GLOSSA from GitHub:\ndevtools::install_github(\"iMARES-group/glossa\")"
+    "objectID": "contact_us.html#imares-website",
+    "href": "contact_us.html#imares-website",
+    "title": "Contact us",
+    "section": "",
+    "text": "For special support requests, or collaborations, please contact us via the contact form at the end of the iMARES website:\n\niMARES\n\n\n\nThank you for your support! If you want to know more about the group go and visit our website: iMARES"
   },
   {
-    "objectID": "pages/documentation/installation_setup.html#launching-glossa",
-    "href": "pages/documentation/installation_setup.html#launching-glossa",
-    "title": "Installing and setting up GLOSSA",
-    "section": "3. Launching GLOSSA",
-    "text": "3. Launching GLOSSA\nOnce GLOSSA is installed, you can launch it in R or RStudio by running:\nlibrary(glossa)\nrun_glossa()\nThis command starts the GLOSSA shiny web app, which will open in your default browser."
+    "objectID": "how_to_cite.html",
+    "href": "how_to_cite.html",
+    "title": "How to cite GLOSSA",
+    "section": "",
+    "text": "How to cite GLOSSA\nThank you for using GLOSSA. Proper citation helps to further develop the tool and highlight its impact on the research community.\n\nMain citation for GLOSSA\nTo cite GLOSSA in publications, please use the following reference:\n\nMestre-Tomás J., Fuster-Alonso, A., Bellido, J. M., & Coll, M. (2024). glossa: User-Friendly ‘shiny’ App for Bayesian Species Distribution Models. R package version 1.0.0, https://cran.r-project.org/package=glossa\n\nCorresponding BibTeX entry:\n@Manual{,\n  title = {glossa: User-Friendly 'shiny' App for Bayesian Species Distribution Models},\n  author = {Jorge Mestre-Tomás and Alba Fuster-Alonso and José M. Bellido and Marta Coll},\n  year = {2024},\n  note = {R package version 1.0.0},\n  url = {https://cran.r-project.org/package=glossa},\n}\n\n\nAdditional citations\n\nBayesian Additive Regression Trees (BART)\nIf you use the BART model in your analyses, please include this reference:\n\nChipman, H. A., George, E. I., & McCulloch, R. E. (2010). BART: Bayesian Additive Regression Trees. The Annals of Applied Statistics, 4(1), 266–298. doi: https://doi.org/10.1214/09-AOAS285\n\n\n\nGlobal-scale BART modeling\nFor global-scale analyses using BART, please include the following citation:\n\nFuster-Alonso, A., Mestre-Tomás, J., Baez, J. C., Pennino, M. G., Barber, X., Bellido, J. M., … & Coll, M. (2024). Machine learning applied to global scale species distribution models (SDMs). PREPRINT (Version 1) available at Research Square. doi: https://doi.org/10.21203/rs.3.rs-4411399/v1."
   },
   {
-    "objectID": "pages/documentation/installation_setup.html#verifying-your-installation",
-    "href": "pages/documentation/installation_setup.html#verifying-your-installation",
-    "title": "Installing and setting up GLOSSA",
-    "section": "4. Verifying Your Installation",
-    "text": "4. Verifying Your Installation\nAfter installation, you can verify that GLOSSA is correctly installed by checking the package version:\npackageVersion(\"glossa\")\nIf GLOSSA has been installed successfully, this will return the installed version number. The app should open in your web browser and be ready to use."
+    "objectID": "pages/documentation/explore_results.html",
+    "href": "pages/documentation/explore_results.html",
+    "title": "Explore the results",
+    "section": "",
+    "text": "After running your analysis in GLOSSA, the Reports tab presents several outputs and visualizations to help you interpret your species distribution model. This section walks you through each component of the results panel and explains how to explore and understand your model’s predictions, performance, and other key metrics."
   },
   {
-    "objectID": "pages/documentation/installation_setup.html#conclusion",
-    "href": "pages/documentation/installation_setup.html#conclusion",
-    "title": "Installing and setting up GLOSSA",
+    "objectID": "pages/documentation/explore_results.html#select-species-or-occurrence-file",
+    "href": "pages/documentation/explore_results.html#select-species-or-occurrence-file",
+    "title": "Explore the results",
+    "section": "Select species or occurrence file",
+    "text": "Select species or occurrence file\nIf you’ve uploaded multiple species occurrence files, you can select which species’ results to view using the dropdown menu in the top-left corner. This will update all the plots, so they represent the predictions, validation metrics, and other outputs for the selected species.\nFor most of the visualizations, you can customize the view using the three dots icon . This allows you to change how the data is displayed, select between the native range and the suitable habitat model, select different projection layers, or explore various aspects of the model results in more detail."
+  },
+  {
+    "objectID": "pages/documentation/explore_results.html#key-metrics-in-the-first-row",
+    "href": "pages/documentation/explore_results.html#key-metrics-in-the-first-row",
+    "title": "Explore the results",
+    "section": "Key metrics in the first row",
+    "text": "Key metrics in the first row\nAt the top of the results panel, you’ll find key metrics summarizing the model’s predictions. First, there’s the species selector, which we discussed above. Next, you’ll see sparklines representing potential suitability for the selected projection scenario in the GLOSSA Predictions box.\n\nPotential suitable area (km2): This metric represents the total area (in square kilometers) predicted to be suitable for the species, calculated based on predicted presence/absence using the computed optimal cutoff.\nMean suitable probability: This value represents the average of all grid cells in the study area. For each grid cell, as we have a posterior predictive distribution, we used the mean of each grid cell to calculate the mean of the whole raster.\n\nThese two metrics help you inspect trends in suitable habitat over time. The big value represent the value of the last year, the sparkline shows year-by-year changes, and the displayed percentage indicates the change between the first 5% and the last 5% of the projection period. For instance, if your projection covers 100 years, the percentage shows the difference between the first five years and the last five years.\n\nPresences/Absences: This box tells you how many presence and absence (or pseudo-absence) records were used to fit the model, providing valuable information about the sample size.\n\nIn the example below, the habitat suitability has a decreasing trend, with around a 10% reduction from the beginning of the projection period. The model was fitted using a total of 800 points.\n\n\n\n\n\nThese metrics give you a quick overview of your model’s predictions and the data used for fitting."
+  },
+  {
+    "objectID": "pages/documentation/explore_results.html#explore-input-data",
+    "href": "pages/documentation/explore_results.html#explore-input-data",
+    "title": "Explore the results",
+    "section": "Explore input data",
+    "text": "Explore input data\nOn the two panels on the right we can explore the environmental variables used to fit the model and the occurrences that were kept and discarded (duplicates, thinning, missing values, etc.). These two plots are very useful because you can explore patterns in the environmental variables that could be related to patterns in species occurrences and predictions comparing with the plot on the left that we will discuss next. The environmental variables are represented in the scale they were used to fit the model, so if you choose to standardize you’ll see the standardized covariates. And the plot of the occurrences allows you to know which records has been filtered by GLOSSA."
+  },
+  {
+    "objectID": "pages/documentation/explore_results.html#glossa-projections",
+    "href": "pages/documentation/explore_results.html#glossa-projections",
+    "title": "Explore the results",
+    "section": "GLOSSA projections",
+    "text": "GLOSSA projections\nThis section provides a map showing the predicted species distribution across the study area. The heat map uses color gradients to represent the probability of species presence, where warmer colors indicate higher probabilities, and cooler colors indicate lower probabilities or unsuitable habitats. You can adjust the view to show different projection layers, timestamps, and metrics from the model’s posterior distribution (e.g., mean probability, median, or quantiles).\nUsing the three-dot icon , you can open the sidebar to customize the display:\n\nChoose between predictions based on fitting layers or projection layers.\nToggle between viewing the native range or the suitable habitat predictions.\nSelect which value from the posterior distribution to display (e.g., mean probability, median, etc.).\nOverlay points used to fit the model to visualize how occurrence data aligns with the predictions.\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nChanging the projection scenario in this panel will also update the sparklines at the top of the results panel, reflecting the trend in habitat suitability for that scenario."
+  },
+  {
+    "objectID": "pages/documentation/explore_results.html#additional-results",
+    "href": "pages/documentation/explore_results.html#additional-results",
+    "title": "Explore the results",
+    "section": "Additional results",
+    "text": "Additional results\nIn the next row of the results panel, you can view the additional analyses that you requested in GLOSSA:\n\nFunctional responses: Shows the functional responses for each environmental variable, showing how changes in each variable affect the probability of species presence. These curves are partial dependence plots that provide insights into the environmental factors driving species distributions.\nVariable importance: The variable importance plot shows how much each environmental variable influences the model’s predictions. GLOSSA uses a permutation-based approach to measure the effect of shuffling each variable’s values on the model’s prediction accuracy. Variables with high importance scores play a larger role in predicting species presence, helping you identify the key drivers of habitat suitability.\nCross-Validation: If you enabled cross-validation, this panel shows the performance metrics from k-fold cross-validation. The radar plot displays metrics such as precision, sensitivity, specificity, false discovery rate, F-score, accuracy, and TSS (True Skill Statistic)."
+  },
+  {
+    "objectID": "pages/documentation/explore_results.html#model-summary",
+    "href": "pages/documentation/explore_results.html#model-summary",
+    "title": "Explore the results",
+    "section": "Model summary",
+    "text": "Model summary\nThe model summary panel provides key validation metrics for the model fitting:\n\nROC curve: This plot evaluates the model’s ability to distinguish between species presence and absence across different probability thresholds, showing the AUC (Area Under the Curve) as an overall measure of accuracy.\nConfusion matrix plot: This plot breaks down true positives, false positives, true negatives, and false negatives, and shows their predicted probability with the computed optimal cutoff. classification performance.\nDistribution of fitted values: This histogram shows the distribution of predicted probabilities across the study area."
+  },
+  {
+    "objectID": "pages/documentation/explore_results.html#exporting-plots",
+    "href": "pages/documentation/explore_results.html#exporting-plots",
+    "title": "Explore the results",
+    "section": "Exporting plots",
+    "text": "Exporting plots\nOnce you’re satisfied with your results, you can use the download icon  to export any plot or visualization. Export formats include PNG, JPG, SVG, and PGF. You can also adjust the height and width of the exported plot."
+  },
+  {
+    "objectID": "pages/documentation/explore_results.html#conclusion",
+    "href": "pages/documentation/explore_results.html#conclusion",
+    "title": "Explore the results",
     "section": "Conclusion",
-    "text": "Conclusion\nYou’re now ready to start working with GLOSSA! After installation, you can move on to preparing your data and running your first analysis. Head over to the Preparing your data section to learn how to format your species occurrence data and environmental layers for GLOSSA.\nIf you encounter any issues during installation, visit our Common issues and troubleshooting page for solutions."
+    "text": "Conclusion\nYou’ve now learned how to navigate the GLOSSA report panel to explore key metrics, validate model performance, and gain insights into the factors driving species distributions. The next step is to export your results, save the projection rasters, the data used for model fitting, and other analysis outputs: Exporting results."
+  },
+  {
+    "objectID": "pages/documentation/index.html",
+    "href": "pages/documentation/index.html",
+    "title": "GLOSSA documentation guide",
+    "section": "",
+    "text": "Welcome to the GLOSSA documentation! Here, you’ll find everything you need to understand, use, and get the most out of GLOSSA for species distribution modeling. Whether you’re new to modeling or already experienced, we’ve got guides, examples, and detailed explanations to help you.\nIf you’d like to contribute, check out our contribution guidelines. For questions, feel free to reach out via the contact form on the iMARES website."
+  },
+  {
+    "objectID": "pages/documentation/index.html#new-to-glossa",
+    "href": "pages/documentation/index.html#new-to-glossa",
+    "title": "GLOSSA documentation guide",
+    "section": "New to GLOSSA?",
+    "text": "New to GLOSSA?\nStart with our how-to guides, which provide simple, step-by-step instructions for common tasks:\n\nWhat is GLOSSA?\nInstalling and setting up GLOSSA\nPreparing your data\nRunning a new analysis\nExplore the results\nExporting results"
+  },
+  {
+    "objectID": "pages/documentation/index.html#tutorials-and-examples",
+    "href": "pages/documentation/index.html#tutorials-and-examples",
+    "title": "GLOSSA documentation guide",
+    "section": "Tutorials and examples",
+    "text": "Tutorials and examples\nExplore real-world examples that guide you through complete analyses, from start to finish. You’ll also find specific tutorials on how to source and prepare your data for modeling:\n\nDownload and prepare occurrence data\nDownload and prepare environmental data\nGlobal species distribution model\nUsing a polygon to define the study area\nRunning GLOSSA on a regional scale"
+  },
+  {
+    "objectID": "pages/documentation/index.html#explanations-and-reference-docs",
+    "href": "pages/documentation/index.html#explanations-and-reference-docs",
+    "title": "GLOSSA documentation guide",
+    "section": "Explanations and reference docs",
+    "text": "Explanations and reference docs\nWant to know what’s happening behind the scenes? Here’s where you can dive deeper into the concepts, like how GLOSSA’s BART model works, how we generate pseudo-absences or detailed technical information about data formats and specific settings:\n\nHow does GLOSSA work?\nWhat is Bayesian Additive Regression Trees (BART)?\nGenerating pseudo-absences for presence-only data"
+  },
+  {
+    "objectID": "pages/documentation/index.html#common-issues-and-troubleshooting",
+    "href": "pages/documentation/index.html#common-issues-and-troubleshooting",
+    "title": "GLOSSA documentation guide",
+    "section": "Common issues and troubleshooting",
+    "text": "Common issues and troubleshooting\nFind solutions to common issues, such as installation problems, data formatting errors, and model performance concerns:\n\nTroubleshooting\nFAQs"
+  },
+  {
+    "objectID": "pages/documentation/index.html#contributing-to-glossa",
+    "href": "pages/documentation/index.html#contributing-to-glossa",
+    "title": "GLOSSA documentation guide",
+    "section": "Contributing to GLOSSA",
+    "text": "Contributing to GLOSSA\nInterested in contributing to GLOSSA? Learn how to get involved and what kinds of contributions we’re looking for:\n\nContribution guidelines"
+  },
+  {
+    "objectID": "pages/documentation/index.html#glossa-resources",
+    "href": "pages/documentation/index.html#glossa-resources",
+    "title": "GLOSSA documentation guide",
+    "section": "GLOSSA resources",
+    "text": "GLOSSA resources\nHere are some useful links to access GLOSSA resources:\n\nCRAN repository\nGitHub repository\niMARES website\nIssues and feature requests"
+  },
+  {
+    "objectID": "pages/documentation/pseudo_absences.html",
+    "href": "pages/documentation/pseudo_absences.html",
+    "title": "Generating pseudo-absences for presence-only data",
+    "section": "",
+    "text": "When dealing with presence-only species distribution data, two main approaches are commonly used to handle the absence of true absence points. The first approach is to model the presence points directly as a point process, which treats presences as an observed spatial pattern. This approach doesn’t require absence data and instead estimates the intensity of occurrences across the study area. The second approach is to generate pseudo-absence points, creating false absences across the study region, allowing the model to learn from contrasting presence and absence locations.\nIn GLOSSA, we take the second approach as we fit a Bayesian Additive Regression Trees (BART) model using a binary response variable (presence = 1, absence = 0) with a probit link function. Generating pseudo-absences allows the model to estimate the probability of species presence by learning from both the observed presences and the generated pseudo-absences."
+  },
+  {
+    "objectID": "pages/documentation/pseudo_absences.html#the-challenge-of-generating-pseudo-absences",
+    "href": "pages/documentation/pseudo_absences.html#the-challenge-of-generating-pseudo-absences",
+    "title": "Generating pseudo-absences for presence-only data",
+    "section": "The challenge of generating pseudo-absences",
+    "text": "The challenge of generating pseudo-absences\nGenerating pseudo-absences for presence-only data is a critical decision in species distribution modeling. There exist multiple methods for generating pseudo-absences, each with its own strengths and limitations, and there is currently no consensus on a standard approach. Some common methods include random sampling, geographic exclusion (e.g., excluding areas close to presence points), and environmental filtering (e.g., selecting pseudo-absences in contrasting environmental conditions).\nEach method can influence model outcomes differently, depending on the study area, species, and modeling objectives. Given the absence of a definitive standard, GLOSSA uses a balanced random sampling approach that provides broad applicability and ease of use across diverse datasets."
+  },
+  {
+    "objectID": "pages/documentation/pseudo_absences.html#pseudo-absence-generation-with-glossa",
+    "href": "pages/documentation/pseudo_absences.html#pseudo-absence-generation-with-glossa",
+    "title": "Generating pseudo-absences for presence-only data",
+    "section": "Pseudo-absence generation with GLOSSA",
+    "text": "Pseudo-absence generation with GLOSSA\nWhen you upload an occurrence file with presence-only data (the pa column just includes ones or is missing), GLOSSA uses a balanced random sampling approach for generating pseudo-absences, that is, GLOSSA generates pseudo-absence points randomly across the defined study area, ensuring that the number of pseudo-absence points matches the number of presence points.\n\n\n\n\n\n\nNote\n\n\n\nThe spatial extent within which pseudo-absences are generated is an essential factor.\n\n\nWhen the presence data includes several timestamps, GLOSSA generates the same number of pseudo-absences as presences for each time period. This approach ensures that the model captures temporal variation in species occurrence, which can be important for species with temporal patterns.\n\n\n\n\n\n\nNote\n\n\n\nIf you prefer an alternative method for generating pseudo-absences, you can create them outside of GLOSSA using your preferred method and include them in your occurrence putting a 0 in the pa column of these records."
   },
   {
     "objectID": "pages/documentation/what_is_glossa.html",

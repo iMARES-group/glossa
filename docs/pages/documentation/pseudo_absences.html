@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Documentation - GLOSSA</title>
+<title>Pseudo-absences - GLOSSA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/documentation/what_is_glossa.html" rel="next">
+<link href="../../pages/tutorials_examples/Siganus_luridus_example3.html" rel="prev">
 <link href="../../images/logo_glossa.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -138,7 +138,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/index.html">GLOSSA documentation guide</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/pseudo_absences.html">Explanations and reference docs</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -152,7 +152,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/documentation/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../pages/documentation/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GLOSSA documentation guide</span></a>
   </div>
 </li>
@@ -234,7 +234,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../pages/documentation/pseudo_absences.html" class="sidebar-item-text sidebar-link">
+            <a href="../../pages/documentation/pseudo_absences.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Explanations and reference docs</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -243,7 +243,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/documentation/pseudo_absences.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/documentation/pseudo_absences.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Generating pseudo-absences for presence-only data</span></a>
   </div>
 </li>
@@ -259,21 +259,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#new-to-glossa" id="toc-new-to-glossa" class="nav-link active" data-scroll-target="#new-to-glossa">New to GLOSSA?</a></li>
-  <li><a href="#tutorials-and-examples" id="toc-tutorials-and-examples" class="nav-link" data-scroll-target="#tutorials-and-examples">Tutorials and examples</a></li>
-  <li><a href="#explanations-and-reference-docs" id="toc-explanations-and-reference-docs" class="nav-link" data-scroll-target="#explanations-and-reference-docs">Explanations and reference docs</a></li>
-  <li><a href="#common-issues-and-troubleshooting" id="toc-common-issues-and-troubleshooting" class="nav-link" data-scroll-target="#common-issues-and-troubleshooting">Common issues and troubleshooting</a></li>
-  <li><a href="#contributing-to-glossa" id="toc-contributing-to-glossa" class="nav-link" data-scroll-target="#contributing-to-glossa">Contributing to GLOSSA</a></li>
-  <li><a href="#glossa-resources" id="toc-glossa-resources" class="nav-link" data-scroll-target="#glossa-resources">GLOSSA resources</a></li>
+  <li><a href="#the-challenge-of-generating-pseudo-absences" id="toc-the-challenge-of-generating-pseudo-absences" class="nav-link active" data-scroll-target="#the-challenge-of-generating-pseudo-absences">The challenge of generating pseudo-absences</a></li>
+  <li><a href="#pseudo-absence-generation-with-glossa" id="toc-pseudo-absence-generation-with-glossa" class="nav-link" data-scroll-target="#pseudo-absence-generation-with-glossa">Pseudo-absence generation with GLOSSA</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/pseudo_absences.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GLOSSA documentation guide</h1>
+<h1 class="title">Generating pseudo-absences for presence-only data</h1>
 </div>
 
 
@@ -288,64 +284,43 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Welcome to the <strong>GLOSSA</strong> documentation! Here, you’ll find everything you need to understand, use, and get the most out of GLOSSA for species distribution modeling. Whether you’re new to modeling or already experienced, we’ve got guides, examples, and detailed explanations to help you.</p>
-<p>If you’d like to <strong>contribute</strong>, check out our <a href="../../under_construction.html">contribution guidelines</a>. For questions, feel free to reach out via the contact form on the <a href="https://imares.science/">iMARES website</a>.</p>
-<section id="new-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="new-to-glossa">New to GLOSSA?</h2>
-<p>Start with our <strong>how-to guides</strong>, which provide simple, step-by-step instructions for common tasks:</p>
-<ul>
-<li><a href="../../pages/documentation/what_is_glossa.html">What is GLOSSA?</a></li>
-<li><a href="../../pages/documentation/installation_setup.html">Installing and setting up GLOSSA</a></li>
-<li><a href="../../pages/documentation/working_with_input_data.html">Preparing your data</a></li>
-<li><a href="../../pages/documentation/run_new_analysis.html">Running a new analysis</a></li>
-<li><a href="../../pages/documentation/explore_results.html">Explore the results</a></li>
-<li><a href="../../pages/documentation/export_outputs.html">Exporting results</a></li>
-</ul>
+<p>When dealing with presence-only species distribution data, two main approaches are commonly used to handle the absence of true absence points. The first approach is to model the presence points directly as a <strong>point process</strong>, which treats presences as an observed spatial pattern. This approach doesn’t require absence data and instead estimates the intensity of occurrences across the study area. The second approach is to <strong>generate pseudo-absence points</strong>, creating false absences across the study region, allowing the model to learn from contrasting presence and absence locations.</p>
+<p>In GLOSSA, we take the second approach as we fit a <strong>Bayesian Additive Regression Trees (BART) model</strong> using a <strong>binary response variable</strong> (presence = 1, absence = 0) with a <strong>probit link function</strong>. Generating pseudo-absences allows the model to estimate the probability of species presence by learning from both the observed presences and the generated pseudo-absences.</p>
+<section id="the-challenge-of-generating-pseudo-absences" class="level2">
+<h2 class="anchored" data-anchor-id="the-challenge-of-generating-pseudo-absences">The challenge of generating pseudo-absences</h2>
+<p>Generating pseudo-absences for presence-only data is a critical decision in species distribution modeling. There exist multiple methods for generating pseudo-absences, each with its own strengths and limitations, and there is currently no consensus on a standard approach. Some common methods include random sampling, geographic exclusion (e.g., excluding areas close to presence points), and environmental filtering (e.g., selecting pseudo-absences in contrasting environmental conditions).</p>
+<p>Each method can influence model outcomes differently, depending on the study area, species, and modeling objectives. Given the absence of a definitive standard, GLOSSA uses a balanced random sampling approach that provides broad applicability and ease of use across diverse datasets.</p>
 </section>
-<section id="tutorials-and-examples" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials-and-examples">Tutorials and examples</h2>
-<p>Explore real-world examples that guide you through complete analyses, from start to finish. You’ll also find specific tutorials on how to source and prepare your data for modeling:</p>
-<ul>
-<li><a href="../../under_construction.html">Download and prepare occurrence data</a></li>
-<li><a href="../../under_construction.html">Download and prepare environmental data</a></li>
-<li><a href="../../pages/tutorials_examples/Thunnus_albacares_example1.html">Global species distribution model</a></li>
-<li><a href="../../pages/tutorials_examples/Caretta_caretta_example2.html">Using a polygon to define the study area</a></li>
-<li><a href="../../pages/tutorials_examples/Siganus_luridus_example3.html">Running GLOSSA on a regional scale</a></li>
-</ul>
-</section>
-<section id="explanations-and-reference-docs" class="level2">
-<h2 class="anchored" data-anchor-id="explanations-and-reference-docs">Explanations and reference docs</h2>
-<p>Want to know what’s happening behind the scenes? Here’s where you can dive deeper into the concepts, like how GLOSSA’s BART model works, how we generate pseudo-absences or detailed technical information about data formats and specific settings:</p>
-<ul>
-<li><a href="../../under_construction.html">How does GLOSSA work?</a></li>
-<li><a href="../../under_construction.html">What is Bayesian Additive Regression Trees (BART)?</a></li>
-<li><a href="../../pages/documentation/pseudo_absences.html">Generating pseudo-absences for presence-only data</a></li>
-</ul>
-</section>
-<section id="common-issues-and-troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="common-issues-and-troubleshooting">Common issues and troubleshooting</h2>
-<p>Find solutions to common issues, such as installation problems, data formatting errors, and model performance concerns:</p>
-<ul>
-<li><a href="../../under_construction.html">Troubleshooting</a></li>
-<li><a href="../../under_construction.html">FAQs</a></li>
-</ul>
-</section>
-<section id="contributing-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="contributing-to-glossa">Contributing to GLOSSA</h2>
-<p>Interested in contributing to GLOSSA? Learn how to get involved and what kinds of contributions we’re looking for:</p>
-<ul>
-<li><a href="../../under_construction.html">Contribution guidelines</a></li>
-</ul>
-</section>
-<section id="glossa-resources" class="level2">
-<h2 class="anchored" data-anchor-id="glossa-resources">GLOSSA resources</h2>
-<p>Here are some useful links to access GLOSSA resources:</p>
-<ul>
-<li><a href="https://cran.r-project.org/package=glossa">CRAN repository</a></li>
-<li><a href="https://github.com/iMARES-group/glossa">GitHub repository</a></li>
-<li><a href="https://imares.science/">iMARES website</a></li>
-<li><a href="https://github.com/iMARES-group/glossa/issues">Issues and feature requests</a></li>
-</ul>
+<section id="pseudo-absence-generation-with-glossa" class="level2">
+<h2 class="anchored" data-anchor-id="pseudo-absence-generation-with-glossa">Pseudo-absence generation with GLOSSA</h2>
+<p>When you upload an occurrence file with presence-only data (the <code>pa</code> column just includes ones or is missing), GLOSSA uses a <strong>balanced random sampling approach</strong> for generating pseudo-absences, that is, GLOSSA generates pseudo-absence points randomly across the defined study area, ensuring that the number of pseudo-absence points matches the number of presence points.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The spatial extent within which pseudo-absences are generated is an essential factor.</p>
+</div>
+</div>
+<p>When the presence data includes several timestamps, GLOSSA generates the same number of pseudo-absences as presences for each time period. This approach ensures that the model captures temporal variation in species occurrence, which can be important for species with temporal patterns.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you prefer an alternative method for generating pseudo-absences, you can create them outside of GLOSSA using your preferred method and include them in your occurrence putting a <code>0</code> in the <code>pa</code> column of these records.</p>
+</div>
+</div>
 
 
 </section>
@@ -586,11 +561,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../pages/tutorials_examples/Siganus_luridus_example3.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Running GLOSSA on a regional scale</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../pages/documentation/what_is_glossa.html" class="pagination-link">
-        <span class="nav-page-text">New to GLOSSA?</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

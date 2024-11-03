@@ -19,7 +19,7 @@ Start with our **how-to guides**, which provide simple, step-by-step instruction
 - [Preparing your data](working_with_input_data.qmd)
 - [Running a new analysis](run_new_analysis.qmd)
 - [Explore the results](explore_results.qmd)
-- [Exporting results and maps](export_outputs.qmd)
+- [Exporting results](export_outputs.qmd)
 
 ## Tutorials and examples
 
@@ -37,7 +37,7 @@ Want to know what’s happening behind the scenes? Here’s where you can dive d
 
 - [How does GLOSSA work?](../../under_construction.qmd)
 - [What is Bayesian Additive Regression Trees (BART)?](../../under_construction.qmd)
-- [Handling presence-only data with pseudo-absences](../../under_construction.qmd)
+- [Generating pseudo-absences for presence-only data](pseudo_absences.qmd)
 
 ## Common issues and troubleshooting
 

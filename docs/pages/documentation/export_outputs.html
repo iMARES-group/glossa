@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -63,6 +97,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -139,7 +175,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/what_is_glossa.html">New to GLOSSA?</a></li><li class="breadcrumb-item"><a href="../../pages/documentation/export_outputs.html">Exporting results and maps</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/documentation/what_is_glossa.html">New to GLOSSA?</a></li><li class="breadcrumb-item"><a href="../../pages/documentation/export_outputs.html">Exporting results</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -199,7 +235,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/documentation/export_outputs.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Exporting results and maps</span></a>
+ <span class="menu-text">Exporting results</span></a>
   </div>
 </li>
       </ul>
@@ -233,20 +269,49 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../pages/documentation/pseudo_absences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Explanations and reference docs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/documentation/pseudo_absences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Generating pseudo-absences for presence-only data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-export-form" id="toc-the-export-form" class="nav-link active" data-scroll-target="#the-export-form">The export form</a></li>
+  <li><a href="#exported-zip-file" id="toc-exported-zip-file" class="nav-link" data-scroll-target="#exported-zip-file">Exported ZIP file</a>
+  <ul class="collapse">
+  <li><a href="#zip-file-overview" id="toc-zip-file-overview" class="nav-link" data-scroll-target="#zip-file-overview">ZIP file overview</a></li>
+  <li><a href="#working-with-the-exported-files-in-r" id="toc-working-with-the-exported-files-in-r" class="nav-link" data-scroll-target="#working-with-the-exported-files-in-r">Working with the exported Files in R</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/export_outputs.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exporting results and maps</h1>
+<h1 class="title">Exporting results</h1>
 </div>
 
 
@@ -261,10 +326,99 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Our team is hard at work to provide you with comprehensive guides and resources.</p>
-<p>Thank you for your patience. Stay tuned for updates!</p>
+<p>In this section, we’ll learn how to export the generated results from the GLOSSA analysis, understand the structure of the downloaded files, and show tips for working with these files.</p>
+<section id="the-export-form" class="level2">
+<h2 class="anchored" data-anchor-id="the-export-form">The export form</h2>
+<p>When opening the <strong>Exports</strong> tab, you’ll find a form to select which results to export. This form provides access to all results displayed in the Reports tab, as well as the data used to fit the models.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/exports_explanation.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+<p>In the first field, <strong>select the species</strong> or occurrence files you want to export—multiple species can be chosen. In the second field, choose which <strong>prediction results</strong> to export: either the predictions based on the average environmental scenario used to fit the model or predictions from the different projection layers. Next, decide whether to export the results for the <strong>native range (NR) model, the suitable habitat (SH) model, or both</strong>.</p>
+<p>Since GLOSSA operates within a Bayesian framework, each grid cell has an associated predictive posterior distribution. In the <code>Fields</code> field, you can choose which summary statistics to save:</p>
+<ul>
+<li><strong>mean</strong>: mean value</li>
+<li><strong>median</strong>: quantile 0.5</li>
+<li><strong>sd</strong>: standard deviation</li>
+<li><strong>q0.025</strong>: quantile 0.025</li>
+<li><strong>q0.975</strong>: quantile 0.975</li>
+<li><strong>diff</strong>: difference between quantile 0.975 and 0.025</li>
+<li><strong>potential_presences</strong>: predicted presences (<code>1</code>) and absences (<code>0</code>) using the estimated optimal cutoff.</li>
+</ul>
+<p>For these raster files, you can select the <strong>file type</strong> in the next field (TIFF, NetCDF, or ASCII).</p>
+<p>Additionally, you can export other data, such as:</p>
+<ul>
+<li>The processed data used to fit the model</li>
+<li>The confusion matrix of predicted vs.&nbsp;observed occurrences</li>
+<li>Variable importance scores</li>
+<li>Functional response plots</li>
+<li>Cross-validation metrics</li>
+<li>The value of the estimated probability cutoff for presence/absence.</li>
+</ul>
+<p>If you want to export everything, use the <strong>Select All</strong> button.</p>
+<p>Once you have selected what you want to export, click on the <strong>Save GLOSSA Results</strong> button. A ZIP file containing all selected results will be downloaded to your local machine.</p>
+</section>
+<section id="exported-zip-file" class="level2">
+<h2 class="anchored" data-anchor-id="exported-zip-file">Exported ZIP file</h2>
+<p>When you export results from GLOSSA, a ZIP file is created that organizes the outputs in a structured way, making it easier to explore specific files and load them into R for further analysis.</p>
+<section id="zip-file-overview" class="level3">
+<h3 class="anchored" data-anchor-id="zip-file-overview">ZIP file overview</h3>
+<p>The ZIP file is organized by species, with a folder for each species or occurrence file you analyzed (e.g., <code>sp1</code>, <code>sp2</code>). Within each species folder, there are several subfolders and files containing specific results:</p>
+<ul>
+<li><strong>sp_model_data.csv</strong>: A tab-separated file with the dataset used to fit the model after processing the data (<code>decimalLongitude</code> and <code>decimalLatitude</code>: longitude and latitude from the occurrence file., <code>timestamp</code>: timestamp values, <code>pa</code>: response variable indicating presence or absence, <code>X</code>s: one column per uploaded predictor variable, <code>grid_long</code> and <code>grid_lat</code>: longitude and latitude from the raster created for the native range model).</li>
+<li><strong>sp_presence_probability_cutoff.csv</strong>: Estimated optimal probability cutoff for presence/absence prediction for both the native range and suitable habitat models.</li>
+<li><strong>confusion_matrix</strong>: Contains tab-separated files (NR and SH) with confusion matrices for each model, comparing observed occurrences with predicted values and probabilities.</li>
+<li><strong>cross_validation</strong>: Includes tab-separated files (NR and SH) with cross-validation results for <span class="math inline">\(k = 10\)</span> folds, one row per fold.</li>
+<li><strong>functional_responses</strong>: Contains one tab-separated file per predictor variable in the suitable habitat model, with partial dependence plot values. Each file includes a column with talues of the predictor variable used to construct the plot and the probability values (mean and quantiles 0.025 and 0.975 columns) that represent how predictor variables influence the model, that is, the changes relative to the overall central tendency.</li>
+<li><strong>native_range</strong> and <strong>suitable_habitat</strong>: These folders contain raster files with predictions for each model type (native range and suitable habitat), organized as follows:
+<ul>
+<li><strong>fit_layers</strong>: Results from the fitting dataset, organized by summary statistics:
+<ul>
+<li><strong>diff</strong>: Difference between the 97.5th and 2.5th quantiles.</li>
+<li><strong>mean</strong>: Mean prediction value.</li>
+<li><strong>median</strong>: Median prediction (quantile 0.5).</li>
+<li><strong>potential_presences</strong>: Binary presence-absence predictions based on the optimal cutoff.</li>
+<li><strong>q0.025</strong> and <strong>q0.975</strong>: Lower and upper quantiles of the posterior distribution.</li>
+<li><strong>sd</strong>: Standard deviation.</li>
+</ul></li>
+<li><strong>projections</strong>: Contains projections for each environmental scenario (e.g., <code>project_layers_1</code>, <code>project_layers_2</code>), with the same summary statistics as above.</li>
+</ul></li>
+<li><strong>variable_importance</strong>: Contains a tab-separated file for each model (NR and SH) listing the variable importance score for each predictor variable. Each row represents one of the 10 permutations performed.</li>
+</ul>
+</section>
+<section id="working-with-the-exported-files-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-the-exported-files-in-r">Working with the exported Files in R</h3>
+<p>All the exported files are in tab-separated format except for raster files, which are saved in the format you selected. You can load the CSV files into R with the <code>read.csv()</code> and <code>read.table()</code> functions, and raster files with the <code>rast()</code> function from the <code>terra</code> package. For example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load functional responses</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>functional_responses <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"path/to/sp1/functional_responses/sp1_functional_response_x1.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, <span class="at">dec =</span> <span class="st">"."</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(functional_responses<span class="sc">$</span>value, functional_responses<span class="sc">$</span>mean)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load projection file</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>projection <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"path/to/sp1/suitable_habitat/projections/project_layers_1/mean/sp1_suitable_habitat_projections_1_mean.tif"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(projection)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you’re exporting data for multiple species or comparing models, automating workflows in R can streamline your analysis.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Congratulations! You’ve now learned how to run a complete analysis with GLOSSA, from data preparation to output export. Now it’s time for you to try it with your own data! To explore more tutorials or real case examples, visit <a href="../../pages/tutorials_examples/index.html">Tutorials and Examples</a>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -518,7 +672,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">Developed by <a href="https://imares.science/"><img src="images/logo_imares.png" class="img-fluid" alt="iMARES" width="65"></a></div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/iMARES-group/glossa/edit/main/pages/documentation/export_outputs.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
+    </div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
