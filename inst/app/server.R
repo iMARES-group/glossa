@@ -987,10 +987,18 @@ function(input, output, session) {
     p <- ggplot2::ggplot(data = data.frame(y = 0:1), ggplot2::aes(y = y))
 
     if (!is.null(input$fr_plot_cov)) {
-      p <- ggplot2::ggplot(data = other_results()[["response_curve"]][[input$sp]][[input$fr_plot_cov]], ggplot2::aes(x = value)) +
-        geom_ribbon(ggplot2::aes(ymin = q25, ymax = q975), fill = "#65c4d8", alpha = 0.3) +
-        geom_line(ggplot2::aes(y = mean), color = "#004172", linewidth = 1) +
-        xlab(input$fr_plot_cov)
+      if (is.character(other_results()[["response_curve"]][[input$sp]][[input$fr_plot_cov]]$value) | is.factor(other_results()[["response_curve"]][[input$sp]][[input$fr_plot_cov]]$value)){
+        p <- ggplot2::ggplot(data = other_results()[["response_curve"]][[input$sp]][[input$fr_plot_cov]], ggplot2::aes(x = value)) +
+          geom_point(ggplot2::aes(y = mean), color = "#004172") +
+          geom_errorbar(aes(ymin = q25, ymax = q975), width = 0.2, color = "#65c4d8") +
+          xlab(input$fr_plot_cov)
+
+      } else {
+        p <- ggplot2::ggplot(data = other_results()[["response_curve"]][[input$sp]][[input$fr_plot_cov]], ggplot2::aes(x = value)) +
+          geom_ribbon(ggplot2::aes(ymin = q25, ymax = q975), fill = "#65c4d8", alpha = 0.3) +
+          geom_line(ggplot2::aes(y = mean), color = "#004172", linewidth = 1) +
+          xlab(input$fr_plot_cov)
+      }
     }
 
     p +

@@ -230,7 +230,7 @@ body <- bs4Dash::bs4DashBody(
                   status = "secondary",
                   outline = FALSE,
                   width = "100%",
-                  onclick ="window.open('https://iMARES-group.github.io/glossa/', '_blank')"
+                  onclick ="window.open('https://imares-group.github.io/glossa/get_started.html', '_blank')"
                 )
               )
             )
@@ -463,7 +463,7 @@ body <- bs4Dash::bs4DashBody(
                   glossa::file_input_area_ui(
                     "pa_files",
                     label = "Occurrences",
-                    button_label = "Add CSV files",
+                    button_label = "Tab-separated files",
                     multiple = TRUE,
                     accept = c(".csv", ".txt", ".tsv"),
                     icon_name = "map-location-dot"

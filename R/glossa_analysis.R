@@ -79,6 +79,14 @@ glossa_analysis <- function(
     extend = ifelse(is.null(study_area_poly), FALSE, TRUE)
   )
   cov_names <- names(covariate_list$fit_layers[[1]])
+  categorical_vars <- cov_names[which(terra::is.factor(covariate_list$fit_layers[[1]]))]
+  continuous_vars <- setdiff(cov_names, categorical_vars)
+  if (length(categorical_vars) > 0){
+    cat_levels <- lapply(categorical_vars, function(x){
+      terra::levels(covariate_list$fit_layers[[1]][x])
+    })
+    names(cat_levels) <- categorical_vars
+  }
 
   # projections layers
   if ("projections" %in% native_range | "projections" %in% suitable_habitat){
@@ -158,48 +166,61 @@ glossa_analysis <- function(
     })
   }
 
-  if (scale_layers) {
+  if (scale_layers & length(continuous_vars) >  0) {
     # Compute mean and sd of the fit_layers model fitting layers for each environmental variable
-    fit_layers_mean <- lapply(cov_names, function(i){
+    fit_layers_mean <- lapply(continuous_vars, function(i) {
       mean(
-        unlist(lapply(covariate_list$fit_layers, function(x){as.vector(x[i])})),
+        unlist(lapply(covariate_list$fit_layers, function(x) { as.vector(x[i]) })),
         na.rm = TRUE
       )
     })
-    names(fit_layers_mean) <- cov_names
+    names(fit_layers_mean) <- continuous_vars
     fit_layers_mean <- unlist(fit_layers_mean)
 
-    fit_layers_sd <- lapply(cov_names, function(i){
+    fit_layers_sd <- lapply(continuous_vars, function(i) {
       sd(
-        unlist(lapply(covariate_list$fit_layers, function(x){as.vector(x[i])})),
+        unlist(lapply(covariate_list$fit_layers, function(x) { as.vector(x[i]) })),
         na.rm = TRUE
       )
     })
-    names(fit_layers_sd) <- cov_names
+    names(fit_layers_sd) <- continuous_vars
     fit_layers_sd <- unlist(fit_layers_sd)
 
     # Scale fit layers with fit_layers mean and sd
-    covariate_list$fit_layers <- lapply(covariate_list$fit_layers, function(x){
-      terra::scale(x, center = fit_layers_mean, scale = fit_layers_sd)
+    covariate_list$fit_layers <- lapply(covariate_list$fit_layers, function(x) {
+      continuous_scaled <- terra::scale(x[[continuous_vars]], center = fit_layers_mean, scale = fit_layers_sd)
+      if (length(categorical_vars) > 0){
+        categorical_layers <- x[[categorical_vars]]  # Extract categorical layers
+        c(continuous_scaled, categorical_layers)  # Combine back
+      } else {
+        continuous_scaled
+      }
     })
   }
 
   # * Process projections environmental layers ----
   if ("projections" %in% native_range | "projections" %in% suitable_habitat) {
     # Mask polygon if provided
-    if (!is.null(study_area_poly)){
-      covariate_list$projections <- lapply(covariate_list$projections, function(scenario){
-        scenario <- lapply(scenario, function(x){
+    if (!is.null(study_area_poly)) {
+      covariate_list$projections <- lapply(covariate_list$projections, function(scenario) {
+        scenario <- lapply(scenario, function(x) {
           layer_mask(layers = x, study_area = study_area_poly)
         })
       })
     }
 
     # Scale layers with fit_layers mean and sd
-    if (scale_layers){
-      covariate_list$projections <- lapply(covariate_list$projections, function(scenario){
-        scenario <- lapply(scenario, function(x){
-          terra::scale(x, center = fit_layers_mean, scale = fit_layers_sd)
+    if (scale_layers & length(continuous_vars) >  0){
+      covariate_list$projections <- lapply(covariate_list$projections, function(scenario) {
+        scenario <- lapply(scenario, function(x) {
+          # Separate continuous and categorical variables
+          continuous_scaled <- terra::scale(x[[continuous_vars]], center = fit_layers_mean, scale = fit_layers_sd)
+          if (length(categorical_vars) > 0){
+            categorical_layers <- x[[categorical_vars]]  # Extract categorical layers
+            c(continuous_scaled, categorical_layers)  # Combine back
+          } else {
+            continuous_scaled
+          }
         })
       })
     }
@@ -238,12 +259,24 @@ glossa_analysis <- function(
   })
   names(presence_absence_list$model_pa) <- names(presence_absence_list$clean_pa)
 
-  # * Aggregate (mean) timestamps of fitting layers for prediction - compute the mean of the layers
-  covariate_list$fit_layers <- lapply(cov_names, function(i){
-    single_cov_layers <- lapply(covariate_list$fit_layers, function(x) {x[i]})
-    mean_cov_layers <- terra::mean(terra::rast(single_cov_layers), na.rm = TRUE)
+  # * Aggregate (mean/mode) timestamps of fitting layers for prediction
+  covariate_list$fit_layers <- lapply(cov_names, function(i) {
+    single_cov_layers <- lapply(covariate_list$fit_layers, function(x) x[i])
+
+    # Check if the variable is categorical
+    if (i %in% categorical_vars) {
+      # Compute the mode for each cell across the layers
+      categorical_mode <- terra::as.factor(terra::modal(terra::rast(single_cov_layers), na.rm = TRUE))
+      levels(categorical_mode) <-  cat_levels[i][[1]]
+      categorical_mode
+    } else {
+      # Compute the mean for continuous variables
+      terra::mean(terra::rast(single_cov_layers), na.rm = TRUE)
+    }
   })
-  covariate_list$fit_layers  <- terra::rast(covariate_list$fit_layers )
+
+  # Combine the aggregated layers into a single Raster object
+  covariate_list$fit_layers <- terra::rast(covariate_list$fit_layers)
   names(covariate_list$fit_layers) <- cov_names
 
   model_matrix_time <- Sys.time()
@@ -302,6 +335,8 @@ glossa_analysis <- function(
       other_results$variable_importance$native_range <- lapply(names(models_native_range), function(sp){
         variable_importance(
           models_native_range[[sp]],
+          y = presence_absence_list$model_pa[[sp]][, "pa"],
+          x = presence_absence_list$model_pa[[sp]][, c(predictor_variables[[sp]], names(coords_layer)), drop = FALSE],
           cutoff = pa_cutoff$native_range[[sp]],
           seed = seed
         )
@@ -395,6 +430,8 @@ glossa_analysis <- function(
       other_results$variable_importance$suitable_habitat <- lapply(names(models_suitable_habitat), function(sp) {
         variable_importance(
           models_suitable_habitat[[sp]],
+          y = presence_absence_list$model_pa[[sp]][, "pa"],
+          x = presence_absence_list$model_pa[[sp]][, predictor_variables[[sp]], drop = FALSE],
           cutoff = pa_cutoff$suitable_habitat[[sp]],
           seed = seed
         )
@@ -503,12 +540,34 @@ glossa_analysis <- function(
 
     other_results$response_curve <- lapply(names(presence_absence_list$model_pa), function(i){
       if (scale_layers | is.null(suitable_habitat)) {
-        # Variable values in original scale (inverse of z-score value)
-        x_original_scale <- lapply(predictor_variables[[i]], function(j){
-          fit_layers_mean[j] + (presence_absence_list$model_pa[[i]][, j] * fit_layers_sd[j])
-        })
-        x_original_scale <- as.data.frame(do.call(cbind, x_original_scale))
-        colnames(x_original_scale) <- predictor_variables[[i]]
+        # Continuous variables in original scale (inverse of z-score value)
+        vars_continuous <- continuous_vars[continuous_vars %in% predictor_variables[[i]]]
+        if (length(vars_continuous) > 0) {
+          x_original_scale_continuous <- lapply(vars_continuous, function(j) {
+            fit_layers_mean[j] + (presence_absence_list$model_pa[[i]][, j] * fit_layers_sd[j])
+          })
+          x_original_scale_continuous <- as.data.frame(do.call(cbind, x_original_scale_continuous))
+          colnames(x_original_scale_continuous) <- vars_continuous
+        } else {
+          x_original_scale_continuous <- data.frame()  # Empty data frame if no continuous variables
+        }
+
+        # Append categorical variables without modification
+        vars_categorical <- categorical_vars[categorical_vars %in% predictor_variables[[i]]]
+        if (length(vars_categorical) > 0) {
+          x_original_scale_categorical <- presence_absence_list$model_pa[[i]][, vars_categorical, drop = FALSE]
+        } else {
+          x_original_scale_categorical <- data.frame()  # Empty data frame if no categorical variables
+        }
+
+        # Combine continuous and categorical variables
+        if (ncol(x_original_scale_continuous) > 0 & ncol(x_original_scale_categorical) > 0) {
+          x_original_scale <- cbind(x_original_scale_continuous, x_original_scale_categorical)
+        } else if (ncol(x_original_scale_continuous) > 0) {
+          x_original_scale <- x_original_scale_continuous
+        } else if (ncol(x_original_scale_categorical) > 0) {
+          x_original_scale <- x_original_scale_categorical
+        }
 
         # Fit new model with variables without scaling
         bart_model <- fit_bart_model(
@@ -573,8 +632,8 @@ glossa_analysis <- function(
   if (!is.null(native_range)){
     other_results$model_diagnostic$native_range <- lapply(names(models_native_range), function(sp){
       model <- models_native_range[[sp]]
-      y <- model$fit$data@y
-      x <- as.data.frame(model$fit$data@x)
+      y <- presence_absence_list$model_pa[[sp]][, "pa"]
+      x <- presence_absence_list$model_pa[[sp]][, c(predictor_variables[[sp]], names(coords_layer)), drop = FALSE]
       df <- data.frame(
         observed = y,
         probability = colMeans(predict.bart(model, x))
@@ -589,8 +648,8 @@ glossa_analysis <- function(
   if (!is.null(suitable_habitat)){
     other_results$model_diagnostic$suitable_habitat <- lapply(names(models_suitable_habitat), function(sp){
       model <- models_suitable_habitat[[sp]]
-      y <- model$fit$data@y
-      x <- as.data.frame(model$fit$data@x)
+      y <- presence_absence_list$model_pa[[sp]][, "pa"]
+      x <- presence_absence_list$model_pa[[sp]][, predictor_variables[[sp]], drop = FALSE]
       df <- data.frame(
         observed = y,
         probability = colMeans(predict.bart(model, x))

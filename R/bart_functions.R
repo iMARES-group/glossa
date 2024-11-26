@@ -61,8 +61,18 @@ predict_bart <- function(bart_model, layers, cutoff = NULL) {
     # Define quantiles for posterior predictive distribution
     quantiles <- c(0.025, 0.975)
 
-    # Convert raster stack to matrix
+    # Convert raster stack to matrix (data.frame to handle categorical variables)
     input_matrix <- terra::as.matrix(layers)
+    input_matrix <- as.data.frame(input_matrix)
+    categorical_cols <- names(layers)[terra::is.factor(layers)]
+    for (col in categorical_cols) {
+      if (!is.null(terra::levels(layers[[col]])[[1]]$label)) {
+        fact_labels <- terra::levels(layers[[col]])[[1]]$label
+      } else {
+        fact_labels <- terra::levels(layers[[col]])[[1]]$value
+      }
+      input_matrix[[col]] <- factor(input_matrix[[col]], levels = terra::levels(layers[[col]])[[1]]$value, labels = fact_labels)
+    }
 
     # Initialize output data frame for predictions
     blank_output <- data.frame(matrix(ncol = (4 + length(quantiles) + ifelse(!is.null(cutoff), 1, 0)),
@@ -134,16 +144,43 @@ predict_bart <- function(bart_model, layers, cutoff = NULL) {
 #'
 #' @export
 response_curve_bart <- function(bart_model, data, predictor_names) {
-  # Calculate level values for each predictor variable
-  y_values <- lapply(predictor_names, function(name) {
+  # Initialize xind and levs
+  xind <- c()
+  levs <- list()
+  level_counts <- list()
+
+  # Loop over predictor names to construct xind and levs
+  for (name in predictor_names) {
     values <- na.omit(data[[name]])
-    values <- c(quantile(values, prob = seq(0.05, 0.95, length.out = 10)),
-                seq(min(values), max(values), length.out = 10))
-    return(sort(values))
-  })
+
+    if (is.character(values) | is.factor(values)) {
+      # Handle categorical variables - Filter levels with more than 0 counts
+      observed_levels <- table(values)  # Count occurrences of each level
+      observed_levels <- names(observed_levels[observed_levels > 0])
+      # Create dummy variable names as dbarts
+      if (length(observed_levels) == 2) {
+        dummy_name <- paste0(name, ".", observed_levels[-1])
+        xind <- c(xind, dummy_name)
+        levs[[length(levs) + 1]] <- c(0, 1) # Dummy variable takes values 0 and 1
+      } else {
+        for (lvl in observed_levels) {
+          dummy_name <- paste0(name, ".", lvl)
+          xind <- c(xind, dummy_name)
+          levs[[length(levs) + 1]] <- c(0, 1) # Dummy variable values
+        }
+      }
+    } else {
+      # Handle continuous variables
+      seq_vals <- seq(min(values), max(values), length.out = 10)
+      quant_vals <- quantile(values, prob = seq(0.05, 0.95, length.out = 10))
+      combined_vals <- sort(unique(c(seq_vals, quant_vals)))
+      xind <- c(xind, name)
+      levs[[length(levs) + 1]] <- combined_vals
+    }
+  }
 
   # Obtain variable response information using pdbart
-  var_r <- dbarts::pdbart(bart_model, xind = predictor_names, levs = y_values, pl = FALSE)
+  var_r <- dbarts::pdbart(bart_model, xind = xind, levs = levs, pl = FALSE)
 
   # Compute inverse probit values for each predictor variable
   inv_probit_df <- lapply(var_r$fd, function(fd) {
@@ -152,11 +189,45 @@ response_curve_bart <- function(bart_model, data, predictor_names) {
 
   # Calculate mean, 2.5th percentile, 97.5th percentile, and values of predictor variables
   data_var <- lapply(seq_along(predictor_names), function(i) {
-    prob_inv <- colMeans(inv_probit_df[[i]], na.rm = TRUE)
-    quantile_values_q25 <- apply(inv_probit_df[[i]], 2, quantile, probs = 0.025, na.rm = TRUE)
-    quantile_values_q975 <- apply(inv_probit_df[[i]], 2, quantile, probs = 0.975, na.rm = TRUE)
-    value <- var_r$levs[[i]]
-    data.frame(mean = prob_inv, q25 = quantile_values_q25, q975 = quantile_values_q975, value = value)
+    name <- predictor_names[i]
+    values <- na.omit(data[[name]])
+
+    if (is.character(values) | is.factor(values)) {
+      # Handle categorical variables - Filter levels with more than 0 counts
+      observed_levels <- table(values)  # Count occurrences of each level
+      observed_levels <- names(observed_levels[observed_levels > 0])
+      if (length(observed_levels) == 2) {
+        # For two-level categorical variables, include 0 and 1
+        dummy_name <- paste0(name, ".", observed_levels[-1])
+        dummy_index <- which(xind == dummy_name)
+        prob_inv <- colMeans(inv_probit_df[[dummy_index]], na.rm = TRUE)
+        quantile_values_q25 <- apply(inv_probit_df[[dummy_index]], 2, quantile, probs = 0.025, na.rm = TRUE)
+        quantile_values_q975 <- apply(inv_probit_df[[dummy_index]], 2, quantile, probs = 0.975, na.rm = TRUE)
+        data.frame(value = c(observed_levels[1], observed_levels[2]),
+                   mean = prob_inv,
+                   q25 = quantile_values_q25,
+                   q975 = quantile_values_q975)
+      } else {
+        # For multi-level categorical variables, use only the value 1 of the dummy
+        dummy_results <- lapply(seq_along(observed_levels), function(j) {
+          dummy_name <- paste0(name, ".", observed_levels[j])
+          dummy_index <- which(xind == dummy_name)
+          prob_inv <- colMeans(inv_probit_df[[dummy_index]], na.rm = TRUE)[2]
+          quantile_values_q25 <- apply(inv_probit_df[[dummy_index]], 2, quantile, probs = 0.025, na.rm = TRUE)[2]
+          quantile_values_q975 <- apply(inv_probit_df[[dummy_index]], 2, quantile, probs = 0.975, na.rm = TRUE)[2]
+          data.frame(value = observed_levels[j], mean = prob_inv, q25 = quantile_values_q25, q975 = quantile_values_q975)
+        })
+        do.call(rbind, dummy_results)
+      }
+    } else {
+      # Handle continuous variables
+      covariate_index <- which(xind == name)
+      prob_inv <- colMeans(inv_probit_df[[covariate_index]], na.rm = TRUE)
+      quantile_values_q25 <- apply(inv_probit_df[[covariate_index]], 2, quantile, probs = 0.025, na.rm = TRUE)
+      quantile_values_q975 <- apply(inv_probit_df[[covariate_index]], 2, quantile, probs = 0.975, na.rm = TRUE)
+      value <- var_r$levs[[covariate_index]]
+      data.frame(mean = prob_inv, q25 = quantile_values_q25, q975 = quantile_values_q975, value = value)
+    }
   })
 
   # Set names for the data frames
@@ -172,19 +243,21 @@ response_curve_bart <- function(bart_model, data, predictor_names) {
 #' by permuting the values of that variable and evaluating the change in performance (F-score is the performance metric).
 #'
 #' @param bart_model A BART model object.
+#' @param y Vector indicating presence (1) or absence (0).
+#' @param x Dataframe with same number of rows as the length of the vector `y` with the covariate values.
 #' @param cutoff A numeric threshold for converting predicted probabilities into presence-absence.
 #' @param n_repeats An integer indicating the number of times to repeat the permutation for each variable.
 #' @param seed An optional seed for random number generation.
 #' @return A data frame where each column corresponds to a predictor variable, and each row contains the variable importance scores across permutations.
 #'
 #' @export
-variable_importance <- function(bart_model, cutoff = 0, n_repeats = 10, seed = NULL) {
+variable_importance <- function(bart_model, y, x, cutoff = 0, n_repeats = 10, seed = NULL) {
   predict.bart <- utils::getFromNamespace("predict.bart", "dbarts")
   set.seed(seed)
 
-  # Get presence-absence data
-  y <- bart_model$fit$data@y
-  x <- as.data.frame(bart_model$fit$data@x) # TODO: CHECK IF THIS KEEPS VARIABLE NAME
+  # ToDo: Get presence-absence data directly from BART object
+  # y <- bart_model$fit$data@y
+  # x <- as.data.frame(bart_model$fit$data@x)
 
   # Calculate baseline performance metric
   prob <- colMeans(predict.bart(bart_model, x))

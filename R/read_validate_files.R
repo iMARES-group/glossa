@@ -115,8 +115,11 @@ read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_
   zip_contents <- utils::unzip(file_path, exdir = tmpdir)
   covariates <- unique(dirname(zip_contents))
 
+  # Filter files to include only raster formats (e.g., .tif, .asc, .nc)
+  raster_extensions <- c("tif", "asc", "nc")
+
   # Verify if each covariate has the same number of files
-  n_files <- sapply(covariates, function(x) length(list.files(x)))
+  n_files <- sapply(covariates, function(x) length(list.files(x, pattern = paste0("\\.(", paste(raster_extensions, collapse = "|"), ")$"), full.names = TRUE)))
   if (length(unique(n_files)) != 1) {
     show_warning("Error: The environmental layers uploaded differ in number between the different variables")
     return(NULL)
@@ -124,7 +127,8 @@ read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_
 
   # Load the first layer of each covariate to check CRS and resolution
   layers <- lapply(covariates, function(x) {
-    tryCatch(terra::rast(list.files(x, full.names = TRUE)[n_files[1]]), error = function(e) NULL)
+    files <- list.files(x, pattern = paste0("\\.(", paste(raster_extensions, collapse = "|"), ")$"), full.names = TRUE)
+    tryCatch(terra::rast(files[n_files[1]]), error = function(e) NULL)
   })
   names(layers) <- sub("([^.]+)\\.[[:alnum:]]+$", "\\1", basename(covariates))
   if (any(sapply(layers, is.null))) {
@@ -161,7 +165,7 @@ read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_
   # Load and process all layers
   layers <- lapply(covariates, function(cov_dir) {
     cov_name <- basename(cov_dir)
-    raster_layers <- terra::rast(list.files(cov_dir, full.names = TRUE))
+    raster_layers <- terra::rast(list.files(cov_dir, pattern = paste0("\\.(", paste(raster_extensions, collapse = "|"), ")$"), full.names = TRUE))
     terra::project(raster_layers, "epsg:4326")
   })
   names(layers) <- basename(covariates)
@@ -291,8 +295,13 @@ validate_layers_zip <- function(file_path, show_modal = FALSE) {
   # Get unique covariate directories
   covariate_dirs <- unique(dirname(zip_contents))
 
+  # Filter files to include only raster formats (e.g., .tif, .asc, .nc)
+  raster_extensions <- c("tif", "asc", "nc")
+
   # Verify if each covariate has the same number of files
-  n_files <- sapply(covariate_dirs, function(dir) length(list.files(dir)))
+  n_files <- sapply(covariate_dirs, function(dir) {
+    length(list.files(dir, pattern = paste0("\\.(", paste(raster_extensions, collapse = "|"), ")$"), full.names = TRUE))
+  })
   if (length(unique(n_files)) != 1) {
     show_warning("Error: The environmental layers uploaded differ in number between the different variables.")
     return(FALSE)
@@ -300,8 +309,10 @@ validate_layers_zip <- function(file_path, show_modal = FALSE) {
 
   # Load one layer from each covariate to check CRS and resolution
   layers <- lapply(covariate_dirs, function(dir) {
-    tryCatch(terra::rast(list.files(dir, full.names = TRUE)[n_files[1]]),
-             error = function(e) NULL)
+    tryCatch({
+      files <- list.files(dir, pattern = paste0("\\.(", paste(raster_extensions, collapse = "|"), ")$"), full.names = TRUE)
+      terra::rast(files[1])
+    }, error = function(e) NULL)
   })
   names(layers) <- basename(covariate_dirs)
   if (any(sapply(layers, is.null))) {
@@ -316,13 +327,10 @@ validate_layers_zip <- function(file_path, show_modal = FALSE) {
     return(FALSE)
   }
   if (length(unique(crs_list)) != 1) {
-    show_warning("Warning: There are layers with different coordinate reference systems (CRS). We will project all to WGS84.", type = "warning")
+    show_warning("Warning: Layers have different coordinate reference systems (CRS). Projecting to WGS84.", type = "warning")
   }
 
-  # Project all layers to WGS84
-  layers <- lapply(layers, function(layer) {
-    terra::project(layer, "epsg:4326")
-  })
+  layers <- lapply(layers, function(layer) terra::project(layer, "epsg:4326"))
 
   # Check if all layers have the same resolution
   res_list <- sapply(layers, function(layer) paste(terra::res(layer), collapse = ""))
@@ -366,9 +374,10 @@ validate_fit_projection_layers <- function(fit_layers_path, proj_layers_path, sh
   fit_layers_content <- utils::unzip(fit_layers_path, exdir = tmpdir_fit)
   proj_contents <- utils::unzip(proj_layers_path, exdir = tmpdir_proj)
 
-  # Get unique covariate directories
-  fit_covariates <- basename(unique(dirname(fit_layers_content)))
-  proj_covariates <- basename(unique(dirname(proj_contents)))
+  # Filter files to include only raster formats (e.g., .tif, .asc, .nc)
+  raster_extensions <- c("tif", "asc", "nc")
+  fit_covariates <- basename(unique(dirname(fit_layers_content[grepl(paste0("\\.(", paste(raster_extensions, collapse = "|"), ")$"), fit_layers_content)])))
+  proj_covariates <- basename(unique(dirname(proj_contents[grepl(paste0("\\.(", paste(raster_extensions, collapse = "|"), ")$"), proj_contents)])))
 
   # Check if they have the same covariates
   if (!all(sort(fit_covariates) == sort(proj_covariates))) {
@@ -404,7 +413,8 @@ validate_pa_fit_time <- function(pa_data, fit_layers_path, show_modal = FALSE) {
 
   # Calculate the length of the time period in the fit layers
   zip_contents <- utils::unzip(fit_layers_path, list = TRUE)
-  files <- zip_contents$Name[!grepl("/$", zip_contents$Name)]
+  raster_extensions <- c("tif", "asc", "nc")
+  files <- zip_contents$Name[grepl(paste0("\\.(", paste(raster_extensions, collapse = "|"), ")$"), zip_contents$Name)]
   covariates <- unique(dirname(files))
   fit_layers_time_period_length <- length(files) / length(covariates)
 

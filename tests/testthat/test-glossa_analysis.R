@@ -1,6 +1,6 @@
 # Complete GLOSSA analysis
 
-test_that("GLOSSA analysis", {
+test_that("GLOSSA analysis continuous only", {
   # skip on CRAN
   skip_on_cran()
 
@@ -17,7 +17,7 @@ test_that("GLOSSA analysis", {
   fit_layers <- file3
   proj_files <- list("proj1" = file4)
   study_area_poly <- glossa::read_extent_polygon(file_path = file5)
-  predictor_variables <- NULL
+  predictor_variables <- list("sp1" = c("x1", "x2"), "sp2" = c("x3", "x4"))
   decimal_digits <- 4
   buffer <- 0.1
   scale_layers <- TRUE

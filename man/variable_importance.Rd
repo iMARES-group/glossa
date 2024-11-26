@@ -4,10 +4,14 @@
 \alias{variable_importance}
 \title{Variable Importance in BART Model}
 \usage{
-variable_importance(bart_model, cutoff = 0, n_repeats = 10, seed = NULL)
+variable_importance(bart_model, y, x, cutoff = 0, n_repeats = 10, seed = NULL)
 }
 \arguments{
 \item{bart_model}{A BART model object.}
+
+\item{y}{Vector indicating presence (1) or absence (0).}
+
+\item{x}{Dataframe with same number of rows as the length of the vector `y` with the covariate values.}
 
 \item{cutoff}{A numeric threshold for converting predicted probabilities into presence-absence.}
 
