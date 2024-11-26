@@ -372,7 +372,42 @@ Tip
 <section id="environmental-data" class="level2">
 <h2 class="anchored" data-anchor-id="environmental-data">Environmental data</h2>
 <p>Environmental data is provided as raster layers in formats like <strong>.tif</strong> or <strong>.nc</strong> (NetCDF). These layers are used as predictors for species distributions and should represent variables like temperature, salinity, or other relevant data. All environmental layers must be uploaded as a <strong>ZIP file</strong>, with each variable organized into separate subdirectories. Each subdirectory should contain raster files corresponding to the relevant time periods.</p>
-<p>Here you have some guidelines for when you prepare your files:</p>
+<p>GLOSSA supports the use of categorical variables in your models. These variables can represent categorical data such as ice cover, habitat classes, or other discrete data. Categorical variables are automatically transformed using one-hot encoding by GLOSSA and the <code>dbarts</code> package, converting them into new binary columns for modeling. To ensure a good fit in the GLOSSA workflow, categorical layers must be properly formatted before uploading.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Including categorical variables in GLOSSA
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>GLOSSA now supports including categorical variables in your models, but they must be formatted correctly to ensure a smooth integration.</p>
+<ol type="1">
+<li>As with continuous variables, categorical layers must be provided as raster files (e.g., <code>.tif</code>, <code>.nc</code>, <code>.asc</code>) where the values are integer IDs that map to specific categories. For example, if representing ice cover, you might define <code>0</code> as “no ice” and <code>1</code> as “ice-covered.”</li>
+<li>Rasters must be defined as factors, which typically requires metadata files (e.g., <code>.xml</code>) to enable proper mapping between the integer values and their corresponding categories. If categorical variables are not uploaded as factors, GLOSSA will treat them as continuous variables.</li>
+<li>When using categorical layers across time steps or for projections, ensure the categories remain consistent. The set of categories must match or be a subset of those observed in the training data. Avoid attempting to predict on unobserved categories.</li>
+</ol>
+<p>To include categorical variables in GLOSSA, you need to provide categorical factor rasters. You can create these using functions like <code>terra::as.factor()</code> to convert integer rasters into factor rasters with defined levels and labels:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>raster <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"ice_cover.tif"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>raster <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(raster)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(raster) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"no"</span>, <span class="st">"yes"</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(raster, <span class="st">"ice_cover_factor.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When saving your file, the raster metadata is often stored in a separate file (e.g., <code>.xml</code>, <code>.aux.xml</code>). Ensure these metadata files are placed alongside the corresponding raster file in the same directory of the ZIP file before uploading.</p>
+<pre class="plaintext"><code>environmental_data.zip
+    ├── continuous_variable
+    │     └── cont_var.tif
+    ├── categorical_variable
+    │     ├── cat_var.tif
+    │     └── cat_var.tif.aux.xml</code></pre>
+</div>
+</div>
+</div>
+<p>Here are some guidelines for preparing your files:</p>
 <ul>
 <li><strong>Consistent resolution and extent</strong>: Ensure that all raster layers have the <strong>same resolution</strong> and <strong>geographic extent</strong>. GLOSSA will check for mismatches and notify you with warnings or errors:
 <ul>

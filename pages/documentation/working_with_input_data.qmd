@@ -34,7 +34,40 @@ decimalLongitude decimalLatitude pa   timestamp
 
 Environmental data is provided as raster layers in formats like **.tif** or **.nc** (NetCDF). These layers are used as predictors for species distributions and should represent variables like temperature, salinity, or other relevant data. All environmental layers must be uploaded as a **ZIP file**, with each variable organized into separate subdirectories. Each subdirectory should contain raster files corresponding to the relevant time periods.
 
-Here you have some guidelines for when you prepare your files:
+GLOSSA supports the use of categorical variables in your models. These variables can represent categorical data such as ice cover, habitat classes, or other discrete data. Categorical variables are automatically transformed using one-hot encoding by GLOSSA and the `dbarts` package, converting them into new binary columns for modeling. To ensure a good fit in the GLOSSA workflow, categorical layers must be properly formatted before uploading.
+
+::: {.callout-note collapse="true" appearance="simple" icon=false} 
+## Including categorical variables in GLOSSA
+
+GLOSSA now supports including categorical variables in your models, but they must be formatted correctly to ensure a smooth integration.
+
+1. As with continuous variables, categorical layers must be provided as raster files (e.g., `.tif`, `.nc`, `.asc`) where the values are integer IDs that map to specific categories. For example, if representing ice cover, you might define `0` as "no ice" and `1` as "ice-covered."
+2. Rasters must be defined as factors, which typically requires metadata files (e.g., `.xml`) to enable proper mapping between the integer values and their corresponding categories. If categorical variables are not uploaded as factors, GLOSSA will treat them as continuous variables.
+3. When using categorical layers across time steps or for projections, ensure the categories remain consistent. The set of categories must match or be a subset of those observed in the training data. Avoid attempting to predict on unobserved categories.
+
+To include categorical variables in GLOSSA, you need to provide categorical factor rasters. You can create these using functions like `terra::as.factor()` to convert integer rasters into factor rasters with defined levels and labels:
+
+```r
+library(terra)
+raster <- rast("ice_cover.tif")
+raster <- as.factor(raster)
+levels(raster) <- data.frame(id = c(0, 1), label = c("no", "yes"))
+writeRaster(raster, "ice_cover_factor.tif")
+```
+
+When saving your file, the raster metadata is often stored in a separate file (e.g., `.xml`, `.aux.xml`). Ensure these metadata files are placed alongside the corresponding raster file in the same directory of the ZIP file before uploading.
+
+```plaintext
+environmental_data.zip
+    ├── continuous_variable
+    │     └── cont_var.tif
+    ├── categorical_variable
+    │     ├── cat_var.tif
+    │     └── cat_var.tif.aux.xml
+```
+:::
+
+Here are some guidelines for preparing your files:
 
 - **Consistent resolution and extent**: Ensure that all raster layers have the **same resolution** and **geographic extent**. GLOSSA will check for mismatches and notify you with warnings or errors:
   - If the **geographic extents** differ, GLOSSA will extend the smaller layers with missing values to match the largest raster.

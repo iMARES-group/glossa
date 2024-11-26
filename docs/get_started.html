@@ -255,6 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>After installation, you can launch the GLOSSA app by running this command:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glossa)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_glossa</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can find more information on the <a href="./pages/documentation/installation_setup.html">Installation</a> page.</p>
 <hr>
 </section>
 </section>
@@ -339,6 +340,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="running-your-first-analysis-1" class="level2">
 <h2 class="anchored" data-anchor-id="running-your-first-analysis-1">Running your first analysis</h2>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Before starting, we will download a toy dataset to use as a demo for running our first analysis with GLOSSA. The dataset can be downloaded from Zenodo: <a href="https://doi.org/10.5281/zenodo.14223866" target="_blank">https://doi.org/10.5281/zenodo.14223866</a>.</p>
+<p>This repository includes occurrences for two species: one globally distributed (<code>sp1.txt</code>) and another endemic to the continental shelf of Australia (<code>sp2.csv</code>). The dataset also contains four predictor variables: two continuous and two categorical (<code>fit_layers.zip</code>). Additionally, it includes files representing two projected climate scenarios (<code>project_layers_1.zip</code> and <code>project_layers_2.zip</code>). Finally, the dataset provides two polygon files to define the extent of the study area: a global polygon object (<code>world.gpkg</code>) and a polygon delimiting the Australian region (<code>oceania.gpkg</code>).</p>
+</div>
+</div>
+</div>
 <p>To run your first analysis, go to the <em>New Analysis</em> tab. This tab looks like this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -378,6 +390,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Study area (Optional):</strong> If your rasters cover a larger area than your study region, you can provide a polygon to delimit your study area (formats: GPKG, KML or GeoJSON). This will remove points outside the polygon and mask the environmental variables accordingly.</p></li>
 </ol>
 <p>Once all files are uploaded, if they pass the checks and are properly formatted, the table in the bottom right panel will show a checkmark for each file. If something is incorrect, refer to the documentation for a quick solution.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>If you have downloaded the toy dataset, you can try uploading the following files: the two species occurrence files (<code>sp1.txt</code> and <code>sp2.csv</code>), the environmental variables for fitting the model (<code>fit_layers.zip</code>), the two climate scenarios for making projections (<code>project_layers_1.zip</code> and <code>project_layers_2.zip</code>), and the polygon file for the Australian region (<code>oceania.gpkg</code>) to delimit the study area and speed up computations for this initial attempt.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="analysis-options" class="level3">
 <h3 class="anchored" data-anchor-id="analysis-options">Analysis options</h3>
@@ -388,7 +410,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>You can choose to fit the model under the <strong>Model fitting</strong> option. This option will fit the model, compute variable importance, and generate a prediction map representing the mean environmental conditions across all provided layers. If you’ve uploaded projection layers and want to make predictions using the fitted model, select the <strong>Model projection</strong> option.</p>
 <p>When fitting the model, if multiple years or time periods are uploaded, GLOSSA will extract the value of the corresponding environmental layer for each occurrence based on the specific time stamp.</p>
-<p>Additionally, you can check the <strong>Functional responses</strong> checkbox if you want to compute the response curves (i.e., the relationship between the occurrence of a species and each environmental variable). You can also enable <strong>Cross-validation</strong>, which will perform a K-fold cross-validation with (<em>k = 5</em>).</p>
+<p>Additionally, you can check the <strong>Functional responses</strong> checkbox if you want to compute the response curves (i.e., the relationship between the occurrence of a species and each environmental variable). You can also enable <strong>Cross-validation</strong>, which will perform a K-fold cross-validation with (<em>k = 10</em>).</p>
 </section>
 <section id="advanced-options" class="level3">
 <h3 class="anchored" data-anchor-id="advanced-options">Advanced options</h3>
@@ -413,6 +435,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figure class="figure">
 <p><img src="images/predictor_variables.png" class="img-fluid figure-img" style="width:60.0%"></p>
 </figure>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Try selecting different analysis options, tuning parameters, and choosing different combinations of predictor variables in different GLOSSA runs to explore how these changes affect the results of your analysis. Additionally, consider changing the seed value. Since the provided toy dataset contains presence-only data, different seeds will generate different random pseudo-absences, which can impact model performance.</p>
+<p>This exercise is intended to help you get comfortable with the GLOSSA environment and its analysis options. By trying different parameters, predictor variables, and seeds, you can explore how these changes influence the results and gain confidence in using GLOSSA effectively.</p>
+</div>
+</div>
 </div>
 </section>
 <section id="uploaded-files" class="level3">

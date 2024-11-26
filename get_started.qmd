@@ -39,6 +39,8 @@ library(glossa)
 run_glossa()
 ```
 
+You can find more information on the [Installation](pages/documentation/installation_setup.qmd) page. 
+
 ---
 
 ## GLOSSA workflow overview
@@ -101,7 +103,13 @@ On the sidebar, you’ll find two main sections: *Modelling* and *Resources*.
 
 ## Running your first analysis
 
-To run your first analysis, go to the *New Analysis* tab. This tab looks like this:
+::: {.callout-note appearance="simple" icon=false} 
+Before starting, we will download a toy dataset to use as a demo for running our first analysis with GLOSSA. The dataset can be downloaded from Zenodo: <a href="https://doi.org/10.5281/zenodo.14223866" target="_blank">https://doi.org/10.5281/zenodo.14223866</a>.
+
+This repository includes occurrences for two species: one globally distributed (`sp1.txt`) and another endemic to the continental shelf of Australia (`sp2.csv`). The dataset also contains four predictor variables: two continuous and two categorical (`fit_layers.zip`). Additionally, it includes files representing two projected climate scenarios (`project_layers_1.zip` and `project_layers_2.zip`). Finally, the dataset provides two polygon files to define the extent of the study area: a global polygon object (`world.gpkg`) and a polygon delimiting the Australian region (`oceania.gpkg`).
+:::
+
+To run your first analysis, go to the *New Analysis* tab. This tab looks like this: 
 
 ![](images/new_analysis_tab.png){width=80% fig-align="center"}
 
@@ -129,7 +137,6 @@ GLOSSA can function with just occurrence data and environmental variables, but a
     6           -174.5            27.5         3  1
     ```
 
-
 2.  **Environmental data:** Upload environmental data as raster files (e.g., .tif or .nc format) in a ZIP file with a specific structure. The ZIP file should contain a subdirectory for each environmental variable, with files sorted by time period. For example, if you have two variables (`x1` and `x2`) and your observations are from two different years, your ZIP file should look like this:
 
     ``` r
@@ -150,6 +157,10 @@ GLOSSA can function with just occurrence data and environmental variables, but a
 
 Once all files are uploaded, if they pass the checks and are properly formatted, the table in the bottom right panel will show a checkmark for each file. If something is incorrect, refer to the documentation for a quick solution.
 
+::: {.callout-note appearance="simple" icon=false} 
+If you have downloaded the toy dataset, you can try uploading the following files: the two species occurrence files (`sp1.txt` and `sp2.csv`), the environmental variables for fitting the model (`fit_layers.zip`), the two climate scenarios for making projections (`project_layers_1.zip` and `project_layers_2.zip`), and the polygon file for the Australian region (`oceania.gpkg`) to delimit the study area and speed up computations for this initial attempt.
+:::
+
 ### Analysis options
 
 In this section, you need to select the desired output. GLOSSA fits two kinds of models:
@@ -161,7 +172,7 @@ You can choose to fit the model under the **Model fitting** option. This option 
 
 When fitting the model, if multiple years or time periods are uploaded, GLOSSA will extract the value of the corresponding environmental layer for each occurrence based on the specific time stamp.
 
-Additionally, you can check the **Functional responses** checkbox if you want to compute the response curves (i.e., the relationship between the occurrence of a species and each environmental variable). You can also enable **Cross-validation**, which will perform a K-fold cross-validation with (*k = 5*).
+Additionally, you can check the **Functional responses** checkbox if you want to compute the response curves (i.e., the relationship between the occurrence of a species and each environmental variable). You can also enable **Cross-validation**, which will perform a K-fold cross-validation with (*k = 10*).
 
 ### Advanced options
 
@@ -184,6 +195,12 @@ By selecting the **Advanced options** button, a sidebar will appear with extra o
 If you uploaded multiple species, you can select different predictor variables for each species in the bottom left panel.
 
 ![](images/predictor_variables.png){width=60% fig-align="center"}
+
+::: {.callout-note appearance="simple" icon=false} 
+Try selecting different analysis options, tuning parameters, and choosing different combinations of predictor variables in different GLOSSA runs to explore how these changes affect the results of your analysis. Additionally, consider changing the seed value. Since the provided toy dataset contains presence-only data, different seeds will generate different random pseudo-absences, which can impact model performance.
+
+This exercise is intended to help you get comfortable with the GLOSSA environment and its analysis options. By trying different parameters, predictor variables, and seeds, you can explore how these changes influence the results and gain confidence in using GLOSSA effectively.
+:::
 
 ### Uploaded files
 
