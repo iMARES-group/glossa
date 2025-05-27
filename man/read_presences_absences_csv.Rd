@@ -8,6 +8,7 @@ read_presences_absences_csv(
   file_path,
   file_name = NULL,
   show_modal = FALSE,
+  timestamp_mapping = NULL,
   coords = c("decimalLongitude", "decimalLatitude"),
   sep = "\\t",
   dec = "."
@@ -19,6 +20,8 @@ read_presences_absences_csv(
 \item{file_name}{Optional. The name of the file. If not provided, the base name of the file path is used.}
 
 \item{show_modal}{Optional. Logical. Whether to show a modal notification for warnings (use in Shiny). Default is FALSE.}
+
+\item{timestamp_mapping}{Optional. A vector with the timestamp mapping of the environmental layers.}
 
 \item{coords}{Optional. Character vector of length 2 specifying the names of the columns containing the longitude and latitude coordinates. Default is c("decimalLongitude", "decimalLatitude").}
 

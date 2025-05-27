@@ -25,10 +25,12 @@ For special support or collaboration requests, please contact us via the contact
 
 - <a href="https://imares.science/" target="_blank">iMARES</a>
 
-### **X (Twitter)**
+### **Outreach channels**
 
-Follow our research group on Twitter for the latest news and updates:
+Follow our research group on *Bluesky* and *X* (*Twitter*) for the latest news and updates:
 
-- <a href="https://x.com/iMARES_group" target="_blank">\@iMARES_group</a>
+- Bluesky: <a href="https://bsky.app/profile/imares-group.bsky.social" target="_blank">\@iMARES_group</a>
+
+- X (Twitter): <a href="https://x.com/iMARES_group" target="_blank">\@iMARES_group</a>
 
 Thank you for your support! If you want to know more about the group go and visit our website: <a href="https://imares.science/" target="_blank">iMARES</a>.

@@ -4,10 +4,12 @@
 \alias{validate_layers_zip}
 \title{Validate Layers Zip}
 \usage{
-validate_layers_zip(file_path, show_modal = FALSE)
+validate_layers_zip(file_path, timestamp_mapping = NULL, show_modal = FALSE)
 }
 \arguments{
 \item{file_path}{Path to the ZIP file containing environmental layers.}
+
+\item{timestamp_mapping}{Optional. A vector with the timestamp mapping of the environmental layers.}
 
 \item{show_modal}{Optional. Logical. Whether to show a modal notification for warnings. Default is FALSE.}
 }

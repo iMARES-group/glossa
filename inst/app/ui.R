@@ -58,10 +58,15 @@ header <- bs4Dash::bs4DashNavbar(
         icon = icon("power-off"),
         status = "danger",
         outline = TRUE,
-        style = "border: none",
-        onclick = "setTimeout(function(){window.close();},500);"
+        style = "border: none"
+        #onclick = "setTimeout(function(){window.close();},500);"
       )
     )
+  ),
+  tags$script(
+    "Shiny.addCustomMessageHandler('closeWindow', function(message) {
+      setTimeout(function(){window.close();},500);
+     });"
   )
 )
 
@@ -168,7 +173,7 @@ body <- bs4Dash::bs4DashBody(
             # welcome text
             bs4Dash::column(
               width = 6,
-              "Welcome to GLOSSA (Global Species Spatiotemporal Analysis). Explore species distributions worldwide, from past to future, across diverse climate scenarios."
+              "Welcome to GLOSSA (Global Ocean Species Spatiotemporal Analysis). Explore species distributions worldwide, from past to future, across diverse climate scenarios."
             ),
             # welcome figure
             bs4Dash::column(
@@ -313,7 +318,7 @@ body <- bs4Dash::bs4DashBody(
                   status = "primary",
                   outline = TRUE,
                   width = "100%",
-                  onclick ="window.open('https://imares-group.github.io/pages/documentation/', '_blank')"
+                  onclick ="window.open('https://imares-group.github.io/glossa/pages/documentation/', '_blank')"
                 )
               )
             )
@@ -416,14 +421,86 @@ body <- bs4Dash::bs4DashBody(
                 background = "#6c757d",
                 icon = NULL,
 
-                strong("Occurrences thinning"),
+                shiny::fileInput(
+                  inputId = "raster_timestamp_file",
+                  label = tags$span("Raster timestamp mapping", shiny::actionButton("raster_timestamp_info", label = NULL, icon = icon("circle-info", class = "fa-solid fa-circle-info", style = "color:#ffffff;"), class = "btn btn-default action-button btn-xs", style="background-color:transparent;border-radius:0px;border-width:0px;")),
+                  multiple = FALSE,
+                  accept = c(".txt", ".csv", ".tsv"),
+                  width = "90%"
+                ),
 
-                tags$head(tags$style(HTML(".not_bold label {font-weight:normal !important;;}"))),
-                div(numericInput(
-                  inputId = "decimal_digits",
-                  label = "Rounding precision",
-                  value = NULL, min = 0, step = 1, width = "90%"), class="not_bold"),
+                tags$hr(style="border-color:#F2F3F4;"),
+                strong("Occurrence processing"),
 
+                # Occurrence thinning
+                shinyWidgets::pickerInput(
+                  inputId = "thinning_method",
+                  label = "Spatial thinning",
+                  choices = c("None" = "None", "Distance" = "distance", "Grid" = "grid", "Precision" = "precision"),
+                  selected = "None",
+                  width = "90%"
+                ),
+                conditionalPanel(
+                  condition = "input.thinning_method == 'Distance'",
+                  tags$head(tags$style(HTML(".not_bold label {font-weight:normal !important;}"))),
+                  div(numericInput(
+                    inputId = "thin_distance",
+                    label = "Distance in meters",
+                    value = 10000, min = 1, width = "90%"), class = "not_bold")
+                ),
+                conditionalPanel(
+                  condition = "input.thinning_method == 'Grid'",
+                  tags$head(tags$style(HTML(".not_bold label {font-weight:normal !important;}"))),
+                  div(numericInput(
+                    inputId = "thin_grid_size",
+                    label = "Resolution (degrees)",
+                    value = 1, min = 0, width = "90%"), class = "not_bold")
+                ),
+                conditionalPanel(
+                  condition = "input.thinning_method == 'Precision'",
+                  tags$head(tags$style(HTML(".not_bold label {font-weight:normal !important;}"))),
+                  div(numericInput(
+                    inputId = "thin_precision",
+                    label = "Decimal precision",
+                    value = 3, min = 0, step = 1, width = "90%"), class = "not_bold")
+                ),
+
+                # Pseudo-absences
+                shinyWidgets::pickerInput(
+                  inputId = "pseudoabsence_method",
+                  label = "Pseudo-absence method",
+                  choices = c("Random" = "random", "Target-group" = "target_group", "Buffer-restricted" = "buffer_out"),
+                  selected = "Random",
+                  width = "90%"
+                ),
+
+                numericInput(
+                  inputId = "pa_ratio",
+                  label = "Pseudo-absence:Presence ratio",
+                  value = 1,
+                  width = "90%"
+                ),
+                conditionalPanel(
+                  condition = "input.pseudoabsence_method == 'target_group'",
+                  shiny::fileInput(
+                    inputId = "target_group_occ",
+                    label = tags$span("Target-group locations (tab-separated)", shiny::actionButton("target_group_occ_info", label = NULL, icon = icon("circle-info", class = "fa-solid fa-circle-info", style = "color:#ffffff;"), class = "btn btn-default action-button btn-xs", style="background-color:transparent;border-radius:0px;border-width:0px")),
+                    multiple = FALSE,
+                    accept = c(".csv", ".txt", ".tsv"),
+                    width = "90%"
+                  )
+                ),
+                conditionalPanel(
+                  condition = "input.pseudoabsence_method == 'buffer_out'",
+                  numericInput(
+                    inputId = "pa_buffer_distance",
+                    label = "Buffer distance (in decimal degrees)",
+                    value = 0,
+                    width = "90%"
+                  )
+                ),
+
+                tags$hr(style="border-color:#F2F3F4;"),
                 strong("Layers processing"),
 
                 shinyWidgets::prettySwitch(
@@ -433,6 +510,7 @@ body <- bs4Dash::bs4DashBody(
                   fill = TRUE
                 ),
 
+                tags$hr(style="border-color:#F2F3F4;"),
                 strong("Polygon processing"),
 
                 div(numericInput(
@@ -440,6 +518,8 @@ body <- bs4Dash::bs4DashBody(
                   label = tags$span("Enlarge polygon (buffer arc degrees)", shiny::actionButton("preview_buff_poly", label = NULL, icon = icon("circle-play", class = "fa-solid fa-circle-play", style = "color:#efefef;"), class = "btn btn-default action-button btn-s", style="background-color:transparent;border-radius:0px;border-width:0px")),
                   value = NULL, min = 0, max = 10, step = 100, width = "90%"), class="not_bold"),
 
+
+                tags$hr(style="border-color:#F2F3F4;"),
                 shinyWidgets::pickerInput(
                   inputId = "model_choice",
                   label = "Model",
@@ -448,6 +528,7 @@ body <- bs4Dash::bs4DashBody(
                   width = "90%"
                 ),
 
+                tags$hr(style="border-color:#F2F3F4;"),
                 numericInput(
                   inputId = "seed",
                   label = "Set a seed",
@@ -549,6 +630,54 @@ body <- bs4Dash::bs4DashBody(
                     shape = "curve"
                   )
                 )
+              ),
+
+              # ** Cross-validation settings ----
+              conditionalPanel(
+                condition = "input.analysis_options_other.includes('cross_validation')",
+                tags$span(strong("Cross-validation settings"), shiny::actionButton("cv_settings_info", label = NULL, icon = icon("circle-info", class = "fa-solid fa-circle-info", style = "color:#007bff;"), class = "btn btn-default action-button btn-xs", style="background-color:transparent;border-radius:0px;border-width:0px")),
+                fluidRow(
+                  style = "display: flex; justify-content: center; flex-wrap: wrap",
+                  bs4Dash::column(
+                    width = 3,
+                    prettyCheckboxGroup(
+                      inputId = "cv_methods",
+                      label = "Select CV method(s):",
+                      choices = c("K-fold" = "k-fold", "Spatial blocks" = "spatial_blocks", "Temporal blocks" = "temporal_blocks"),
+                      selected = c("k-fold", "spatial_blocks", "temporal_blocks"),
+                      status = "primary",
+                      shape = "curve"
+                    )
+                  ),
+
+                  bs4Dash::column(
+                    width = 3,
+                    numericInput("cv_folds", "Number of folds", value = 10, min = 2, max = 50)
+                  ),
+                  bs4Dash::column(
+                    width = 3,
+                    conditionalPanel(
+                      condition = "input.cv_methods.includes('spatial_blocks')",
+                      tags$head(tags$style(HTML(".gray-border .bootstrap-select .dropdown-toggle {border: 1px solid #ced4da !important;}"))
+                      ),
+                      div(class = "gray-border",
+                          shinyWidgets::pickerInput(
+                            inputId = "cv_block_source",
+                            label = "Spatial block size",
+                            choices = c("Residuals autocorrelation" = "residuals_autocorrelation", "Predictors autocorrelation" = "predictors_autocorrelation", "Manual" = "manual"),
+                            selected = "residuals_autocorrelation"
+                          )
+                      )
+                    )
+                  ),
+                  bs4Dash::column(
+                    width = 3,
+                    conditionalPanel(
+                      condition = "input.cv_methods.includes('spatial_blocks') && input.cv_block_source == 'manual'",
+                      numericInput("cv_block_size", "Block size (meters)", value = 50000, min = 1)
+                    )
+                  )
+                ),
               ),
 
               fluidRow(
@@ -953,12 +1082,27 @@ body <- bs4Dash::bs4DashBody(
             id = "cv_plot_sidebar",
             background = "#adb5bd",
             icon = icon("ellipsis", class = "fa-solid fa-ellipsis", style = "color:#3b444b;"),
+
             shinyWidgets::pickerInput(
-              inputId = "cv_plot_mode",
+              inputId = "cv_plot_model", # native range or suitable habitat
               label = NULL,
               choices = NULL,
               width = "90%",
               options = list(size = 5)
+            ),
+
+            shinyWidgets::pickerInput(
+              inputId = "cv_plot_method", # k-fold, spatial, temporal block
+              label = NULL,
+              choices = c("k-fold" = "k-fold", "Spatial blocks" = "spatial_blocks", "Temporal blocks" = "temporal_blocks"),
+              width = "90%"
+            ),
+
+            shinyWidgets::pickerInput(
+              inputId = "cv_plot_type", # folds or metrics
+              label = NULL,
+              choices = c("Metrics", "Folds"),
+              width = "90%"
             )
           ),
 

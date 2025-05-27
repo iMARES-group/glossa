@@ -15,6 +15,9 @@ function(input, output, session) {
   study_area_poly <- reactiveVal()
   study_area_poly_buff <- reactiveVal()
   extent_validation_table <- reactiveVal()
+  raster_timestamp <- reactiveVal()
+  raster_timestamp_validation_table <- reactiveVal()
+  target_group_points <- reactiveVal()
 
   # Analysis results
   presence_absence_list <- reactiveVal()
@@ -23,6 +26,7 @@ function(input, output, session) {
   other_results <- reactiveVal()
   pa_cutoff <- reactiveVal()
   habitat_suitability <- reactiveVal()
+  config <- reactiveVal()
 
   #=========================================================#
   # Reactive expressions ----
@@ -120,6 +124,18 @@ function(input, output, session) {
   })
 
   # * Validate inputs ----
+  load_pa_data <- function() {
+    data <- apply(pa_files_input(), 1, function(x){
+      glossa::read_presences_absences_csv(x["datapath"], x["name"], show_modal = TRUE, timestamp_mapping = raster_timestamp())
+    })
+    if (is.null(data)){
+      data <- list(data)
+    }
+    names(data) <- sub(" ", "_", sub("([^.]+)\\.[[:alnum:]]+$", "\\1", pa_files_input()[, "name"]))
+    return(data)
+  }
+
+
   observeEvent(pa_files_input(), {
     # Check is not null and it was possible to upload the data
     if (is.null(pa_files_input())){
@@ -135,15 +151,7 @@ function(input, output, session) {
       w$show()
 
       # Read and validate files
-      data <- apply(pa_files_input(), 1, function(x){
-        glossa::read_presences_absences_csv(x["datapath"], x["name"], show_modal = TRUE)
-      })
-      if (is.null(data)){
-        data <- list(data)
-      }
-      names(data) <- sub(" ", "_", sub("([^.]+)\\.[[:alnum:]]+$", "\\1", pa_files_input()[, "name"]))
-
-      pa_data(data)
+      pa_data(load_pa_data())
       w$hide()
     }
   })
@@ -164,7 +172,7 @@ function(input, output, session) {
       w$show()
 
       # Validate layers
-      is_valid <- glossa::validate_layers_zip(fit_layers_input()[, "datapath"], show_modal = TRUE)
+      is_valid <- glossa::validate_layers_zip(fit_layers_input()[, "datapath"], timestamp_mapping = raster_timestamp(), show_modal = TRUE)
 
       if (is_valid == TRUE){
         # Save path
@@ -172,6 +180,8 @@ function(input, output, session) {
 
         # Read last layer for previsualization
         fit_layers_previs(glossa::read_layers_zip(fit_layers_input()[, "datapath"], first_layer = TRUE)[[1]])
+      } else {
+        fit_layers_path(NULL)
       }
 
       w$hide()
@@ -232,6 +242,83 @@ function(input, output, session) {
     }
   })
 
+  observeEvent(input$raster_timestamp_file, {
+    # Check is not null and it was possible to upload the data
+    if (is.null(input$raster_timestamp_file)){
+      raster_timestamp(NULL)
+    } else {
+      # Turn on waiter
+      w <- waiter::Waiter$new(id = "data_upload",
+                              html = tagList(
+                                img(src = "logo_glossa.gif", height = "200px")
+                              ),
+                              color = waiter::transparent(0.8)
+      )
+      w$show()
+
+      # Read file
+      raster_timestamp_vector <- tryCatch({
+        read.table(input$raster_timestamp_file$datapath, header = FALSE, stringsAsFactors = FALSE)[, 1]
+      }, error = function(e) {
+        showNotification("Error reading raster timestamp file. Please check the file format.", type = "error")
+        return(NULL)
+      })
+      raster_timestamp(raster_timestamp_vector)
+
+      if (!is.null(pa_files_input())) {
+        # Read and validate files
+        pa_data(load_pa_data())
+      }
+
+      if (!is.null(fit_layers_input())) {
+        # Validate layers
+        is_valid <- glossa::validate_layers_zip(fit_layers_input()[, "datapath"], timestamp_mapping = raster_timestamp(), show_modal = TRUE)
+
+        if (is_valid == TRUE){
+          fit_layers_path(fit_layers_input()[, "datapath"])
+        } else {
+          fit_layers_path(NULL)
+        }
+
+      }
+      w$hide()
+    }
+  })
+
+  observeEvent(input$target_group_occ, {
+    if (is.null(input$target_group_occ)) {
+      target_group_points(NULL)
+    } else {
+      w <- waiter::Waiter$new(
+        id = "target_group_occ",
+        html = tagList(
+          img(src = "logo_glossa.gif", height = "200px"),
+          h4("Loading target-group data...")
+        ),
+        color = waiter::transparent(0.8)
+      )
+      w$show()
+
+      tryCatch({
+        target_group_points(glossa::read_presences_absences_csv(
+          input$target_group_occ$datapath,
+          input$target_group_occ$name,
+          show_modal = TRUE,
+          timestamp_mapping = raster_timestamp()
+          ))
+      }, error = function(e) {
+        showModal(modalDialog(
+          title = "Target Group Upload Error",
+          paste("An error occurred while reading the file:", e$message),
+          easyClose = TRUE
+        ))
+        target_group_points(NULL)
+      })
+
+      w$hide()
+    }
+  })
+
   observeEvent(c(pa_data(), fit_layers_path()), {
     if (is.null(pa_files_input()) | is.null(pa_data())){
       pa_validation_table(NULL)
@@ -250,7 +337,7 @@ function(input, output, session) {
     }
   })
 
-  observeEvent(fit_layers_input(), {
+  observeEvent(fit_layers_path(), {
     if (is.null(fit_layers_input())){
       fit_layers_validation_table(NULL)
     } else {
@@ -297,6 +384,22 @@ function(input, output, session) {
     }
   })
 
+  observeEvent(raster_timestamp(), {
+    if (is.null(raster_timestamp())){
+      raster_timestamp_validation_table(NULL)
+    } else {
+      validation_table <- as.data.frame(input$raster_timestamp_file[, c("name", "size", "type", "datapath")])
+      validation_table[, "date"] <- format(Sys.time())
+      validation_table[, "name"] <- paste(as.character(icon("calendar-days",style = "font-size:2rem; color:#007bff;")), validation_table[, "name"])
+      if (is.null(raster_timestamp())){
+        validation_table[, "validation"] <- FALSE
+      } else {
+        validation_table[, "validation"] <- !is.null(raster_timestamp())
+      }
+      raster_timestamp_validation_table(validation_table)
+    }
+  })
+
   # * Polygon preprocessing ----
   observeEvent(input$preview_buff_poly, {
     req(input$buff_poly)
@@ -326,11 +429,23 @@ function(input, output, session) {
     bs4Dash::addPopover(
       id = "data_upload_info",
       options = list(
-        content = "1) Occurrences: Upload a CSV file containing latitude and longitude columns for species occurrences, with an optional column 'pa' indicating presence (1) or absence (0), and 'timestamp' with an index of the time period.
+        content = "1) Occurrences: Upload a TSV file containing latitude and longitude columns for species occurrences, with an optional column 'pa' indicating presence (1) or absence (0), and 'timestamp' with an index of the time period.
         2) Environmental data: Upload a ZIP file containing raster layers of environmental variables.
         3) Projection layers: Upload a ZIP file containing layers for projecting species distribution. Multiple ZIP files can be uploaded.
         4) Study area: Upload a polygon defining the study area if you want to delimit the extent (GPKG, KML or GeoJSON).",
         title = "Data upload",
+        placement = "bottom",
+        trigger = "hover"
+      )
+    )
+  })
+
+  observe({
+    bs4Dash::addPopover(
+      id = "raster_timestamp_info",
+      options = list(
+        content = "Upload a simple text file with one column listing the actual timestamps that correspond to your ordered raster layers This ensures correct alignment between your occurrence timestamps and the raster stack.",
+        title = "Raster timestamp mapping (optional)",
         placement = "bottom",
         trigger = "hover"
       )
@@ -378,9 +493,10 @@ function(input, output, session) {
     bs4Dash::addPopover(
       id = "analysis_options_others_info",
       options = list(
-        content = "1) Functional responses: Estimate the response curve of the probability for each value of the environmental variable.
-        2) Variable importance: Computes the variable importance using permutatoin method.
-        3) Cross-validation: Perform k-fold cross-validation. Warning: It may take some time.",
+        content = "Computing these options may take some time.
+        1) Functional responses: Estimate the response curve of the probability for each value of the environmental variable using partial dependence plots.
+        2) Variable importance: Computes the variable importance using permutation method.
+        3) Cross-validation: Perform k-fold, spatial block, and temporal block cross-validation.",
         title = "Others",
         placement = "bottom",
         trigger = "hover"
@@ -413,13 +529,14 @@ function(input, output, session) {
     study_area_poly(NULL)
     study_area_poly_buff(NULL)
     extent_validation_table(NULL)
+    raster_timestamp_validation_table(NULL)
 
     # Reset analysis options
     updatePrettyCheckboxGroup(inputId = "analysis_options_nr", selected = character(0))
     updatePrettyCheckboxGroup(inputId = "analysis_options_sh", selected = character(0))
     updatePrettyCheckboxGroup(inputId = "analysis_options_other", selected = character(0))
     updatePrettySwitch(inputId = "scale_layers", value = FALSE)
-    updateNumericInput(inputId = "decimal_digits", value = numeric(0))
+    updatePickerInput(inputId = "thinning_method", selected = "None")
     updateNumericInput(inputId = "buff_poly", value = numeric(0))
     updateNumericInput(inputId = "seed", value = numeric(0))
 
@@ -491,10 +608,70 @@ function(input, output, session) {
       )
     )
     w$show()
+
     # Get predictor variables for each sp
     predictor_variables <- lapply(seq_len(length(species_files_names())), function(i){
       input[[paste0("pred_vars_", i)]]
     })
+
+    # Pseudo-absence settings
+    pseudoabsence_method <- input$pseudoabsence_method
+    pa_ratio <- input$pa_ratio
+    pa_buffer_distance <- if (pseudoabsence_method == "buffer_out") input$pa_buffer_distance else NULL
+    target_group_points <- if (pseudoabsence_method == "target_group") read_target_group() else NULL
+
+    # Cross-validation settings
+    cv_active <- "cross_validation" %in% input$analysis_options_other
+    cv_methods <- if (cv_active) {input$cv_methods} else {NULL}
+    cv_folds <- if (cv_active) {input$cv_folds} else {NULL}
+    cv_block_source <- if (cv_active && "spatial_blocks" %in% input$cv_methods) {input$cv_block_source} else {NULL}
+    cv_block_size <- if (!is.null(cv_block_source) && cv_block_source == "manual") {input$cv_block_size} else {NULL}
+
+    # Set up log files
+    timestamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
+
+    config_snapshot <- list(
+      timestamp = timestamp,
+      seed = input$seed,
+      species = names(pa_data()),
+      file_inputs = list(
+        pa_data = pa_files_input()[["name"]],
+        fit_layers = fit_layers_input()$name,
+        projections = proj_layers_input()[["name"]],
+        study_area_poly = study_area_poly_input()[["name"]],
+        raster_timestamp_file = input$raster_timestamp_file[["name"]]
+      ),
+      preprocessing = list(
+        thinning_method = input$thinning_method,
+        thinning_value = switch (input$thinning_method,
+          "Precision" = input$thin_precision,
+          "Grid" = input$thin_grid_size,
+          "Distance" = input$thin_distance,
+          NULL
+        ),
+        scale_layers = input$scale_layers,
+        buffer = input$buff_poly
+      ),
+      pseudo_absences = list(
+        pseudoabsence_method = pseudoabsence_method,
+        pa_ratio = pa_ratio,
+        pa_buffer_distance = pa_buffer_distance,
+        target_group_points = input$target_group_occ$name
+      ),
+      modeling = list(
+        predictor_variables = predictor_variables,
+        native_range = input$analysis_options_nr,
+        suitable_habitat = input$analysis_options_sh,
+        other_analysis = input$analysis_options_other
+      ),
+      cross_validation = list(
+        active = "cross_validation" %in% input$analysis_options_other,
+        methods = cv_methods,
+        folds = cv_folds,
+        block_source = cv_block_source,
+        block_size = cv_block_size
+      )
+    )
 
     # Run GLOSSA analysis
     glossa_results <- tryCatch({
@@ -504,12 +681,21 @@ function(input, output, session) {
         proj_files = proj_layers_path(),
         study_area_poly = study_area_poly_buff(),
         predictor_variables = predictor_variables,
-        decimal_digits = switch(is.na(input$decimal_digits) + 1, as.integer(input$decimal_digits), NULL),
+        thinning_method = input$thinning_method,
+        thinning_value = switch (input$thinning_method, "Precision" = input$thin_precision, "Grid" = input$thin_grid_size, "Distance" = input$thin_distance, NULL),
+        pseudoabsence_method = pseudoabsence_method,
+        pa_ratio = pa_ratio,
+        pa_buffer_distance = pa_buffer_distance,
+        target_group_points = target_group_points,
         scale_layers = input$scale_layers,
         buffer = switch(is.na(input$buff_poly) + 1, input$buff_poly, NULL),
         native_range = input$analysis_options_nr,
         suitable_habitat = input$analysis_options_sh,
         other_analysis = input$analysis_options_other,
+        cv_methods = cv_methods,
+        cv_folds = cv_folds,
+        cv_block_source = cv_block_source,
+        cv_block_size = cv_block_size,
         seed = input$seed,
         waiter = w
       )
@@ -518,6 +704,11 @@ function(input, output, session) {
       print(e)
       return(NULL)
     })
+
+    # Save user input settings
+    if (!is.null(glossa_results)) {
+      glossa_results$config <- config_snapshot
+    }
 
     if (!is.null(glossa_results)){
       # Move to Reports tab
@@ -539,6 +730,7 @@ function(input, output, session) {
     other_results(glossa_results$other_results)
     pa_cutoff(glossa_results$pa_cutoff)
     habitat_suitability(glossa_results$habitat_suitability)
+    config(glossa_results$config)
 
   })
 
@@ -560,26 +752,37 @@ function(input, output, session) {
   observe({
     req(input$pred_plot_layers)
     display_choices <- names(projections_results()[[input$pred_plot_layers]])
-    display_val <- input$pred_plot_model
-    if (!is.null(display_val)){
-      if (!(display_val %in% display_choices)) {
-        display_val <- NULL
-      }
+    current_selection <- isolate(input$pred_plot_model)
+    if (!is.null(current_selection) && current_selection %in% display_choices) {
+      selected_model <- current_selection
+    } else {
+      selected_model <- display_choices[[1]]
     }
-    updatePickerInput(session, "pred_plot_model", choices = display_choices, selected = display_val)
+
+    updatePickerInput(session, "pred_plot_model", choices = display_choices, selected = selected_model)
   })
 
   # Update pred_plot_value picker
   observe({
     req(input$pred_plot_model)
+
     if (input$pred_plot_layers != "projections") {
-      updatePickerInput(session, "pred_plot_value", choices = names(projections_results()[[input$pred_plot_layers]][[input$pred_plot_model]][[input$sp]]))
+      value_choices <- names(projections_results()[[input$pred_plot_layers]][[input$pred_plot_model]][[input$sp]])
     } else {
       req(input$pred_plot_scenario)
       req(input$pred_plot_year)
       req(input$pred_plot_year <= length(projections_results()[[input$pred_plot_layers]][[input$pred_plot_model]][[input$sp]][[input$pred_plot_scenario]]))
-      updatePickerInput(session, "pred_plot_value", choices = names(projections_results()[[input$pred_plot_layers]][[input$pred_plot_model]][[input$sp]][[input$pred_plot_scenario]][[input$pred_plot_year]]))
+      value_choices <- names(projections_results()[[input$pred_plot_layers]][[input$pred_plot_model]][[input$sp]][[input$pred_plot_scenario]][[input$pred_plot_year]])
     }
+
+    current_selection <- isolate(input$pred_plot_value)
+    if (!is.null(current_selection) && current_selection %in% value_choices) {
+      selected_value <- current_selection
+    } else {
+      selected_value <- value_choices[[1]]
+    }
+
+    updatePickerInput(session, "pred_plot_value", choices = value_choices, selected = selected_value)
   })
 
   # ** Layers plot selectizer ----
@@ -591,13 +794,22 @@ function(input, output, session) {
   observe({
     req(input$layers_plot_mode)
     if (input$layers_plot_mode == "fit_layers") {
-      updatePickerInput(session, "layers_plot_cov", choices = names(covariate_list()[[input$layers_plot_mode]]))
+      cov_choices <- names(covariate_list()[[input$layers_plot_mode]])
     } else if (input$layers_plot_mode == "projections") {
       req(input$layers_plot_scenario)
       req(input$layers_plot_year)
       req(input$layers_plot_year <= length(covariate_list()[[input$layers_plot_mode]][[input$layers_plot_scenario]]))
-      updatePickerInput(session, "layers_plot_cov", choices = names(covariate_list()[[input$layers_plot_mode]][[input$layers_plot_scenario]][[input$layers_plot_year]]))
+      cov_choices <- names(covariate_list()[[input$layers_plot_mode]][[input$layers_plot_scenario]][[input$layers_plot_year]])
     }
+
+    current_selection <- isolate(input$layers_plot_cov)
+    if (!is.null(current_selection) && current_selection %in% cov_choices) {
+      selected_cov <- current_selection
+    } else {
+      selected_cov <- cov_choices[[1]]
+    }
+
+    updatePickerInput(session, "layers_plot_cov", choices = cov_choices, selected = selected_cov)
   })
 
   # ** Functional responses plot selectizer ----
@@ -605,7 +817,23 @@ function(input, output, session) {
     req(other_results())
     req(other_results()[["response_curve"]])
     req(input$sp)
-    updatePickerInput(session, "fr_plot_cov", choices = names(other_results()[["response_curve"]][[input$sp]]))
+
+    #Extract covariate names
+    covariate_choices <- names(other_results()[["response_curve"]][[input$sp]])
+    # Preserve current selection if still valid
+    current_selection <- isolate(input$fr_plot_cov)
+    if (!is.null(current_selection) && current_selection %in% covariate_choices) {
+       selected_cov <- current_selection
+    } else {
+      selected_cov <- covariate_choices[[1]]
+    }
+
+    #updatePickerInput(session, "fr_plot_cov", choices = names(other_results()[["response_curve"]][[input$sp]]))
+    updatePickerInput(
+      session, "fr_plot_cov",
+      choices = covariate_choices,
+      selected = selected_cov
+    )
   })
 
   # ** Variable importance plot selectizer ----
@@ -620,7 +848,7 @@ function(input, output, session) {
     req(other_results())
     req(other_results()[["cross_validation"]])
     req(input$sp)
-    updatePickerInput(session, "cv_plot_mode", choices = names(other_results()[["cross_validation"]]))
+    updatePickerInput(session, "cv_plot_model", choices = names(other_results()[["cross_validation"]]))
   })
 
   # ** Fitted values plot selectizer ----
@@ -720,10 +948,10 @@ function(input, output, session) {
   # * Input validation table ----
   # Render uploaded files as a DT table
   output$uploaded_files <- DT::renderDT(
-    if (is.null(rbind(pa_validation_table(), fit_layers_validation_table(), proj_validation_table(), extent_validation_table()))) {
+    if (is.null(rbind(pa_validation_table(), fit_layers_validation_table(), proj_validation_table(), extent_validation_table(), raster_timestamp_validation_table()))) {
       DT::datatable(NULL)
     } else {
-      rbind(pa_validation_table(), fit_layers_validation_table(), proj_validation_table(), extent_validation_table()) %>%
+      rbind(pa_validation_table(), fit_layers_validation_table(), proj_validation_table(), extent_validation_table(), raster_timestamp_validation_table()) %>%
         dplyr::select(name, size, validation) %>%
         dplyr::mutate(validation = ifelse(
           validation,
@@ -901,20 +1129,30 @@ function(input, output, session) {
       if (input$layers_plot_mode == "fit_layers") {
         plot_layers <- covariate_list()[[input$layers_plot_mode]][[input$layers_plot_cov]]
 
-        p <- p +
-          geom_spatraster(data = plot_layers) +
-          scale_fill_gradientn(colours = c("#A1D4B1","#2BAF90","#F1A512","#DD4111","#8C0027"), na.value = "white",
-                               name = legend_label)
+        p <- p + geom_spatraster(data = plot_layers)
+
+        if (is.factor(plot_layers)){
+          p <- p + scale_fill_discrete(type = c("#A1D4B1","#2BAF90","#F1A512","#DD4111","#8C0027"),
+                                        na.value = "white", name = legend_label)
+        } else {
+          p <- p + scale_fill_gradientn(colours = c("#A1D4B1","#2BAF90","#F1A512","#DD4111","#8C0027"),
+                                        na.value = "white", name = legend_label)
+        }
 
       } else if (input$layers_plot_mode == "projections") {
         req(input$layers_plot_year)
         req(input$layers_plot_year <= length(covariate_list()[[input$layers_plot_mode]][[input$layers_plot_scenario]]))
         plot_layers <- covariate_list()[[input$layers_plot_mode]][[input$layers_plot_scenario]][[input$layers_plot_year]][[input$layers_plot_cov]]
 
-        p <- p +
-          geom_spatraster(data = plot_layers) +
-          scale_fill_gradientn(colours = c("#A1D4B1","#2BAF90","#F1A512","#DD4111","#8C0027"), na.value = "white",
-                               name = legend_label)
+        p <- p+ geom_spatraster(data = plot_layers)
+
+        if (is.factor(plot_layers)){
+          p <- p + scale_fill_discrete(type = c("#A1D4B1","#2BAF90","#F1A512","#DD4111","#8C0027"),
+                                       na.value = "white", name = legend_label)
+        } else {
+          p <- p + scale_fill_gradientn(colours = c("#A1D4B1","#2BAF90","#F1A512","#DD4111","#8C0027"),
+                                        na.value = "white", name = legend_label)
+        }
       }
     }
 
@@ -950,7 +1188,7 @@ function(input, output, session) {
     if (!is.null(input$sp)) {
       model_points <- presence_absence_list()$model_pa[[input$sp]]
       model_points <- model_points[model_points[, "pa"] == 1, c(long_lat_cols(), "pa")]
-      model_points$type <- "keeped"
+      model_points$type <- "kept"
 
       raw_points <- presence_absence_list()$raw_pa[[input$sp]]
       raw_points <- raw_points[raw_points[, "pa"] == 1, c(long_lat_cols(), "pa")]
@@ -963,7 +1201,8 @@ function(input, output, session) {
 
       p <- p +
         geom_point(data = tmp_data, ggplot2::aes(x = tmp_data[, long_lat_cols()[1]], y = tmp_data[, long_lat_cols()[2]], color = type)) +
-        scale_color_manual(values = c("keeped" = "#65c4d8", "discarded" = "#f67d33"))
+        scale_color_manual(values = c("kept" = "#65c4d8", "discarded" = "#f67d33")) +
+        ggplot2::coord_sf(datum = sf::st_crs(4326))
     }
 
     p +
@@ -986,19 +1225,28 @@ function(input, output, session) {
   fr_plot <- reactive({
     p <- ggplot2::ggplot(data = data.frame(y = 0:1), ggplot2::aes(y = y))
 
-    if (!is.null(input$fr_plot_cov)) {
-      if (is.character(other_results()[["response_curve"]][[input$sp]][[input$fr_plot_cov]]$value) | is.factor(other_results()[["response_curve"]][[input$sp]][[input$fr_plot_cov]]$value)){
-        p <- ggplot2::ggplot(data = other_results()[["response_curve"]][[input$sp]][[input$fr_plot_cov]], ggplot2::aes(x = value)) +
-          geom_point(ggplot2::aes(y = mean), color = "#004172") +
-          geom_errorbar(aes(ymin = q25, ymax = q975), width = 0.2, color = "#65c4d8") +
-          xlab(input$fr_plot_cov)
+    req(input$sp)
+    req(input$fr_plot_cov)
 
-      } else {
-        p <- ggplot2::ggplot(data = other_results()[["response_curve"]][[input$sp]][[input$fr_plot_cov]], ggplot2::aes(x = value)) +
-          geom_ribbon(ggplot2::aes(ymin = q25, ymax = q975), fill = "#65c4d8", alpha = 0.3) +
-          geom_line(ggplot2::aes(y = mean), color = "#004172", linewidth = 1) +
-          xlab(input$fr_plot_cov)
-      }
+    data_list <- other_results()[["response_curve"]][[input$sp]]
+    # Check input$fr_plot_cov is in the list
+    validate(
+      need(input$fr_plot_cov %in% names(data_list), "Invalid covariate selected.")
+    )
+
+    dat <- data_list[[input$fr_plot_cov]]
+    req(dat)
+
+    if (is.character(dat$value) || is.factor(dat$value)) {
+      p <- ggplot2::ggplot(data = dat, ggplot2::aes(x = value)) +
+        geom_point(ggplot2::aes(y = mean), color = "#004172") +
+        geom_errorbar(ggplot2::aes(ymin = q25, ymax = q975), width = 0.2, color = "#65c4d8") +
+        xlab(input$fr_plot_cov)
+    } else {
+      p <- ggplot2::ggplot(data = dat, ggplot2::aes(x = value)) +
+        geom_ribbon(ggplot2::aes(ymin = q25, ymax = q975), fill = "#65c4d8", alpha = 0.3) +
+        geom_line(ggplot2::aes(y = mean), color = "#004172", linewidth = 1) +
+        xlab(input$fr_plot_cov)
     }
 
     p +
@@ -1033,12 +1281,21 @@ function(input, output, session) {
 
   # * Cross-validation plot ----
   cv_plot <- reactive({
-    if (!is.null(input$cv_plot_mode)){
-      x <- other_results()[["cross_validation"]][[input$cv_plot_mode]][[input$sp]]
+    req(input$cv_plot_model, input$cv_plot_method, input$cv_plot_type, input$sp)
+
+    plot_data <- other_results()$cross_validation[[input$cv_plot_model]][[input$sp]][[input$cv_plot_method]]
+
+    validate(need(!is.null(plot_data), "Please select valid CV options"))
+
+    if (input$cv_plot_type == "Metrics") {
+      plot_cv_metrics(plot_data$metrics)
     } else {
-      x <- data.frame(PREC = 0, SEN = 0, SPC = 0, FDR = 0, NPV = 0, FNR = 0, FPR = 0, Fscore = 0, ACC = 0, TSS = 0)
+      if (!is.null(inv_study_area_poly())){
+        plot_cv_folds_points(plot_data$predictions, polygon = inv_study_area_poly())
+      } else {
+        plot_cv_folds_points(plot_data$predictions)
+      }
     }
-    glossa::generate_cv_plot(x)
   })
   output$cv_plot<-renderPlot({
     cv_plot()
@@ -1047,7 +1304,7 @@ function(input, output, session) {
   # * Fitted values plot ----
   fv_plot <- reactive({
     if (!is.null(input$fv_plot_mode)){
-      x <- other_results()[["model_diagnostic"]][[input$fv_plot_mode]][[input$sp]]
+      x <- other_results()[["model_diagnostic"]][[input$fv_plot_mode]][[input$sp]][["data"]]
     } else {
       x <- data.frame(matrix(ncol = 1, nrow = 0))
       colnames(x) <- "probability"
@@ -1065,7 +1322,7 @@ function(input, output, session) {
   # * Classified values plot ----
   class_val_plot <- reactive({
     if (!is.null(input$class_val_plot_mode)){
-      x <- other_results()[["model_diagnostic"]][[input$class_val_plot_mode]][[input$sp]]
+      x <- other_results()[["model_diagnostic"]][[input$class_val_plot_mode]][[input$sp]][["data"]]
       tmp_cutoff <- pa_cutoff()[[input$class_val_plot_mode]][[input$sp]]
     } else {
       x <- data.frame(matrix(ncol = 3, nrow = 0))
@@ -1082,8 +1339,8 @@ function(input, output, session) {
       theme_minimal(base_size = 15) +
       theme(legend.position = "none") +
       geom_vline(xintercept = tmp_cutoff, col = 'black', linetype = "dashed", linewidth = 1) +
-      annotate("text", x = tmp_cutoff, y = 1.5, label = paste("Cutoff =", round(tmp_cutoff,3)),
-               color = "black", vjust = -1, size = 4)
+      ggplot2::annotate("text", x = tmp_cutoff, y = 1.5, label = paste("Cutoff =", round(tmp_cutoff,3)),
+                        color = "black", vjust = -1, size = 4)
   })
   output$class_val_plot<-renderPlot({
     class_val_plot()
@@ -1092,38 +1349,33 @@ function(input, output, session) {
   # * ROC plot ----
   roc_plot <- reactive({
     if (!is.null(input$roc_plot_mode)){
-      x <- other_results()[["model_diagnostic"]][[input$roc_plot_mode]][[input$sp]]
-      TP <- sum(x$observed == 1 & x$predicted == 1)
-      FP <- sum(x$observed == 0 & x$predicted == 1)
-      TN <- sum(x$observed == 0 & x$predicted == 0)
-      FN <- sum(x$observed == 1 & x$predicted == 0)
-
-      x <- pROC::roc(x$observed, x$probability, )
-      auc <- round(pROC::auc(x) ,4)
-      pr <- TP/(TP + FP)
-      sn <- TP/(TP + FN)
-      sp <- TN/(TN + FP)
-      tss <- sn + sp - 1
-      tss <- round(tss, 4)
-      f_score <- 2 * ((pr * sn) / (pr + sn))
+      mod_diag <- other_results()[["model_diagnostic"]][[input$roc_plot_mode]][[input$sp]]
+      x <- pROC::roc(mod_diag[["data"]]$observed, mod_diag[["data"]]$probability, levels = c(0, 1), direction = "<")
+      auc <- round(mod_diag[["metrics"]]["AUC"] ,4)
+      tss <- round(mod_diag[["metrics"]]["TSS"] ,4)
+      f_score <- round(mod_diag[["metrics"]]["Fscore"] ,4)
+      cbi <- round(mod_diag[["metrics"]]["CBI"] ,4)
 
       p <- pROC::ggroc(x, colour = "#007bff", linewidth = 1.5)
     } else {
       auc <- 0
       tss <- 0
       f_score <- 0
+      cbi <- 0
       p <- ggplot() + xlim(c(1, 0)) + ylim(c(0, 1))
     }
     p +
       geom_abline(intercept=1,slope=1,col="grey", linetype = "dashed", linewidth = 1.5) +
       xlab("False Positive Rate (FPR)") +
       ylab("True Positive Rate (TPR)") +
-      annotate("text", x = 0.25, y = 0.35, label = paste("AUC =", auc),
-               color = "black", vjust = -1, size = 4) +
-      annotate("text", x = 0.25, y = 0.25, label = paste("TSS =", tss),
-               color = "black", vjust = -1, size = 4) +
-      annotate("text", x = 0.25, y = 0.15, label = paste("F-score =", f_score),
-               color = "black", vjust = -1, size = 4) +
+      ggplot2::annotate("text", x = 0.25, y = 0.45, label = paste("CBI =", cbi),
+                        color = "black", vjust = -1, size = 4) +
+      ggplot2::annotate("text", x = 0.25, y = 0.35, label = paste("AUC =", auc),
+                        color = "black", vjust = -1, size = 4) +
+      ggplot2::annotate("text", x = 0.25, y = 0.25, label = paste("TSS =", tss),
+                        color = "black", vjust = -1, size = 4) +
+      ggplot2::annotate("text", x = 0.25, y = 0.15, label = paste("F-score =", f_score),
+                        color = "black", vjust = -1, size = 4) +
       theme_minimal(base_size = 15)
   })
   output$roc_plot<-renderPlot({
@@ -1162,7 +1414,8 @@ function(input, output, session) {
                                     cross_val = input$export_cv, layer_format = input$export_layer_format,
                                     projections_results = projections_results(),
                                     presence_absence_list = presence_absence_list(),
-                                    other_results = other_results(), pa_cutoff = pa_cutoff())
+                                    other_results = other_results(), pa_cutoff = pa_cutoff(),
+                                    config_snapshot = config())
 
       zip::zip(zipfile = file, files = export_files, mode = "cherry-pick")
       w$hide()
@@ -1172,7 +1425,26 @@ function(input, output, session) {
   #=========================================================#
   # Stop app ----
   #=========================================================#
-  observeEvent(input$stop_app,{
-    stopApp()
+  observeEvent(input$stop_app, {
+    shinyWidgets::ask_confirmation(
+      inputId = "stop_app_confirmation",
+      title = "Do you want to close the app?",
+      text = "By selecting 'Confirm', the GLOSSA app will close.",
+      type = "warning",
+      btn_labels = c("Cancel", "Confirm")
+    )
   })
+
+  observeEvent(input$stop_app_confirmation, {
+    if (isTRUE(input$stop_app_confirmation)) {
+      session$sendCustomMessage("closeWindow", list())
+      stopApp()
+    }
+  })
+
+  #observeEvent(input$stop_app_confirmation, {
+  #  req(input$stop_app_confirmation == TRUE)
+  #  session$sendCustomMessage("closeWindow", TRUE)
+  #  stopApp()
+  #})
 }

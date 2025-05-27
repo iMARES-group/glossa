@@ -7,7 +7,7 @@ test_that("Get covariate names from zip", {
   file1 <- system.file("extdata", "project_layers_1.zip", package="glossa")
 
 
-  expect_type(glossa::get_covariate_names(file1), "character")
+  expect_type(glossa:::get_covariate_names(file1), "character")
 })
 
 test_that("extract_noNA_cov_values handles NA values correctly", {

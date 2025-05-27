@@ -8,7 +8,8 @@ clean_coordinates(
   df,
   study_area,
   overlapping = FALSE,
-  decimal_digits = NULL,
+  thinning_method = NULL,
+  thinning_value = NULL,
   coords = c("decimalLongitude", "decimalLatitude"),
   by_timestamp = TRUE,
   seed = NULL
@@ -21,7 +22,9 @@ clean_coordinates(
 
 \item{overlapping}{Logical indicating whether points overlapping the polygon should be removed (TRUE) or kept (FALSE).}
 
-\item{decimal_digits}{An integer specifying the number of decimal places to which coordinates should be rounded.}
+\item{thinning_method}{Character; spatial thinning method to apply to occurrence data. Options are `c("None", "Distance", "Grid", "Precision")`. See `GeoThinneR` package for details.}
+
+\item{thinning_value}{Numeric; value used for thinning depending on the selected method: distance in meters (`Distance`), grid resolution in degrees (`Grid`), or decimal precision (`Precision`).}
 
 \item{coords}{Character vector specifying the column names for longitude and latitude.}
 

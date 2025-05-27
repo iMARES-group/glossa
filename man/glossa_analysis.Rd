@@ -10,38 +10,65 @@ glossa_analysis(
   proj_files = NULL,
   study_area_poly = NULL,
   predictor_variables = NULL,
-  decimal_digits = NULL,
+  thinning_method = NULL,
+  thinning_value = NULL,
   scale_layers = FALSE,
   buffer = NULL,
   native_range = NULL,
   suitable_habitat = NULL,
   other_analysis = NULL,
+  cv_methods = NULL,
+  cv_folds = 5,
+  cv_block_source = "residuals_autocorrelation",
+  cv_block_size = NULL,
+  pseudoabsence_method = "random",
+  pa_ratio = 1,
+  target_group_points = NULL,
+  pa_buffer_distance = NULL,
   seed = NA,
   waiter = NULL
 )
 }
 \arguments{
-\item{pa_data}{A list of data frames containing presence-absence data.}
+\item{pa_data}{A list of data frames containing presence-absence data including `decimalLongitude`, `decimalLatitude`, `timestamp`, and `pa` columns.}
 
-\item{fit_layers}{A SpatRaster stack containing model fitting environmental layers.}
+\item{fit_layers}{A ZIP file with the raster files containing model fitting environmental layers formatted as explained in the website documentation.}
 
-\item{proj_files}{A list of file paths containing environmental layers for projection scenarios.}
+\item{proj_files}{A list of ZIP file paths containing environmental layers for projection scenarios.}
 
 \item{study_area_poly}{A spatial polygon defining the study area.}
 
-\item{predictor_variables}{A list of predictor variables to be used in the analysis.}
+\item{predictor_variables}{A list of the predictor variables to be used in the analysis for each occurrence dataset.}
 
-\item{decimal_digits}{An integer specifying the number of decimal places to which coordinates should be rounded.}
+\item{thinning_method}{A character specifying the spatial thinning method to apply to occurrence data. Options are `c("none", "distance", "grid", "precision")`. See `GeoThinneR` package for details.}
 
-\item{scale_layers}{Logical; if TRUE, covariate layers will be scaled based on fit layers.}
+\item{thinning_value}{A numeric value used for thinning depending on the selected method: distance in meters (`distance`), grid resolution in degrees (`grid`), or decimal precision (`precision`).}
 
-\item{buffer}{Buffer value or distance in decimal degrees (arc_degrees).}
+\item{scale_layers}{Logical; if `TRUE`, covariate layers will be standardize (z-score) based on fit layers.}
 
-\item{native_range}{A vector of scenarios ('fit_layers', 'projections') where native range modeling should be performed.}
+\item{buffer}{Buffer value or distance in decimal degrees (arc_degrees) for buffering the study area polygon.}
 
-\item{suitable_habitat}{A vector of scenarios ('fit_layers', 'projections') where habitat suitability modeling should be performed.}
+\item{native_range}{A vector of scenarios `c('fit_layers', 'projections')` where native range modeling should be performed.}
 
-\item{other_analysis}{A vector of additional analyses to perform (e.g., 'variable_importance', 'functional_responses', 'cross_validation').}
+\item{suitable_habitat}{A vector of scenarios `c('fit_layers', 'projections')` where habitat suitability modeling should be performed.}
+
+\item{other_analysis}{A vector of additional analyses to perform (e.g., `'variable_importance', 'functional_responses', 'cross_validation'`).}
+
+\item{cv_methods}{A vector of the cross-validation strategies to perform. One or multiple of `"k-fold"`, `"spatial_blocks"`, `"temporal_blocks"`.}
+
+\item{cv_folds}{Integer indicating the number of folds to generate.}
+
+\item{cv_block_source}{For spatial blocks, how to determine block size. One of: `"residuals_autocorrelation"`, `"predictors_autocorrelation"`, `"manual"`.}
+
+\item{cv_block_size}{Numeric block size in meters (used if `cv_block_source = "manual"`).}
+
+\item{pseudoabsence_method}{Method for generating pseudo-absences. One of "random", "target_group", or "buffer_out".}
+
+\item{pa_ratio}{Ratio of pseudo-absences to presences (pseudo-absence:presences).}
+
+\item{target_group_points}{Optional data frame for sampling points for target-group method.}
+
+\item{pa_buffer_distance}{Numeric buffer radius in degrees around each presence. Default is NULL.}
 
 \item{seed}{Optional; an integer seed for reproducibility of results.}
 

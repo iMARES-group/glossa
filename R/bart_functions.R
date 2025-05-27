@@ -66,12 +66,12 @@ predict_bart <- function(bart_model, layers, cutoff = NULL) {
     input_matrix <- as.data.frame(input_matrix)
     categorical_cols <- names(layers)[terra::is.factor(layers)]
     for (col in categorical_cols) {
-      if (!is.null(terra::levels(layers[[col]])[[1]]$label)) {
-        fact_labels <- terra::levels(layers[[col]])[[1]]$label
+      if (!is.null(terra::levels(layers[[col]])[[1]][, 2])) {
+        fact_labels <- terra::levels(layers[[col]])[[1]][, 2]
       } else {
-        fact_labels <- terra::levels(layers[[col]])[[1]]$value
+        fact_labels <- terra::levels(layers[[col]])[[1]][, 1]
       }
-      input_matrix[[col]] <- factor(input_matrix[[col]], levels = terra::levels(layers[[col]])[[1]]$value, labels = fact_labels)
+      input_matrix[[col]] <- factor(input_matrix[[col]], levels = terra::levels(layers[[col]])[[1]][, 1], labels = fact_labels)
     }
 
     # Initialize output data frame for predictions
@@ -329,64 +329,99 @@ pa_optimal_cutoff <- function(y, x, model, seed = NULL) {
   return(pa_cutoff)
 }
 
-
-#' Cross-Validation for BART Model
+#' Cross-validation for BART model
 #'
-#' This function performs k-fold cross-validation for a Bayesian Additive Regression Trees (BART) model
+#' This function performs cross-validation for a Bayesian Additive Regression Trees (BART) model
 #' using presence-absence data and environmental covariate layers. It calculates various performance metrics
 #' for model evaluation.
 #'
 #' @param data Data frame with a column (named 'pa') indicating presence (1) or absence (0) and columns for the predictor variables.
-#' @param k Integer; number of folds for cross-validation (default is 10).
+#' @param folds A vector of fold assignments (same length as `data`).
+#' @param predictor_cols Optional; a character vector of column names to be used as predictors. If NULL, all columns except 'pa' will be used.
 #' @param seed Optional; random seed.
 #'
-#' @return A data frame containing the true positives (TP), false positives (FP), false negatives (FN), true negatives (TN),
-#' and various performance metrics including precision (PREC), sensitivity (SEN), specificity (SPC), false discovery rate (FDR),
-#' negative predictive value (NPV), false negative rate (FNR), false positive rate (FPR), F-score, accuracy (ACC), balanced accuracy (BA),
-#' and true skill statistic (TSS) for each fold.
+#' @return A list with:
+#' \describe{
+#'   \item{metrics}{A data frame containing the true positives (TP), false positives (FP), false negatives (FN), true negatives (TN), and various performance metrics including precision (PREC), sensitivity (SEN), specificity (SPC), false discovery rate (FDR), negative predictive value (NPV), false negative rate (FNR), false positive rate (FPR), F-score, accuracy (ACC), balanced accuracy (BA), and true skill statistic (TSS) for each fold.}
+#'   \item{predictions}{Data frame with observed, predicted, probability, and fold assignment per test instance.}
+#' }
 #'
 #' @export
-cv_bart <- function(data, k = 10, seed = NULL){
+cross_validate_model <- function(data, folds, predictor_cols = NULL, seed = NULL) {
   predict.bart <- utils::getFromNamespace("predict.bart", "dbarts")
   set.seed(seed)
-  n <- nrow(data)
-  # Create index vector
-  k_index <- rep(1:k, length.out = n)
-  # Randomize vector
-  k_index <- sample(k_index)
-  data$k <- k_index
-  TP <- c()
-  FP <- c()
-  FN <- c()
-  TN <- c()
-  for (i in 1:k){
-    # Split train-test
-    train <- data[data$k != i, ]
-    test <- data[data$k == i, ]
+
+  if (is.null(predictor_cols)) {
+    predictor_cols <- setdiff(colnames(data), "pa")
+  }
+
+  fold_index <- sort(unique(folds))
+  TP <- FP <- FN <- TN <- AUC <- CBI <- c()
+  predictions <- list()
+  for (i in fold_index) {
+    train_idx <- which(folds != i)
+    test_idx <- which(folds == i)
+
+    train <- data[train_idx, ]
+    test <- data[test_idx, ]
+
+    # Skip fold if only one class
+    if (length(unique(train$pa)) < 2 || length(unique(test$pa)) < 2) {
+      warning(paste("Skipping fold", i, "due to insufficient classes in training or testing data."))
+      TP <- c(TP, NA)
+      FP <- c(FP, NA)
+      FN <- c(FN, NA)
+      TN <- c(TN, NA)
+      CBI <- c(CBI, NA)
+      AUC <- c(AUC, NA)
+      next
+    }
 
     # Fit model
     bart_model <- fit_bart_model(
       y = train[, "pa"],
-      x = train[, colnames(train) != "pa", drop = FALSE],
+      x = train[, predictor_cols, drop = FALSE],
       seed = seed
     )
 
     # Compute optimal cutoff to predict presence/absence
     cutoff <- pa_optimal_cutoff(
       y = train[, "pa"],
-      x = train[, colnames(train) != "pa", drop = FALSE],
+      x = train[, predictor_cols, drop = FALSE],
       bart_model
     )
 
-    pred <- predict.bart(bart_model, test[, colnames(test) != "pa", drop = FALSE])
-    pred <- colMeans(pred)
-    potential_presences <- ifelse(pred >= cutoff, 1, 0)
+    probs <- colMeans(predict.bart(bart_model, test[, predictor_cols, drop = FALSE]))
+    preds <- ifelse(probs >= cutoff, 1, 0)
 
     # Confusion matrices
-    TP <- c(TP, sum(test$pa == 1 & potential_presences == 1))
-    FP <- c(FP, sum(test$pa == 0 & potential_presences == 1))
-    FN <- c(FN, sum(test$pa == 1 & potential_presences == 0))
-    TN <- c(TN, sum(test$pa == 0 & potential_presences == 0))
+    TP <- c(TP, sum(test$pa == 1 & preds == 1))
+    FP <- c(FP, sum(test$pa == 0 & preds == 1))
+    FN <- c(FN, sum(test$pa == 1 & preds == 0))
+    TN <- c(TN, sum(test$pa == 0 & preds == 0))
+
+    # Compute AUC
+    auc_val <- tryCatch({
+      pROC::auc(pROC::roc(test$pa, probs, levels = c(0, 1), direction = "<"))
+    }, error = function(e) NA)
+    AUC <- c(AUC, as.numeric(auc_val))
+
+    # Compute Boyce Index
+    boyce <- tryCatch({
+      contBoyce(pres = probs[test$pa == 1], contrast = probs[test$pa == 0])
+    }, error = function(e) NA)
+    CBI <- c(CBI, boyce)
+
+    predictions[[i]] <- data.frame(
+      ID = test_idx,
+      decimalLongitude = test$decimalLongitude,
+      decimalLatitude = test$decimalLatitude,
+      timestamp = test$timestamp,
+      pa = test$pa,
+      predicted = preds,
+      probability = probs,
+      fold = i
+    )
   }
 
   # Metrics
@@ -402,11 +437,14 @@ cv_bart <- function(data, k = 10, seed = NULL){
   BA <- (SEN + SPC) / 2
   TSS <- SEN + SPC - 1
 
-  cv_res <- data.frame(
-    TP = TP, FP = FP, FN = FN, TN = TN, PREC = PREC, SEN = SEN, SPC = SPC,
-    FDR = FDR, NPV = NPV, FNR = FNR, FPR = FPR, Fscore = Fscore, ACC = ACC,
-    BA = BA, TSS = TSS
+  metrics <- data.frame(
+    fold = fold_index,
+    TP = TP, FP = FP, FN = FN, TN = TN,
+    PREC = PREC, SEN = SEN, SPC = SPC, FDR = FDR, NPV = NPV, FNR = FNR, FPR = FPR,
+    Fscore = Fscore, ACC = ACC, BA = BA, TSS = TSS,
+    CBI = CBI, AUC = AUC,
+    status = ifelse(is.na(TP), "skipped", "valid")
   )
 
-  return(cv_res)
+  return(list(metrics = metrics, predictions = do.call(rbind, predictions)))
 }

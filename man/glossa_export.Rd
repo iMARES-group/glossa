@@ -19,7 +19,8 @@ glossa_export(
   projections_results = NULL,
   presence_absence_list = NULL,
   other_results = NULL,
-  pa_cutoff = NULL
+  pa_cutoff = NULL,
+  config_snapshot = NULL
 )
 }
 \arguments{
@@ -55,6 +56,6 @@ glossa_export(
 A character vector of file paths for the exported files or directories.
 }
 \description{
-This function exports various types of Glossa model results, including native range predictions, suitable habitat predictions, model data, variable importance, functional response results, and presence/absence probability cutoffs. It generates raster files for prediction results, CSV files for model data and variable importance, and CSV files for functional response results. Additionally, it creates a CSV file for presence/absence probability cutoffs if provided.
+This function exports various types of Glossa model results, including native range predictions, suitable habitat predictions, model data, variable importance, functional response results, and presence/absence probability cutoffs. It generates raster files for prediction results, TSV files for model data and variable importance, and TSV files for functional response results. Additionally, it creates a TSV file for presence/absence probability cutoffs if provided.
 }
 \keyword{internal}

@@ -69,9 +69,9 @@ remove_points_polygon <- function(df, polygon, overlapping = FALSE, coords = c("
 
   # Filter points based on overlapping parameter
   if (overlapping) {
-    filtered_points <- points_sf[!sf::st_intersects(points_sf, polygon, sparse = FALSE), ]
+    filtered_points <- suppressMessages(points_sf[!sf::st_intersects(points_sf, polygon, sparse = FALSE), ])
   } else {
-    filtered_points <- points_sf[sf::st_intersects(points_sf, polygon, sparse = FALSE), ]
+    filtered_points <- suppressMessages(points_sf[sf::st_intersects(points_sf, polygon, sparse = FALSE), ])
   }
 
   # Convert back to dataframe
@@ -89,7 +89,8 @@ remove_points_polygon <- function(df, polygon, overlapping = FALSE, coords = c("
 #' @param df A dataframe object with rows representing points. Coordinates are in WGS84 (EPSG:4326) coordinate system.
 #' @param study_area A spatial polygon in WGS84 (EPSG:4326) representing the boundaries within which coordinates should be kept.
 #' @param overlapping Logical indicating whether points overlapping the polygon should be removed (TRUE) or kept (FALSE).
-#' @param decimal_digits An integer specifying the number of decimal places to which coordinates should be rounded.
+#' @param thinning_method Character; spatial thinning method to apply to occurrence data. Options are `c("None", "Distance", "Grid", "Precision")`. See `GeoThinneR` package for details.
+#' @param thinning_value Numeric; value used for thinning depending on the selected method: distance in meters (`Distance`), grid resolution in degrees (`Grid`), or decimal precision (`Precision`).
 #' @param coords Character vector specifying the column names for longitude and latitude.
 #' @param by_timestamp If TRUE, clean coordinates taking into account different time periods defined in the column `timestamp`.
 #' @param seed Optional; an integer seed for reproducibility of results.
@@ -99,7 +100,7 @@ remove_points_polygon <- function(df, polygon, overlapping = FALSE, coords = c("
 #' @details This function takes a data frame containing presence/absence data with longitude and latitude coordinates, a spatial polygon representing boundaries within which to keep points, and parameters for rounding coordinates and handling duplicated points. It returns a cleaned data frame with valid coordinates within the specified boundaries.
 #'
 #' @export
-clean_coordinates <- function(df, study_area, overlapping = FALSE, decimal_digits = NULL, coords = c("decimalLongitude", "decimalLatitude"), by_timestamp = TRUE, seed = NULL) {
+clean_coordinates <- function(df, study_area, overlapping = FALSE, thinning_method = NULL, thinning_value = NULL, coords = c("decimalLongitude", "decimalLatitude"), by_timestamp = TRUE, seed = NULL) {
   # Remove NA coordinates
   if (by_timestamp) {
     df <- df[complete.cases(df[, c(coords, "timestamp")]), ]
@@ -107,27 +108,50 @@ clean_coordinates <- function(df, study_area, overlapping = FALSE, decimal_digit
     df <- df[complete.cases(df[, coords]), ]
   }
 
-  # Remove duplicated and closer points
-  if (!is.null(decimal_digits)) {
-    group_col <- NULL
-    if (by_timestamp) group_col <- "timestamp"
-    df <- GeoThinneR::thin_points(
-      df, long_col = coords[1], lat_col = coords[2], group_col = group_col,
-      method = "precision", trials = 1, all_trials = FALSE, seed = seed,
-      precision = decimal_digits
-    )[[1]]
+  # Remove duplicated points
+  if (by_timestamp) {
+    df <- remove_duplicate_points(df, coords = c(coords, "timestamp"))
   } else {
-    # Remove duplicated points
-    if (by_timestamp) {
-      df <- remove_duplicate_points(df, coords = c(coords, "timestamp"))
-    } else {
-      df <- remove_duplicate_points(df, coords = coords)
-    }
+    df <- remove_duplicate_points(df, coords = coords)
   }
 
   # Remove points outside the study area
   if (!is.null(study_area)) {
     df <- remove_points_polygon(df, study_area, overlapping, coords)
+  }
+
+  # Occurrence spatial thinning
+  if (!is.null(thinning_method) && thinning_method != "None"){
+    if (thinning_method %in% c("distance", "grid", "precision") && is.null(thinning_value)) {
+      warning("Missing `thinning_value` for thinning method: ", thinning_method, ". Skipping thinning.")
+    } else if (!thinning_method %in% c("distance", "grid", "precision")) {
+      warning(paste("Unknown thinning method:", thinning_method, ". Skipping thinning."))
+    } else {
+      group_col <- NULL
+      if (by_timestamp) group_col <- "timestamp"
+
+      message("Running thinning with method '", thinning_method, "' and thinning value ", thinning_value)
+      if (thinning_method == "distance") {
+        df <- GeoThinneR::thin_points(
+          df, lon_col = coords[1], lat_col = coords[2], group_col = group_col,
+          method = "distance", search_type = "local_kd_tree", thin_dist = thinning_value,
+          trials = 1, all_trials = FALSE, seed = seed
+        )
+      } else if (thinning_method == "grid") {
+        df <- GeoThinneR::thin_points(
+          df, lon_col = coords[1], lat_col = coords[2], group_col = group_col,
+          method = "grid", resolution = thinning_value, n = 1,
+          trials = 1, all_trials = FALSE, seed = seed
+        )
+      } else if (thinning_method == "precision") {
+        df <- GeoThinneR::thin_points(
+          df, lon_col = coords[1], lat_col = coords[2], group_col = group_col,
+          method = "precision", precision = thinning_value,
+          trials = 1, all_trials = FALSE, seed = seed
+        )
+      }
+      df <- GeoThinneR::largest(df)
+    }
   }
 
   return(df)
