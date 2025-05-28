@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# GLOSSA - Global Species Spatiotemporal Analysis <a href="https://iMARES-group.github.io/glossa/"><img src="inst/app/www/logo_glossa.png" align="right" height="138" /></a>
+# GLOSSA - Global Ocean Species Spatiotemporal Analysis <a href="https://iMARES-group.github.io/glossa/"><img src="inst/app/www/logo_glossa.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 
@@ -14,17 +14,17 @@ v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org
 
 ------------------------------------------------------------------------
 
-**GLOSSA** (Global Species Spatiotemporal Analysis) is an open-source,
-user-friendly R Shiny application designed for modeling marine species
-distribution. Written in R, GLOSSA uses the Shiny and bs4Dash libraries
-to provide an intuitive interface for fitting species distribution
-models using presence/absence or presence-only (pseudo-absences will be
-generated) data. The app uses flexible machine learning techniques like
-Bayesian Additive Regression Trees (BART), enabling users to model
-species distributions across different temporal and spatial scales and
-forecast future scenarios based on environmental data. With GLOSSA,
-users can explore current and future suitable habitats and visualize
-results with minimal coding expertise.
+**GLOSSA** (Global Ocean Species Spatiotemporal Analysis) is an
+open-source, user-friendly R Shiny application designed for modeling
+marine species distribution. Written in R, GLOSSA uses the Shiny and
+bs4Dash libraries to provide an intuitive interface for fitting species
+distribution models using presence/absence or presence-only
+(pseudo-absences will be generated) data. The app uses flexible machine
+learning techniques like Bayesian Additive Regression Trees (BART),
+enabling users to model species distributions across different temporal
+and spatial scales and forecast future scenarios based on environmental
+data. With GLOSSA, users can explore current and future suitable
+habitats and visualize results with minimal coding expertise.
 
 ![](https://github.com/iMARES-group/glossa/blob/main/inst/app/www/img/glossa_short_flowchart.png)
 
@@ -65,7 +65,7 @@ website](https://iMARES-group.github.io/glossa/):
 ### Current version
 
 - **Development version** in progress (27/05/2025)
-- CRAN release: **v1.0.0** (15/10/2024)
+- CRAN release: **v1.1.0** (27/05/2024)
 
 See the full
 [changelog](https://github.com/iMARES-group/glossa/blob/main/NEWS.md)

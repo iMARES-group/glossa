@@ -1,5 +1,7 @@
 # glossa (development version)
 
+# glossa 1.1.0
+
 ### New Features
 
 * Added support for spatial block and temporal block cross-validation. Spatial block size can be determined manually or using residual or predictor autocorrelation (27/05/2025).
