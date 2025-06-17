@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## glossa (development version)
 
+## glossa 1.2.0
+
 ### Added
 
 * Added support for tuning the number of trees in the sum-of-trees formulation of BART and the end-node shrinkage prior parameter to control overfitting (12/06/2025).

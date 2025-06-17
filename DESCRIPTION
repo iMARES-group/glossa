@@ -1,7 +1,7 @@
 Type: Package
 Package: glossa
 Title: User-Friendly 'shiny' App for Bayesian Species Distribution Models
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: c(
     person("Jorge", "Mestre-Tomás", , "jorge.mestre.tomas@csic.es", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8983-3417")),
