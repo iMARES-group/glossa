@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GLOSSA – Quarto</title>
+<title>Changelog - GLOSSA – Quarto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -106,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Tutorials</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./news.html"> 
+    <a class="nav-link active" href="./news.html" aria-current="page"> 
 <span class="menu-text">Changelog</span></a>
   </li>  
   <li class="nav-item">
@@ -141,102 +141,105 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-layout-custom page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#changelog" id="toc-changelog" class="nav-link active" data-scroll-target="#changelog">Changelog</a>
+  <ul class="collapse">
+  <li><a href="#glossa-development-version" id="toc-glossa-development-version" class="nav-link" data-scroll-target="#glossa-development-version">glossa (development version)</a></li>
+  <li><a href="#glossa-1.2.0" id="toc-glossa-1.2.0" class="nav-link" data-scroll-target="#glossa-1.2.0">glossa 1.2.0</a>
+  <ul class="collapse">
+  <li><a href="#added" id="toc-added" class="nav-link" data-scroll-target="#added">Added</a></li>
+  <li><a href="#fixed" id="toc-fixed" class="nav-link" data-scroll-target="#fixed">Fixed</a></li>
+  </ul></li>
+  <li><a href="#glossa-1.1.0" id="toc-glossa-1.1.0" class="nav-link" data-scroll-target="#glossa-1.1.0">glossa 1.1.0</a>
+  <ul class="collapse">
+  <li><a href="#new-features" id="toc-new-features" class="nav-link" data-scroll-target="#new-features">New features</a></li>
+  <li><a href="#minor-improvements-and-bug-fixes" id="toc-minor-improvements-and-bug-fixes" class="nav-link" data-scroll-target="#minor-improvements-and-bug-fixes">Minor improvements and bug fixes</a></li>
+  </ul></li>
+  <li><a href="#glossa-1.0.0" id="toc-glossa-1.0.0" class="nav-link" data-scroll-target="#glossa-1.0.0">glossa 1.0.0</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/iMARES-group/glossa/edit/main/news.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
 <!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
-<div class="welcome-block">
-<div class="welcome-image">
-<p><img src="images/logo_glossa_text.png" alt="GLOSSA Logo"></p>
-</div>
-<div class="welcome-text">
-<h3>
-Interactive species distribution modeling for marine data
-</h3>
-<h3>
-An R Shiny app to fit models and visualize results
-</h3>
-</div>
-</div>
-<div class="description-block">
-<div class="description-content">
-<section id="welcome-to-glossa" class="description-text">
-<h2>Welcome to GLOSSA</h2>
-<p><strong>GLOSSA</strong> is an open-source R Shiny application for <strong>modeling marine species distributions</strong> using presence/(pseudo-)absence data and environmental predictors. It is designed to lower technical barriers and make SDM analyses accessible through an interactive interface. GLOSSA guides users through a streamlined SDM workflow, from data upload and preprocessing to model fitting, evaluation, and result exploration.</p>
+<section id="changelog" class="level1">
+<h1>Changelog</h1>
+<p>All notable changes to this project will be documented in this file.</p>
+<section id="glossa-development-version" class="level2">
+<h2 class="anchored" data-anchor-id="glossa-development-version">glossa (development version)</h2>
+</section>
+<section id="glossa-1.2.0" class="level2">
+<h2 class="anchored" data-anchor-id="glossa-1.2.0">glossa 1.2.0</h2>
+<section id="added" class="level3">
+<h3 class="anchored" data-anchor-id="added">Added</h3>
 <ul>
-<li><strong>Graphical user interface</strong>: An intuitive interface for fitting SDMs.</li>
-<li><strong>Flexible modeling</strong>: Fit Bayesian Additive Regression Trees (BART) to estimate species-environment relationships.</li>
-<li><strong>Support for multiple species</strong>: Run and compare separate models within the same session.</li>
-<li><strong>Support for forecasting</strong>: Project distributions across time periods or climate scenarios.</li>
-<li><strong>Uncertainty estimation</strong>: Summarize posterior predictions with point and interval estimates.</li>
-<li><strong>Model evaluation</strong>: Evaluate performance using cross-validation, including spatial blocks and temporal splits.</li>
-<li><strong>Reproducible outputs</strong>: Export all results alongside a configuration file to ensure reproducibility.</li>
+<li>Added support for tuning the number of trees in the sum-of-trees formulation of BART and the end-node shrinkage prior parameter to control overfitting (12/06/2025).</li>
+<li>Resolution harmonization is now implemented for environmental layers by aggregating to the coarsest resolution, complementing the existing extent and CRS harmonization (10/06/2025).</li>
 </ul>
 </section>
-<p><img src="images/welcome_image.png" alt="GLOSSA welcome image" class="description-image"></p>
-</div>
-</div>
-<div class="card-container">
-<div class="card-deck">
-<a href="./get_started.html" class="card custom-card">
-<div class="card-body">
-<div class="card-icon">
-<p><i class="bi bi-rocket-takeoff"></i></p>
-</div>
-<h5 class="card-title">
-Get started
-</h5>
-<p class="card-text">
-Install the package and run your first model using the step-by-step guide.
-</p>
-</div>
-</a> <a href="./pages/documentation/index.html" class="card custom-card">
-<div class="card-body">
-<div class="card-icon">
-<p><i class="bi bi-files"></i></p>
-</div>
-<h5 class="card-title">
-Documentation
-</h5>
-<p class="card-text">
-Details for data input formats, analysis options, and output interpretation.
-</p>
-</div>
-</a> <a href="./pages/tutorials_examples/index.html" class="card custom-card">
-<div class="card-body">
-<div class="card-icon">
-<p><i class="bi bi-puzzle"></i></p>
-</div>
-<h5 class="card-title">
-Tutorials and examples
-</h5>
-<p class="card-text">
-Explore worked examples.
-</p>
-</div>
-</a> <a href="./under_construction.html" class="card custom-card">
-<div class="card-body">
-<div class="card-icon">
-<p><i class="bi bi-question-circle"></i></p>
-</div>
-<h5 class="card-title">
-Support and FAQs
-</h5>
-<p class="card-text">
-Troubleshooting, issues, and how to contribute or cite GLOSSA.
-</p>
-</div>
-</a><p><a href="./under_construction.html" class="card custom-card"></a></p>
-</div>
-</div>
+<section id="fixed" class="level3">
+<h3 class="anchored" data-anchor-id="fixed">Fixed</h3>
+<ul>
+<li>Resolved a UI issue introduced in version 1.1.0 that prevented users from selecting thinning options (28/05/2025).</li>
+</ul>
+</section>
+</section>
+<section id="glossa-1.1.0" class="level2">
+<h2 class="anchored" data-anchor-id="glossa-1.1.0">glossa 1.1.0</h2>
+<section id="new-features" class="level3">
+<h3 class="anchored" data-anchor-id="new-features">New features</h3>
+<ul>
+<li>Added support for spatial block and temporal block cross-validation. Spatial block size can be determined manually or using residual or predictor autocorrelation (27/05/2025).</li>
+<li>Continuous Boyce Index (CBI) and Area Under the ROC Curve (AUC) are now computed for each model based on fitted values and in cross-validation (27/05/2025).</li>
+<li>Now three different pseudo-absence generation can be used: random background, target-group, and delimited by a buffer around presences (21/05/2025).</li>
+<li>A new configuration file including the input files and settings is now automatically created when exporting the results for better reproducibility (15/05/2025).</li>
+<li>Users can now upload a file of raster timestamps to correctly align irregular or custom time series with occurrence data. This prevents mismatches between occurrence timestamps and raster layers when temporal coverage is not sequential or has a different starting point (11/04/2025).</li>
+<li>Categorical variables can now be included as predictor variables using raster layers with factors (25/11/2024).</li>
+</ul>
+</section>
+<section id="minor-improvements-and-bug-fixes" class="level3">
+<h3 class="anchored" data-anchor-id="minor-improvements-and-bug-fixes">Minor improvements and bug fixes</h3>
+<ul>
+<li>Added confirmation dialog to close the app to avoid accidental clicks on the “Close App” button (27/05/2025).</li>
+<li>Improved error handling so analysis does not stop if any of the species drops an error (15/05/2025).</li>
+<li>Fixed reactivity and selection reset issues when updating plot inputs in the report tab (e.g.&nbsp;functional response plot) (02/04/2025).</li>
+<li>Fixed the broken link in the Documentation button on the GLOSSA home page (31/03/2025).</li>
+<li>Fixed an issue where users could upload <code>.tif</code> files but not <code>.tiff</code> files, which are used interchangeably (31/03/2025).</li>
+<li>Added support for handling zipped files from macOS by ignoring hidden system files (31/03/2025).</li>
+<li>Fixed an issue where accessing factor level labels assumed the column was named “label”. Now uses the second column (31/03/2025).</li>
+<li>Warning messages appear when <code>NA</code> values are present in factor levels. Those levels are ignored in the analysis (31/03/2025).</li>
+<li>Allow a numerical tolerance of 1e-7 when evaluating resolution equality between provided raster layers (31/03/2025).</li>
+<li>Updated functions to support raster files with metadata (e.g., <code>.xml</code>) for declaring categorical variables or factors (25/11/2024).</li>
+<li>Enhanced handling of mixed continuous and categorical datasets during layer reading and processing (25/11/2024).</li>
+<li>Scaling now applies only to continuous variables, with categorical variables excluded and appended untransformed (25/11/2024).</li>
+<li>Improved functional response calculations to handle categorical predictors, filtering out levels with no observations (25/11/2024).</li>
+<li>Added functionality to compute the mode across time layers for categorical variables, preserving factor levels, when computing the average environmental scenario (25/11/2024).</li>
+<li>Changed exported file names to avoid Windows file path length errors when unzipping. Also, changed extension from <code>.csv</code> to <code>.tsv</code> (26/05/2025). The following naming adjustments were made: <code>suitable_habitat</code> -&gt; <code>sh</code>, <code>native_range</code> -&gt; <code>nr</code>, <code>cross_validation</code> -&gt; <code>cross_val</code>, <code>functional_responses</code> -&gt; <code>func_res</code>, <code>variable_importance</code> -&gt; <code>var_imp</code>, <code>confusion_matrix</code> -&gt; <code>mod_diag</code>, <code>fit_layers</code> -&gt; <code>fit</code>, <code>projections</code> -&gt; <code>proj</code>.</li>
+</ul>
+</section>
+</section>
+<section id="glossa-1.0.0" class="level2">
+<h2 class="anchored" data-anchor-id="glossa-1.0.0">glossa 1.0.0</h2>
+<ul>
+<li>Initial CRAN submission.</li>
+</ul>
 
 
+</section>
+</section>
 
-
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -662,7 +665,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/iMARES-group/glossa/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/iMARES-group/glossa/edit/main/news.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

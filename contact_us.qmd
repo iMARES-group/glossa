@@ -4,26 +4,25 @@ pagetitle: "Contact us - GLOSSA"
 
 # Contact us
 
-We value your feedback! Whether you have questions about GLOSSA, need technical support, or are interested in collaboration, please feel free to reach out through any of the options below.
+We value your feedback and are here to help you with any questions, support needs or collaboration requests. Please use the following means to get in touch with us:
 
-## GitHub
+### GitHub
 
 For issues, feature requests, questions, or general feedback, please use the Issues tab on our GitHub repository:
 
 - [GLOSSA GitHub issues](https://github.com/iMARES-group/glossa/issues)
 
-## X (Twitter)
+### Contact form
 
-Stay connected and follow our latest news and updates on social media:
-
-- [\@iMARES_group](https://x.com/iMARES_group)
-
-## iMARES website
-
-For special support requests, or collaborations, please contact us via the contact form at the end of the iMARES website:
+For special support or collaboration requests, please contact us via the contact form at the end of the iMARES website:
 
 - [iMARES](https://imares.science/)
 
-### Thank You!
+### Outreach channels
+
+Follow our research group on *Bluesky* and *X* (*Twitter*) for the latest news and updates:
+
+- Bluesky: [\@iMARES_group](https://bsky.app/profile/imares-group.bsky.social)
+- X (Twitter): [\@iMARES_group](https://x.com/iMARES_group)
 
 Thank you for your support! If you want to know more about the group go and visit our website: [iMARES](https://imares.science/)

@@ -4,36 +4,26 @@ pagetitle: "Cite us - GLOSSA"
 
 # How to cite GLOSSA
 
-Thank you for using GLOSSA. Proper citation helps to further develop the tool and highlight its impact on the research community.
+Thank you for using **GLOSSA**! The GLOSSA paper is currently in progress. Meanwhile, to cite the software in publications, you can use the [preprint](https://doi.org/10.48550/arXiv.2505.05862):
 
 ### Main citation for GLOSSA
 
 To cite GLOSSA in publications, please use the following reference:
 
-> Mestre-Tomás J., Fuster-Alonso, A., Bellido, J. M., & Coll, M. (2024). glossa: User-Friendly 'shiny' App for Bayesian Species Distribution Models. R package version 1.0.0, <https://cran.r-project.org/package=glossa>
-
-Corresponding BibTeX entry:
-
-```bibtex
-@Manual{,
-  title = {glossa: User-Friendly 'shiny' App for Bayesian Species Distribution Models},
-  author = {Jorge Mestre-Tomás and Alba Fuster-Alonso and José M. Bellido and Marta Coll},
-  year = {2024},
-  note = {R package version 1.0.0},
-  url = {https://cran.r-project.org/package=glossa},
-}
-```
+> Mestre-Tomás, J., Fuster-Alonso, A., Bellido, J. M., and Coll, M. (2025). GLOSSA: a user-friendly R Shiny application for Bayesian machine learning analysis of marine species distribution. *arXiv preprint arXiv*:2505.05862. DOI: <https://doi.org/10.48550/arXiv.2505.05862>
 
 ### Additional citations
+
+GLOSSA is built on the work of many researchers and developers. To acknowledge their work, we provide citation guidelines for key contributions and inspirational works.
 
 #### Bayesian Additive Regression Trees (BART)
 
 If you use the BART model in your analyses, please include this reference:
 
-> Chipman, H. A., George, E. I., & McCulloch, R. E. (2010). BART: Bayesian Additive Regression Trees. *The Annals of Applied Statistics*, 4(1), 266–298. doi: <https://doi.org/10.1214/09-AOAS285>
+> Chipman, H. A., George, E. I., & McCulloch, R. E. (2010). BART: Bayesian Additive Regression Trees. *The Annals of Applied Statistics*, 4(1), 266–298. DOI: <https://doi.org/10.1214/09-AOAS285>
 
 #### Global-scale BART modeling
 
-For global-scale analyses using BART, please include the following citation:
+For global-scale analyses using BART, please check the following paper:
 
-> Fuster-Alonso, A., Mestre-Tomás, J., Baez, J. C., Pennino, M. G., Barber, X., Bellido, J. M., ... & Coll, M. (2024). Machine learning applied to global scale species distribution models (SDMs). PREPRINT (Version 1) available at *Research Square*. doi: <https://doi.org/10.21203/rs.3.rs-4411399/v1>.
+> Fuster-Alonso, A., Mestre-Tomás, J., Baez, J. C., Pennino, M. G., Barber, X., Bellido, J. M., ... & Coll, M. (2024). Machine learning applied to global scale species distribution models (SDMs). PREPRINT (Version 1) available at *Research Square*. DOI: <https://doi.org/10.21203/rs.3.rs-4411399/v1>.

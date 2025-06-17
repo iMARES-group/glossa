@@ -26,8 +26,8 @@ website:
         href: pages/documentation/index.qmd
       - text: Tutorials
         href: pages/tutorials_examples/index.qmd
-      - href: publications.qmd
-        text: Publications
+      - href: news.qmd
+        text: Changelog
       - href: how_to_cite.qmd
         text: Cite us
       - href: contact_us.qmd
