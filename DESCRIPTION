@@ -10,7 +10,7 @@ Authors@R: c(
   )
 Description: A user-friendly 'shiny' application for Bayesian machine
     learning analysis of marine species distributions. GLOSSA (Global
-    Ocean Species Spatiotemporal Analysis) uses Bayesian Additive
+    Ocean Species Spatio-temporal Analysis) uses Bayesian Additive
     Regression Trees (BART; Chipman, George, and McCulloch (2010)
     <doi:10.1214/09-AOAS285>) to model species distributions with
     intuitive workflows for data upload, processing, model fitting, and

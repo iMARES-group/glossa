@@ -6,11 +6,12 @@
 #' @param y A numeric vector indicating presence (1) or absence (0).
 #' @param x A data frame with the same number of rows as the length of the vector `y`, containing the covariate values.
 #' @param seed An optional integer value for setting the random seed for reproducibility.
+#' @param ... Additional arguments passed to `dbarts::bart()`.
 #'
 #' @return A BART model object.
 #'
 #' @export
-fit_bart_model <- function(y, x, seed = NULL) {
+fit_bart_model <- function(y, x, seed = NULL, ...) {
   # Input validation
   if (!is.numeric(y) || !all(y %in% c(0, 1))) {
     stop("Argument 'y' must be a numeric vector containing only 0s and 1s.")
@@ -33,7 +34,8 @@ fit_bart_model <- function(y, x, seed = NULL) {
   bart_model <- dbarts::bart(x.train = x,
                              y.train = y,
                              keeptrees = TRUE,
-                             verbose = FALSE)
+                             verbose = FALSE,
+                             ...)
 
   # Make the model fit state invisible so we can export it and use it to predict
   invisible(bart_model$fit$state)

@@ -1,15 +1,12 @@
 ## Release summary
 
-This is the CRAN submission of `glossa` v1.1.0.
+This is the CRAN submission of `glossa` v1.2.0.
 
 Key changes:
-* Added support for spatial block and temporal block cross-validation.
-* Users can now choose between different pseudo-absence generation strategies (random background, target-group, and buffer-restricted).
-* Added new model evaluation metrics such as the Continuous Boyce Index (CBI) and Area Under the Curve (AUC).
-* Improved reproducibility by exporting a configuration file with all user inputs and settings.
-* Added support for a timestamp file that allows proper alignment between occurrence records and covariate layers.
-* Raster layers with factor levels are now supported.
-* Exported file names have been shortened and standardized to avoid Windows file path length errors when unzipping.
+
+* Added support for tuning the number of trees in the sum-of-trees formulation of BART and the end-node shrinkage prior parameter to control overfitting (12/06/2025).
+* Resolution harmonization is now implemented for environmental layers by aggregating to the coarsest resolution, complementing the existing extent and CRS harmonization (10/06/2025).
+* Resolved a UI issue introduced in version 1.1.0 that prevented users from selecting thinning options (28/06/2025).
 
 ## Test environments
 
@@ -40,11 +37,3 @@ Possibly misspelled words in DESCRIPTION:
 
 * This is a new submission after the package was archived.
 * The flagged words in the DESCRIPTION file refer to proper nouns and standard terminology.
-
-```
-CRAN repository db overrides:
-  X-CRAN-Comment: Archived on 2025-05-08 as issues were not corrected
-    in time.
-```
-
-* All previously noted issues have now been corrected.

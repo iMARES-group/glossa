@@ -173,7 +173,7 @@ body <- bs4Dash::bs4DashBody(
             # welcome text
             bs4Dash::column(
               width = 6,
-              "Welcome to GLOSSA (Global Ocean Species Spatiotemporal Analysis). Explore species distributions worldwide, from past to future, across diverse climate scenarios."
+              "Welcome to GLOSSA (Global Ocean Species Spatio-temporal Analysis). Explore species distributions worldwide, from past to future, across diverse climate scenarios."
             ),
             # welcome figure
             bs4Dash::column(
@@ -441,7 +441,7 @@ body <- bs4Dash::bs4DashBody(
                   width = "90%"
                 ),
                 conditionalPanel(
-                  condition = "input.thinning_method == 'Distance'",
+                  condition = "input.thinning_method == 'distance'",
                   tags$head(tags$style(HTML(".not_bold label {font-weight:normal !important;}"))),
                   div(numericInput(
                     inputId = "thin_distance",
@@ -449,7 +449,7 @@ body <- bs4Dash::bs4DashBody(
                     value = 10000, min = 1, width = "90%"), class = "not_bold")
                 ),
                 conditionalPanel(
-                  condition = "input.thinning_method == 'Grid'",
+                  condition = "input.thinning_method == 'grid'",
                   tags$head(tags$style(HTML(".not_bold label {font-weight:normal !important;}"))),
                   div(numericInput(
                     inputId = "thin_grid_size",
@@ -457,7 +457,7 @@ body <- bs4Dash::bs4DashBody(
                     value = 1, min = 0, width = "90%"), class = "not_bold")
                 ),
                 conditionalPanel(
-                  condition = "input.thinning_method == 'Precision'",
+                  condition = "input.thinning_method == 'precision'",
                   tags$head(tags$style(HTML(".not_bold label {font-weight:normal !important;}"))),
                   div(numericInput(
                     inputId = "thin_precision",
@@ -526,6 +526,30 @@ body <- bs4Dash::bs4DashBody(
                   choices = c("BART"),
                   selected = "BART",
                   width = "90%"
+                ),
+
+                # Collapsible model options panel
+                checkboxInput("show_model_opts", "Show model options", value = FALSE),
+
+                conditionalPanel(
+                  condition = "input.show_model_opts == true",
+                  numericInput(
+                    inputId = "bart_ntrees",
+                    label = "Number of trees",
+                    value = NULL,
+                    min = 1,
+                    width = "90%"
+                  ),
+
+                  numericInput(
+                    inputId = "bart_k",
+                    label = tags$span("End-node shrinkage prior k", shiny::actionButton("bart_k_info", label = NULL, icon = icon("circle-info", class = "fa-solid fa-circle-info", style = "color:#ffffff;"), class = "btn btn-default action-button btn-xs", style="background-color:transparent;border-radius:0px;border-width:0px")),
+                    value = NULL,
+                    min = 0.1,
+                    max = 10,
+                    step = 0.1,
+                    width = "90%"
+                  )
                 ),
 
                 tags$hr(style="border-color:#F2F3F4;"),

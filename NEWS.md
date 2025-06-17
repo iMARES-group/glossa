@@ -1,8 +1,21 @@
-# glossa (development version)
+# Changelog
 
-# glossa 1.1.0
+All notable changes to this project will be documented in this file.
 
-### New Features
+## glossa (development version)
+
+### Added
+
+* Added support for tuning the number of trees in the sum-of-trees formulation of BART and the end-node shrinkage prior parameter to control overfitting (12/06/2025).
+* Resolution harmonization is now implemented for environmental layers by aggregating to the coarsest resolution, complementing the existing extent and CRS harmonization (10/06/2025).
+
+### Fixed
+
+* Resolved a UI issue introduced in version 1.1.0 that prevented users from selecting thinning options (28/06/2025).
+
+## glossa 1.1.0
+
+### New features
 
 * Added support for spatial block and temporal block cross-validation. Spatial block size can be determined manually or using residual or predictor autocorrelation (27/05/2025).
 * Continuous Boyce Index (CBI) and Area Under the ROC Curve (AUC) are now computed for each model based on fitted values and in cross-validation (27/05/2025).
@@ -29,6 +42,6 @@
 * Added functionality to compute the mode across time layers for categorical variables, preserving factor levels, when computing the average environmental scenario (25/11/2024).
 * Changed exported file names to avoid Windows file path length errors when unzipping. Also, changed extension from `.csv` to `.tsv` (26/05/2025). The following naming adjustments were made: `suitable_habitat` -> `sh`, `native_range` -> `nr`, `cross_validation` -> `cross_val`, `functional_responses` -> `func_res`, `variable_importance` -> `var_imp`, `confusion_matrix` -> `mod_diag`, `fit_layers` -> `fit`, `projections` -> `proj`.
 
-# glossa 1.0.0
+## glossa 1.0.0
 
 * Initial CRAN submission.

@@ -175,8 +175,8 @@ read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_
   res_list <- lapply(layers, terra::res)
   is_consistent <- all(sapply(res_list[-1], function(x) isTRUE(all.equal(x, res_list[[1]], tolerance = 1e-7))))
   if (!is_consistent) {
-    show_warning("The layers uploaded have different resolution.")
-    return(NULL)
+    show_warning("The layers uploaded have different resolution. We will aggregate to coarsest resolution.")
+    max_res <- apply(do.call(rbind, res_list), 2, max)
   }
 
   # Check if all layers have the same extent
@@ -191,6 +191,14 @@ read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_
     raster_layers <- terra::rast(list.files(cov_dir, pattern = paste0("\\.(", paste(raster_extensions, collapse = "|"), ")$"), full.names = TRUE))
     # Project to WGS84 CRS
     raster_layers <- terra::project(raster_layers, "epsg:4326")
+
+    # Aggregate layers to coarsest resolution using mean
+    if (!is_consistent) {
+      raster_layers <- tryCatch(
+        terra::aggregate(raster_layers, fact = max_res / terra::res(raster_layers), fun = "mean"),
+        error = function(e) NULL
+      )
+    }
 
     # Check and clean NA factor levels
     if (any(terra::is.factor(raster_layers))) {
@@ -209,6 +217,12 @@ read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_
     return(raster_layers)
   })
   names(layers) <- basename(covariates)
+
+  # Check if any layer failed (returned NULL)
+  if (any(sapply(layers, is.null))) {
+    show_warning("Error: One or more covariates could not be processed. Check CRS, extent, or resolution issues or provide harmonized data.")
+    return(NULL)
+  }
 
   # Organize layers by timestamp
   layers_result <- list()

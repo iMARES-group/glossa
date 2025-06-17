@@ -516,6 +516,18 @@ function(input, output, session) {
     )
   })
 
+  observe({
+    bs4Dash::addPopover(
+      id = "bart_k_info",
+      options = list(
+        content = "Controls the amount of shrinkage in the node parameters, allowing you to regulate the degree of overfitting. Enter a positive value for k representing the number of standard deviations; higher values produce more conservative fits. Leave unset to use the default prior, chi(1.25, Inf), which works well in many cases. See the GLOSSA documentation or the dbarts manual for further details.",
+        title = "End-node shrinkage prior k",
+        placement = "bottom",
+        trigger = "hover"
+      )
+    )
+  })
+
   # * Reset button ----
   observeEvent(input$reset_input, {
     # Reset data upload
@@ -614,6 +626,10 @@ function(input, output, session) {
       input[[paste0("pred_vars_", i)]]
     })
 
+    # Model tuning
+    model_args <- list(ntree = input$bart_ntrees, k = as.numeric(input$bart_k))
+    model_args <- model_args[!sapply(model_args, function(x) is.null(x) || length(x) == 0 || is.na(x))]
+
     # Pseudo-absence settings
     pseudoabsence_method <- input$pseudoabsence_method
     pa_ratio <- input$pa_ratio
@@ -644,9 +660,9 @@ function(input, output, session) {
       preprocessing = list(
         thinning_method = input$thinning_method,
         thinning_value = switch (input$thinning_method,
-          "Precision" = input$thin_precision,
-          "Grid" = input$thin_grid_size,
-          "Distance" = input$thin_distance,
+          "precision" = input$thin_precision,
+          "grid" = input$thin_grid_size,
+          "distance" = input$thin_distance,
           NULL
         ),
         scale_layers = input$scale_layers,
@@ -662,7 +678,8 @@ function(input, output, session) {
         predictor_variables = predictor_variables,
         native_range = input$analysis_options_nr,
         suitable_habitat = input$analysis_options_sh,
-        other_analysis = input$analysis_options_other
+        other_analysis = input$analysis_options_other,
+        model_args = model_args
       ),
       cross_validation = list(
         active = "cross_validation" %in% input$analysis_options_other,
@@ -682,7 +699,7 @@ function(input, output, session) {
         study_area_poly = study_area_poly_buff(),
         predictor_variables = predictor_variables,
         thinning_method = input$thinning_method,
-        thinning_value = switch (input$thinning_method, "Precision" = input$thin_precision, "Grid" = input$thin_grid_size, "Distance" = input$thin_distance, NULL),
+        thinning_value = switch (input$thinning_method, "precision" = input$thin_precision, "grid" = input$thin_grid_size, "distance" = input$thin_distance, NULL),
         pseudoabsence_method = pseudoabsence_method,
         pa_ratio = pa_ratio,
         pa_buffer_distance = pa_buffer_distance,
@@ -692,6 +709,7 @@ function(input, output, session) {
         native_range = input$analysis_options_nr,
         suitable_habitat = input$analysis_options_sh,
         other_analysis = input$analysis_options_other,
+        model_args = model_args,
         cv_methods = cv_methods,
         cv_folds = cv_folds,
         cv_block_source = cv_block_source,

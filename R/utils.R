@@ -715,7 +715,7 @@ glossa_export <- function(species = NULL, models = NULL, layer_results = NULL, f
     if (model_summary){
       tryCatch({
         if (!is.null(other_results[["model_diagnostic"]])){
-          tmp_model_summary <- file.path(tmp_sp, "fit_val")
+          tmp_model_summary <- file.path(tmp_sp, "mod_diag")
           dir.create(tmp_model_summary)
           for (model_type in names(other_results[["model_diagnostic"]])){
             write.table(other_results[["model_diagnostic"]][[model_type]][[sp]][["data"]], file = file.path(tmp_model_summary, paste0(gsub(" ", "_", sp), "_", switch(model_type, "suitable_habitat" = "sh", "native_range" = "nr"), "_fitted_predictions.tsv")), quote = FALSE, sep = "\t", dec = ".", row.names = FALSE, col.names = TRUE)

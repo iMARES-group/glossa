@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# GLOSSA - Global Ocean Species Spatiotemporal Analysis <a href="https://iMARES-group.github.io/glossa/"><img src="inst/app/www/logo_glossa.png" align="right" height="138" /></a>
+# GLOSSA - Global Ocean Species Spatio-temporal Analysis <a href="https://iMARES-group.github.io/glossa/"><img src="inst/app/www/logo_glossa.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 
@@ -14,7 +14,7 @@ v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org
 
 ------------------------------------------------------------------------
 
-**GLOSSA** (Global Ocean Species Spatiotemporal Analysis) is an
+**GLOSSA** (Global Ocean Species Spatio-temporal Analysis) is an
 open-source, user-friendly R Shiny application designed for modeling
 marine species distribution. Written in R, GLOSSA uses the Shiny and
 bs4Dash libraries to provide an intuitive interface for fitting species
@@ -64,7 +64,7 @@ website](https://iMARES-group.github.io/glossa/):
 
 ### Current version
 
-- **Development version** in progress (27/05/2025)
+- **Development version** in progress (16/06/2025)
 - CRAN release: **v1.1.0** (27/05/2024)
 
 See the full

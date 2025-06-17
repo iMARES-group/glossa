@@ -4,7 +4,7 @@
 \alias{fit_bart_model}
 \title{Fit a BART Model Using Environmental Covariate Layers}
 \usage{
-fit_bart_model(y, x, seed = NULL)
+fit_bart_model(y, x, seed = NULL, ...)
 }
 \arguments{
 \item{y}{A numeric vector indicating presence (1) or absence (0).}
@@ -12,6 +12,8 @@ fit_bart_model(y, x, seed = NULL)
 \item{x}{A data frame with the same number of rows as the length of the vector `y`, containing the covariate values.}
 
 \item{seed}{An optional integer value for setting the random seed for reproducibility.}
+
+\item{...}{Additional arguments passed to `dbarts::bart()`.}
 }
 \value{
 A BART model object.

@@ -15,6 +15,7 @@
 #' @param native_range A vector of scenarios `c('fit_layers', 'projections')` where native range modeling should be performed.
 #' @param suitable_habitat A vector of scenarios `c('fit_layers', 'projections')` where habitat suitability modeling should be performed.
 #' @param other_analysis A vector of additional analyses to perform (e.g., `'variable_importance', 'functional_responses', 'cross_validation'`).
+#' @param model_args A named list of additional arguments passed to the modeling function (e.g., `dbarts::bart`). This allows users to fine-tune model parameters such as `ntree` or `k`. These are passed internally via `...` and must match the arguments of the selected model function.
 #' @param cv_methods A vector of the cross-validation strategies to perform. One or multiple of `"k-fold"`, `"spatial_blocks"`, `"temporal_blocks"`.
 #' @param cv_folds Integer indicating the number of folds to generate.
 #' @param cv_block_source For spatial blocks, how to determine block size. One of: `"residuals_autocorrelation"`, `"predictors_autocorrelation"`, `"manual"`.
@@ -35,6 +36,7 @@ glossa_analysis <- function(
     study_area_poly = NULL, predictor_variables = NULL,
     thinning_method = NULL, thinning_value = NULL, scale_layers = FALSE, buffer = NULL,
     native_range = NULL, suitable_habitat = NULL, other_analysis = NULL,
+    model_args =list(),
     cv_methods = NULL, cv_folds = 5,
     cv_block_source = "residuals_autocorrelation",
     cv_block_size = NULL,
@@ -358,10 +360,12 @@ glossa_analysis <- function(
     # * Fit bart ----
     models_native_range <- lapply(seq_along(presence_absence_list$model_pa), function(i){
       tryCatch({
-        fit_bart_model(
-          y = presence_absence_list$model_pa[[i]][, "pa"],
-          x = presence_absence_list$model_pa[[i]][, c(predictor_variables[[i]], names(coords_layer)), drop = FALSE],
-          seed = seed
+        do.call(fit_bart_model,
+          c(list(y = presence_absence_list$model_pa[[i]][, "pa"],
+                 x = presence_absence_list$model_pa[[i]][, c(predictor_variables[[i]], names(coords_layer)), drop = FALSE],
+                 seed = seed),
+            model_args
+          )
         )
       }, error = function(e) {
         message("Failed to fit native range model for ", names(presence_absence_list$model_pa)[i], ": ", e$message)
@@ -510,10 +514,12 @@ glossa_analysis <- function(
 
     models_suitable_habitat <- lapply(seq_along(presence_absence_list$model_pa), function(i){
       tryCatch({
-        fit_bart_model(
-          y = presence_absence_list$model_pa[[i]][, "pa"],
-          x = presence_absence_list$model_pa[[i]][, predictor_variables[[i]], drop = FALSE],
-          seed = seed
+        do.call(fit_bart_model,
+          c(list(y = presence_absence_list$model_pa[[i]][, "pa"],
+                 x = presence_absence_list$model_pa[[i]][, predictor_variables[[i]], drop = FALSE],
+                 seed = seed),
+            model_args
+          )
         )
       }, error = function(e) {
         message("Failed to fit suitable habitat model for ", names(presence_absence_list$model_pa)[i], ": ", e$message)
@@ -735,10 +741,12 @@ glossa_analysis <- function(
           }
 
           # Fit new model with variables without scaling
-          bart_model <- fit_bart_model(
-            y = presence_absence_list$model_pa[[sp]][, "pa"],
-            x = x_original_scale,
-            seed = seed
+          bart_model <- do.call(fit_bart_model,
+            c(list(y = presence_absence_list$model_pa[[sp]][, "pa"],
+                   x = x_original_scale,
+                   seed = seed),
+              model_args
+            )
           )
         } else {
           bart_model <- models_suitable_habitat[[sp]]

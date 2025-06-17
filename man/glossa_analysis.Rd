@@ -17,6 +17,7 @@ glossa_analysis(
   native_range = NULL,
   suitable_habitat = NULL,
   other_analysis = NULL,
+  model_args = list(),
   cv_methods = NULL,
   cv_folds = 5,
   cv_block_source = "residuals_autocorrelation",
@@ -53,6 +54,8 @@ glossa_analysis(
 \item{suitable_habitat}{A vector of scenarios `c('fit_layers', 'projections')` where habitat suitability modeling should be performed.}
 
 \item{other_analysis}{A vector of additional analyses to perform (e.g., `'variable_importance', 'functional_responses', 'cross_validation'`).}
+
+\item{model_args}{A named list of additional arguments passed to the modeling function (e.g., `dbarts::bart`). This allows users to fine-tune model parameters such as `ntree` or `k`. These are passed internally via `...` and must match the arguments of the selected model function.}
 
 \item{cv_methods}{A vector of the cross-validation strategies to perform. One or multiple of `"k-fold"`, `"spatial_blocks"`, `"temporal_blocks"`.}
 
