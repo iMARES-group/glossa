@@ -5,8 +5,8 @@ test_that("GLOSSA analysis continuous only", {
   skip_on_cran()
 
   # File paths
-  file1 <- system.file("extdata", "sp1.csv", package="glossa")
-  file2 <- system.file("extdata", "sp2.txt", package="glossa")
+  file1 <- system.file("extdata", "sp1.txt", package="glossa")
+  file2 <- system.file("extdata", "sp2.csv", package="glossa")
   file3 <- system.file("extdata", "fit_layers.zip", package="glossa")
   file4 <- system.file("extdata", "project_layers_1.zip", package="glossa")
   file5 <- system.file("extdata", "oceania.gpkg", package="glossa")

@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## glossa (development version)
 
+## glossa 1.2.1 - 20/06/2025
+
 ### Changed
 
 * Moved the `automap` package to `Imports` and `jsonlite` to `Suggests` (20/06/2025).
