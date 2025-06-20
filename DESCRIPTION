@@ -29,6 +29,7 @@ Depends:
     R (>= 4.1.0),
     shiny
 Imports:
+    automap,
     blockCV,
     dbarts,
     dplyr,
@@ -36,7 +37,6 @@ Imports:
     GeoThinneR,
     ggplot2,
     htmltools,
-    jsonlite,
     leaflet,
     markdown,
     mcp,
@@ -50,7 +50,7 @@ Imports:
     waiter,
     zip
 Suggests:
-    automap,
+    jsonlite,
     knitr,
     matrixStats,
     rmarkdown,

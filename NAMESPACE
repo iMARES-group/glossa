@@ -1,5 +1,6 @@
 exportPattern("^[[:alpha:]]+")
 
+import(automap)
 import(bs4Dash)
 import(ggplot2)
 import(leaflet)

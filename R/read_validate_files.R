@@ -181,7 +181,8 @@ read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_
 
   # Check if all layers have the same extent
   ext_list <- lapply(layers, function(x) as.vector(terra::ext(x)))
-  if (length(unique(ext_list)) != 1) {
+  is_ext_consistent <- all(sapply(ext_list[-1], function(x) isTRUE(all.equal(x, ext_list[[1]], tolerance = 1e-7))))
+  if (!is_ext_consistent) {
     show_warning("There are layers with different extent. We will transform layers extent.")
   }
 
@@ -234,7 +235,8 @@ read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_
     orig_list <- lapply(layers, function(x) as.vector(terra::origin(x[[i]])))
 
     # Check if extents are not identical
-    if (length(unique(ext_list)) != 1) {
+    is_ext_consistent <- all(sapply(ext_list[-1], function(x) isTRUE(all.equal(x, ext_list[[1]], tolerance = 1e-7))))
+    if (!is_ext_consistent) {
 
       # Determine the modified extent
       # (smaller or larger depending if user has uploaded a polygon to the shiny app)
@@ -406,7 +408,8 @@ validate_layers_zip <- function(file_path, timestamp_mapping = NULL, show_modal 
 
   # Check if all layers have the same extent
   ext_list <- lapply(layers, terra::ext)
-  if (length(unique(ext_list)) != 1) {
+  is_ext_consistent <- all(sapply(ext_list[-1], function(x) isTRUE(all.equal(x, ext_list[[1]], tolerance = 1e-7))))
+  if (!is_ext_consistent) {
     show_warning("Warning: There are layers with different extents. We will transform layers to the largest extent.", type = "warning")
   }
 

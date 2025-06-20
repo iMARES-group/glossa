@@ -369,8 +369,8 @@ function(input, output, session) {
     }
   })
 
-  observeEvent(study_area_poly_input(), {
-    if (is.null(study_area_poly_input())){
+  observeEvent(study_area_poly(), {
+    if (is.null(study_area_poly_input()) | is.null(study_area_poly())){
       extent_validation_table(NULL)
     } else {
       validation_table <- as.data.frame(study_area_poly_input())

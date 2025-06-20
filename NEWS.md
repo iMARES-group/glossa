@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## glossa (development version)
 
-## glossa 1.2.0
+### Changed
+
+* Moved the `automap` package to `Imports` and `jsonlite` to `Suggests` (20/06/2025).
+
+### Fixed
+
+* Fixed an UI issue in the validation table of the study area polygon. Although the upload worked, the validation table sometimes incorrectly flagged the format as invalid. This did not affect the analysis but was misleading (20/06/2025).
+
+## glossa 1.2.0 - 17/06/2025
 
 ### Added
 
@@ -13,9 +21,9 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-* Resolved a UI issue introduced in version 1.1.0 that prevented users from selecting thinning options (28/06/2025).
+* Resolved a UI issue introduced in version 1.1.0 that prevented users from selecting thinning options (28/05/2025).
 
-## glossa 1.1.0
+## glossa 1.1.0 - 28/05/2025
 
 ### New features
 
@@ -44,6 +52,6 @@ All notable changes to this project will be documented in this file.
 * Added functionality to compute the mode across time layers for categorical variables, preserving factor levels, when computing the average environmental scenario (25/11/2024).
 * Changed exported file names to avoid Windows file path length errors when unzipping. Also, changed extension from `.csv` to `.tsv` (26/05/2025). The following naming adjustments were made: `suitable_habitat` -> `sh`, `native_range` -> `nr`, `cross_validation` -> `cross_val`, `functional_responses` -> `func_res`, `variable_importance` -> `var_imp`, `confusion_matrix` -> `mod_diag`, `fit_layers` -> `fit`, `projections` -> `proj`.
 
-## glossa 1.0.0
+## glossa 1.0.0 - 15/10/2024
 
 * Initial CRAN submission.

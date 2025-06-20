@@ -1,4 +1,4 @@
-#' @import bs4Dash leaflet sparkline svglite waiter ggplot2
+#' @import bs4Dash leaflet sparkline svglite waiter ggplot2 automap
 #' @importFrom markdown markdownToHTML mark
 #' @importFrom grDevices gray
 #' @importFrom stats complete.cases median na.omit quantile reorder sd

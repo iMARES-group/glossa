@@ -1,12 +1,14 @@
 ## Release summary
 
-This is the CRAN submission of `glossa` v1.2.0.
+This is the CRAN submission of `glossa` v1.2.1.
 
-Key changes:
+#### Changed
 
-* Added support for tuning the number of trees in the sum-of-trees formulation of BART and the end-node shrinkage prior parameter to control overfitting (12/06/2025).
-* Resolution harmonization is now implemented for environmental layers by aggregating to the coarsest resolution, complementing the existing extent and CRS harmonization (10/06/2025).
-* Resolved a UI issue introduced in version 1.1.0 that prevented users from selecting thinning options (28/06/2025).
+* Moved the `automap` package to `Imports` and `jsonlite` to `Suggests` (20/06/2025).
+
+#### Fixed
+
+* Fixed an UI issue in the validation table of the study area polygon. Although the upload worked, the validation table sometimes incorrectly flagged the format as invalid. This did not affect the analysis but was misleading (20/06/2025).
 
 ## Test environments
 
