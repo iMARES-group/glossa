@@ -7,7 +7,8 @@
 run_glossa(
   request_size_mb = 2000,
   launch.browser = TRUE,
-  port = getOption("shiny.port")
+  port = getOption("shiny.port"),
+  clear_global_env = FALSE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ run_glossa(
 \item{launch.browser}{Logical indicating whether to launch the app in the browser (default is TRUE).}
 
 \item{port}{Port number for the Shiny app. Uses the port specified by `getOption("shiny.port")` by default.}
+
+\item{clear_global_env}{Logical. If TRUE, clears the global environment after the app exits.}
 }
 \value{
 No return value, called to launch the GLOSSA app.
@@ -26,8 +29,12 @@ This function launches the GLOSSA Shiny web application.
 \details{
 The GLOSSA Shiny app provides an interactive interface for users to access GLOSSA functionalities.
 }
+\note{
+Use `clear_global_env = TRUE` cautiously, as it removes all objects from your R environment after the app exits.
+}
 \examples{
 if(interactive()) {
 run_glossa()
+run_glossa(clear_global_env = TRUE)  # clears all global objects
 }
 }

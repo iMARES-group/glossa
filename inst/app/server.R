@@ -733,6 +733,14 @@ function(input, output, session) {
       bs4Dash::updateTabItems(session, "sidebar_menu", "reports")
     }
 
+    # Save to global environment for safety
+    if (!isTRUE(getOption("glossa.clear_env_on_exit", FALSE))) {
+      assign("glossa_autosave", glossa_results, envir = .GlobalEnv)
+      message("Results have been autosaved as 'glossa_autosave' in your R environment.")
+    } else {
+      message("Results not autosaved to R environment because clear_global_env = TRUE")
+    }
+
     # Hide waiter
     w$hide()
 

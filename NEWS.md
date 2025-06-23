@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## glossa (development version)
 
+### Added
+
+* Results are now automatically assigned to `glossa_autosave` in the global environment after analysis completes, unless `clear_global_env = TRUE` in the `run_glossa()` function. This allows recovery even if the browser is accidentally closed before completion. (23/06/2025, #8)
+
 ## glossa 1.2.1 - 20/06/2025
 
 ### Changed
