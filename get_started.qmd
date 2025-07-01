@@ -3,21 +3,53 @@ title: "Get started"
 pagetitle: "Get started - GLOSSA"
 ---
 
-## Welcome to GLOSSA
+**Welcome to GLOSSA**
 
-GLOSSA is a user-friendly R `shiny` app designed to help you model marine species distributions using **species occurrences and environmental data**. Below is a quick guide to help you get started.
+**GLOSSA** (Global Ocean Species Spatio-temporal Analysis) is an open-source R package and `shiny` application for fitting **marine species distribution models** (SDMs) using **Bayesian Additive Regression Trees** (BART) with **species occurrences and environmental data**. It makes SDM analysis more accessible through a user-friendly interface, with reproducible and exportable outputs.
 
-### Requirements
+Species distribution modeling involves more than just fitting an algorithm, it includes selecting appropriate predictors, checking data quality, mitigating biases, understanding species ecology, and interpreting results with care. While GLOSSA is not designed to handle the entire SDM pipeline, it supports several key steps and makes them accessible.
 
-Before you begin, ensure you have **R version 4.0.0 or higher** installed on your system:
+To support good modeling practices, we include links at the end of this guide to established references and recommended guidelines for SDM, particularly in marine contexts.
 
-::: {.callout appearance="minimal"}
-[Download R](https://cran.rstudio.com/)
-:::
+# How GLOSSA works
 
-### Installation
+GLOSSA implements a streamlined modeling pipeline, from data upload to posterior prediction and uncertainty quantification.
 
-To install GLOSSA, simply run the following command in your R console:
+![](images/glossa_workflow.png){width=100% fig-align="center"}
+
+### 1. Data upload
+
+You can upload:
+
+- **Species occurrences**: Tab-separated file(s) with presence/(pseudo-)absence records containing latitude, longitude, and a column indicating presence (1) or absence (0). Timestamp is optional but required for time-varying predictors. If you only have presence data, GLOSSA can generate pseudo-absences. In addition, you can also upload multiple files to analyze them independently within the same session
+- **Environmental data**: A ZIP file of raster files representing gridded predictor variables. Occurrence points will be matched in space and time to extract raster values.
+- **Projections** *(optional)*: Raster ZIPs used to project the model beyond the fitting data. These can represent future time periods or climate scenarios.
+- **Study area** *(optional)*: A polygon file to define the study region and modeling extent. If not included, GLOSSA will use the extent of the environmental layers.
+
+### 2. Data processing
+
+- **Occurrence processing**: GLOSSA automatically removes duplicate records, filters out invalid points, and applies optional spatial thinning.
+- **Environmental data processing**: Raster layers are harmonized in resolution and extent, then cropped and masked to the study area. Predictor values at occurrence locations are extracted and can optionally be standardized (z-score).
+- **Generate pseudo-absences** *(if needed)*: If no absences or pseudo-absences were uploaded before, GLOSSA supports random background, target-group, or spatial buffer strategies for sampling pseudo-absences.
+
+### 3. Model fitting, evaluation, and prediction
+
+The core modeling approach used in GLOSSA is BART:
+
+- **Fit BART model**: You can choose between two model types, a suitable habitat model (uses only environmental predictors) or a native range model (aso includes spatial coordinates as covariates). GLOSSA uses BART to fit the model and estimate uncertainty.
+- **Model evaluation**: GLOSSA estimates a threshold to turn probability into binary presence/absence and generates a model summary including summary metrics and diagnostic plots. You can also run cross-validation, including random *k*-fold, spatial block, and temporal splits.
+- **Model output**: Outputs include posterior point and interval estimates of predictions, binary maps, functional response curves, and variable importance scores.
+- **Projections**: Use the fitted model to project under new environmental conditions.
+
+### 4. Visualization and export
+
+After the analysis, GLOSSA provides interactive maps and charts to explore results. You can export all outputs as a ZIP file and a configuration file for reproducibility.
+
+---
+
+# Install and launch the application
+
+GLOSSA is available on [CRAN](https://cran.r-project.org/package=glossa) and [GitHub](https://github.com/iMARES-group/glossa). To install GLOSSA, simply run the following command in your R console:
 
 ``` r
 install.packages("glossa")
@@ -26,9 +58,7 @@ install.packages("glossa")
 Alternatively, you can install the latest development version from GitHub to get the latest updates and fixes:
 
 ``` r
-if (!require("devtools")) 
-  install.packages("devtools")
-
+# install.packages("devtools")
 devtools::install_github("iMARES-group/glossa")
 ```
 
@@ -38,168 +68,155 @@ After installation, you can launch the GLOSSA app by running this command:
 library(glossa)
 run_glossa()
 ```
-
-You can find more information on the [Installation](pages/documentation/installation_setup.qmd) page. 
-
----
-
-## GLOSSA workflow overview
-
-GLOSSA is designed to be intuitive, with a simple step-by-step workflow:
-
-1. **Data input**:
-  - Upload **species occurrence data**, either presence-absence or presence-only data (in which case, pseudo-absences will be generated).
-  - Upload **environmental data**, for example, climate variables in raster format.
-  - Optionally, provide **projection layers**, for example, to project future scenarios.
-  - Optionnally, provide a **study area polygon** to define the study area.
-  
-2. **Data processing**:
-  - **Clean coordinates**: GLOSSA automatically removes duplicates and points outside the study area.
-  - **Process layers**: Environmental layers are cropped and Z-score standardized if needed.
-  - **Generate pseudo-absences**: For presence-only data, pseudo-absences are randomly generated.
-
-3. **Model fitting and prediction**:
-  - GLOSSA fits the **BART (Bayesian Additive Regression Trees)** model to predict species distributions. **Two models** can be fitted—one based on environmental data and another including spatial smoothing.
-  - You can explore model outputs, including probability maps, performance metrics, and variable importance.
-
-4. **Results and visualization**:
-  - Explore interactive maps and charts showing predictions and analysis results.
-  - Export results for further use or reporting.
-
-![GLOSSA workflow overview.](images/glossa_small_workflow.png){width=80% fig-align="center"}
+For more details, see the [Installation](pages/documentation/installation_setup.qmd) guide 
 
 ---
 
-## Running your first analysis
+# Run a toy example
 
-Here’s a quick guide on how to use the app. First, launch the app by running the `run_glossa()` function:
+This section is a **hands-on introduction** to GLOSSA using a **toy example**. Without going into every detail, you'll run your first model to get familiar with the interface and build confidence to explore the full documentation and run your own analysis.
+
+::: {.callout-note appearance="simple" icon=false title="Download example data"} 
+Before starting, we will download a toy dataset to use as a demo for running our first analysis with GLOSSA. The dataset can be downloaded from Zenodo: <a href="https://doi.org/10.5281/zenodo.14223866" target="_blank">https://doi.org/10.5281/zenodo.14223866</a>.
+
+The repository includes:
+
+* Two species occurrence datasets:
+ * `sp1.txt`: a globally distributed species
+ * `sp2.csv`: an endemic species on the Australian continental shelf
+* Environmental predictors: `fit_layers.zip` (2 continuous, 2 categorical rasters)
+* Two projected climate scenarios: `project_layers_1.zip`, `project_layers_2.zip`
+* Two polygon files defining study regions:
+ * `world.gpkg` (global)
+ * `oceania.gpkg` (Australia)
+:::
+
+Once you've downloaded the data, launch the GLOSSA app:
 
 ``` r
 library(glossa)
 run_glossa()
 ```
 
-This will open the app in your web browser directly in the **Home** tab. Here, you can start a new analysis, watch a demo, or read tutorials.
+This will open the app in your web browser directly in the **Home** tab. Here, you can start a new analysis, explore a demo, or access tutorials.
 
-![Screenshot of the "Home" tab, the landing page.](images/home_tab.png){width=80% fig-align="center"}
+![](images/home_tab.png){width=80% fig-align="center"}
 
-Clicking on the question mark icon ![](images/question_icon.png){.inline} on the top right corner will bring up a brief explanation of what each tab and button does.
+Use the question mark icon ![](images/question_icon.png){.inline} in the top-right corner to display a brief explanation of what each tab and button does.
 
 ![](images/help_tab.png){width=80% fig-align="center"}
 
-### Sidebar overview
+## Sidebar overview
 
 On the sidebar, you’ll find two main sections: *Modelling* and *Resources*.
 
--   **Resources:** This section provides essential information to help you run the app. It’s a great place to refresh your knowledge, especially if it’s been a while since you last used GLOSSA. Note that the full documentation is hosted outside the app in this website.
+* **Modelling:** This section includes the *New Analysis*, *Reports*, and *Exports* tabs. Typically, you’ll go through these tabs in sequence:
 
--   **Modelling:** This section includes the *New Analysis*, *Reports*, and *Exports* tabs. Typically, you’ll go through these tabs in sequence:
+  1. **New Analysis:** Set up your analysis, upload your data, and select analysis options.
+  2.  **Reports:** Explore the results and visualizations generated by the analysis.
+  3.  **Exports:** Download the results for further use.
 
-    1.  **New Analysis:** Set up your analysis, upload your data, and select analysis options.
-    2.  **Reports:** Explore the results and visualizations generated by the analysis.
-    3.  **Exports:** Download the results for further use.
+* **Resources:** Contains brief documentation and guidance. Please note that the complete and most current documentation is hosted outside the app in this website.
   
 ![](images/modelling_tabs.png){width=80% fig-align="center"}
 
-## Running your first analysis
+## New analysis tab
 
-::: {.callout-note appearance="simple" icon=false} 
-Before starting, we will download a toy dataset to use as a demo for running our first analysis with GLOSSA. The dataset can be downloaded from Zenodo: <a href="https://doi.org/10.5281/zenodo.14223866" target="_blank">https://doi.org/10.5281/zenodo.14223866</a>.
-
-This repository includes occurrences for two species: one globally distributed (`sp1.txt`) and another endemic to the continental shelf of Australia (`sp2.csv`). The dataset also contains four predictor variables: two continuous and two categorical (`fit_layers.zip`). Additionally, it includes files representing two projected climate scenarios (`project_layers_1.zip` and `project_layers_2.zip`). Finally, the dataset provides two polygon files to define the extent of the study area: a global polygon object (`world.gpkg`) and a polygon delimiting the Australian region (`oceania.gpkg`).
-:::
-
-To run your first analysis, go to the *New Analysis* tab. This tab looks like this: 
-
-![](images/new_analysis_tab.png){width=80% fig-align="center"}
-
-Here, you need to upload the required input files and select your analysis options:
+To run your first analysis, go to the *New Analysis* tab. Here, you’ll upload input files and select the analysis options
 
 1.  **Data upload:** The first panel is where you upload your data and configure the analysis settings.
 2.  **Previsualization:** The second panel provides an interactive map to preview your input data.
 3.  **Predictor variables:** Choose predictor variables for each uploaded species.
 4.  **Uploaded files:** A table indicates if your input files are formatted correctly.
 
+![](images/new_analysis_tab.png){width=80% fig-align="center"}
+
 ### Required files for analysis
 
 GLOSSA can function with just occurrence data and environmental variables, but additional options are available. Let’s briefly go through the necessary files:
 
-1.  **Occurrences:** Upload a tab-separated CSV file with four columns indicating the occurrence location, whether it is a presence or absence, and the time it was recorded. The columns must be named exactly as follows: `decimalLongitude`, `decimalLatitude`, `pa`, and `timestamp`. If the `pa` column is missing, GLOSSA will assume all rows are presences. If `timestamp` is missing, GLOSSA will assume all observations occurred at the same time. GLOSSA also supports presence-only data but will generate randomly distributed balanced pseudo-absences to fit the model.
+1. **Occurrences:** Upload a tab-separated file (e.g. `.tsv`) with four columns indicating the occurrence location, whether it is a presence or absence, and the time it was recorded.  The columns must be named exactly as follows: `decimalLongitude`, `decimalLatitude`, `pa`, and `timestamp`. If the `pa` column is missing, GLOSSA will assume all records are presences. If `timestamp` is missing, GLOSSA will assume all records occurred at the same time. GLOSSA also supports presence-only data by generating pseudo-absences during preprocessing.
 
-    ```r
-    > head(sp1)
-      decimalLongitude decimalLatitude timestamp pa
-    1          5.42909        43.20937         1  1
-    2           -43.05           49.03         1  0
-    3         -2.52369        47.29234         2  1
-    4           34.054         -26.913         2  1
-    5           -41.63            46.3         2  0
-    6           -174.5            27.5         3  1
-    ```
+  For example, the `sp1.txt` file looks like this:
 
-2.  **Environmental data:** Upload environmental data as raster files (e.g., .tif or .nc format) in a ZIP file with a specific structure. The ZIP file should contain a subdirectory for each environmental variable, with files sorted by time period. For example, if you have two variables (`x1` and `x2`) and your observations are from two different years, your ZIP file should look like this:
+  ```r
+  > head(sp1)
+    decimalLongitude decimalLatitude timestamp pa
+  1          5.42909        43.20937         1  1
+  2           -43.05           49.03         1  0
+  3         -2.52369        47.29234         2  1
+  4           34.054         -26.913         2  1
+  5           -41.63            46.3         2  0
+  6           -174.5            27.5         3  1
+  ```
 
-    ``` r
-    fit_layers.zip
-        ├───x1
-        │       x1_1.tif
-        │       x1_2.tif
-        └───x2
-                x2_1.tif
-                x2_2.tif
-    ```
+2. **Environmental data:** Upload a `.zip` archive containing environmental data as raster files (e.g., `.tif` or `.nc` format) with a specific structure. The ZIP file should contain a subdirectory for each environmental variable, with files sorted by time period. For example, if you have two variables (`x1` and `x2`) and your observations are from two different years, your ZIP file should look like this:
 
-    Ensure that all layers have the same resolution, the same number of layers, and that they match the number of years in your occurrence files. If you want to use the same layer for all observations, include just one file in the subdirectory and set all `timestamp` values to 1 or remove the `timestamp` column.
+  ``` r
+  fit_layers.zip
+      ├───x1
+      │       x1_1.tif
+      │       x1_2.tif
+      └───x2
+              x2_1.tif
+              x2_2.tif
+  ```
 
-3.  **Projection layers (Optional):** If you want to make predictions, upload your projection data here. This file has the same format as the environmental data file, and the subdirectories must match those used for fitting the model. You can upload multiple ZIP files if you want to predict multiple scenarios (e.g., different temperature increase scenarios).
+  Ensure that all layers have the same resolution, the same number of layers, and that they match the number of years in your occurrence files. If you want to use the same layer for all observations, include just one file in the subdirectory and set all `timestamp` values to 1 or remove the `timestamp` column.
 
-4.  **Study area (Optional):** If your rasters cover a larger area than your study region, you can provide a polygon to delimit your study area (formats: GPKG, KML or GeoJSON). This will remove points outside the polygon and mask the environmental variables accordingly.
+3. **Projection layers** *(optional)*: If you want to make predictions, upload your projection data here. This file has the same format as the environmental data file, and the subdirectories must match those used for fitting the model. You can upload multiple ZIP files if you want to predict multiple scenarios (e.g., different temperature increase scenarios).
 
-Once all files are uploaded, if they pass the checks and are properly formatted, the table in the bottom right panel will show a checkmark for each file. If something is incorrect, refer to the documentation for a quick solution.
+4.  **Study area** *(optional)*: If your rasters cover a larger area than your study region, you can provide a polygon to delimit your study area (e.g., GPKG, KML or GeoJSON). This will remove points outside the polygon and mask the environmental variables accordingly.
+
+Once all files are uploaded and validated, a checkmark will appear next to each file in the summary table (bottom-right panel). If any checks fail, refer to the documentation.
 
 ::: {.callout-note appearance="simple" icon=false} 
-If you have downloaded the toy dataset, you can try uploading the following files: the two species occurrence files (`sp1.txt` and `sp2.csv`), the environmental variables for fitting the model (`fit_layers.zip`), the two climate scenarios for making projections (`project_layers_1.zip` and `project_layers_2.zip`), and the polygon file for the Australian region (`oceania.gpkg`) to delimit the study area and speed up computations for this initial attempt.
+If you have downloaded the toy dataset, you can try uploading the following files: one species occurrence file (e.g. `sp2.csv`), the environmental variables for fitting the model (`fit_layers.zip`), the two climate scenarios for making projections (`project_layers_1.zip` and `project_layers_2.zip`), and the polygon file for the Australian region (`oceania.gpkg`) to delimit the study area and speed up computations for this initial attempt.
+
+To load the data, simply click on the buttons and select one or more files, or drag them to the corresponding place.
 :::
 
 ### Analysis options
 
 In this section, you need to select the desired output. GLOSSA fits two kinds of models:
 
--   **Native range:** The model includes environmental variables and uses longitude and latitude coordinates as a spatial smoother.
--   **Suitable habitat:** The model only includes the environmental variables.
+- **Native range:** The model includes environmental predictor variables and uses longitude and latitude coordinates as a spatial smoother.
+- **Suitable habitat:** The model only includes the environmental variables.
 
-You can choose to fit the model under the **Model fitting** option. This option will fit the model, compute variable importance, and generate a prediction map representing the mean environmental conditions across all provided layers. If you’ve uploaded projection layers and want to make predictions using the fitted model, select the **Model projection** option.
+You can choose to fit the model under the **Model fitting** option. This option will fit the model and generate a prediction map on an averaged environmental scenario calculated as the mean of the fitting period. If you’ve uploaded projection layers and want to make predictions using the fitted model, select the **Model projection** option.
 
 When fitting the model, if multiple years or time periods are uploaded, GLOSSA will extract the value of the corresponding environmental layer for each occurrence based on the specific time stamp.
 
-Additionally, you can check the **Functional responses** checkbox if you want to compute the response curves (i.e., the relationship between the occurrence of a species and each environmental variable). You can also enable **Cross-validation**, which will perform a K-fold cross-validation with (*k = 10*).
+Additionally, you can check the **Functional responses** checkbox if you want to compute the response curves (i.e., the relationship between the occurrence of a species and each environmental variable) and **Variable importance** to compute the contribution of each predictor. You can also enable **Cross-validation** to assess predictive performance using random *k*-folds, spatial blocks or temporal splits.
 
 ### Advanced options
 
 By selecting the **Advanced options** button, a sidebar will appear with extra options for refining your analysis:
 
-1.  **Occurrences thinning:** Specify the number of decimal places to round coordinates, allowing you to apply spatial thinning to your occurrence data using a precision-based method. GLOSSA currently implements this method via the GeoThinneR R package, which is the most time- and memory-efficient option for large datasets. If you need to perform spatial thinning based on distance or a grid, you can do so before uploading your data to GLOSSA using GeoThinneR or other methods.
+1. **Occurrences thinning**. Apply spatial thinning to your occurrence data using a distance threshold, a regular grid with specific grid cell size, or the number of decimal places to round coordinates. GLOSSA currently implements this method via the GeoThinneR R package. If you need to apply a different thinning strategy (e.g. environmental thinning) or other preprocessing, you can do so before uploading your data to GLOSSA.
 
-2.  **Standardize covariates:** GLOSSA uses a scaling method that subtracts the mean and divides by the standard deviation for standardization. The mean and standard deviation are calculated from the fitting layers, and the same values are used to standardize the projection layers, ensuring consistency across variables.
+2. **Pseudo-absences generation**. The user can choose the ratio of pseudo-absences to generate and between three commonly used strategies: random background, target-group, and buffer-restricted.
 
-3.  **Enlarge polygon:** If your polygon has low resolution, you can apply a buffer in degrees to expand it. This is useful if you have points near the coast that fall outside the polygon due to poor resolution. You can preview the buffer using the "play" icon before running the analysis to find the optimal value.
+3. **Standardize covariates**. GLOSSA uses a scaling method that subtracts the mean and divides by the standard deviation for standardization. The mean and standard deviation are calculated from the fitting layers, and the same values are used to standardize the projection layers, ensuring consistency across variables.
 
-4.  **Model:** Choose the model to apply. Currently, GLOSSA only supports the BART model, so no additional selection is needed here.
+4. **Enlarge polygon:** If your polygon has low resolution, you can apply a buffer in degrees to expand it. This is useful if you have points near the coast that fall outside the polygon due to poor resolution. You can preview the buffer using the "`play`" preview icon before running the analysis to find the optimal value.
 
-5.  **Set a seed:** Specify a seed for reproducibility of your results.
+5. **Model:** Choose the model to apply  and some tuning parameters such as the number of trees of BART or the shrinkage prior parameter to control overfitting. Currently, GLOSSA only supports the BART model.
+
+6. **Set a seed:** Specify a seed for reproducibility of your results.
 
 ![](images/analysis_options.png){width=60% fig-align="center"}
 
 ### Predictor variables
 
-If you uploaded multiple species, you can select different predictor variables for each species in the bottom left panel.
+If you uploaded multiple species, you can assign different predictor variables to each one using the panel at the bottom-left.
 
 ![](images/predictor_variables.png){width=60% fig-align="center"}
 
-::: {.callout-note appearance="simple" icon=false} 
-Try selecting different analysis options, tuning parameters, and choosing different combinations of predictor variables in different GLOSSA runs to explore how these changes affect the results of your analysis. Additionally, consider changing the seed value. Since the provided toy dataset contains presence-only data, different seeds will generate different random pseudo-absences, which can impact model performance.
+::: {.callout-note appearance="simple" icon=false}
+Try selecting different combinations of predictors, analysis options, and seeds to explore how each setting influences model results.
 
-This exercise is intended to help you get comfortable with the GLOSSA environment and its analysis options. By trying different parameters, predictor variables, and seeds, you can explore how these changes influence the results and gain confidence in using GLOSSA effectively.
+For example, try: `sp2.csv` for occurrences, `fit_layers.zip` for environmental data, `projection_layers_1.zip` and `projection_layers_2.zip` for projection scenarios, `oceania.gpkg` as your study area, enable the *Model fitting* option for both the *Native range* and *Suitable habitat* models, project (*Model projection*) only the suitable habitat, compute *Functional responses*, *Variable importance* and a *spatial-block cross-validation* with block sized computed by residuals autocorrelation, set seed to `123`.
 :::
 
 ### Uploaded files
@@ -220,59 +237,92 @@ Once the analysis is complete, you will be redirected to the *Reports* tab, wher
 
 In the top left corner of the tab, you can select the species for which you want to view the results. The first row displays key metrics:
 
--   **Potential suitable area**: Calculated in square kilometers, based on the predicted presence-absence grid cells.
--   **Mean suitable probability**: The average probability of suitable habitat across the entire prediction area.
--   **Presences/Absences**: The number of presence and absence points used to fit the model after all processing and cleaning.
+- **Potential suitable area**: Calculated in square kilometers, based on the predicted presence-absence grid cells.
+- **Mean suitable probability**: The average probability of suitable habitat across the entire prediction area.
+- **Presences/Absences**: The number of presence and absence points used to fit the model after all processing and cleaning.
 
 If multiple projection layers are provided (for example, a time series), a sparkline plot will display the values for each time period, and the text value shown will represent the last one in the time series.
 
 ### GLOSSA predictions
 
-The first plot, titled **GLOSSA predictions**, shows the presence probability predictions within the study area. As we are working in the Bayesian framework, each grid cell has associated one predictive posterior distribution, therefore we can obtain a more comprenhensive undertanding of the predictions by exploring metrics like the mean, median or quantiles. Using the three-dot icon ![](images/options_icon.png){.inline}, you can open the sidebar to customize the display:
+The first plot, titled **GLOSSA predictions**, shows the presence probability predictions within the study area. As we are working in the Bayesian framework, each grid cell has associated one predictive posterior distribution, therefore we can obtain a more comprenhensive undertanding of the predictions and estimated uncertainty by exploring metrics like the mean, median or quantiles. Using the three-dot icon ![](images/options_icon.png){.inline}, you can open the sidebar to customize the display:
 
--   Choose between predictions on the fitting layers or the projection layers.
--   Toggle between viewing the native range or the suitable habitat.
--   Select which value from the posterior distribution to display (e.g., mean probability, median, etc.).
+- Choose between predictions on the fitting layers or the projection layers.
+- Toggle between viewing the native range or the suitable habitat.
+- Select which value from the posterior distribution to display (e.g., mean probability, median, etc.).
 
 ![](images/reports_options.png){width=60% fig-align="center"}
 
-### Environmental variables and Presence validation
+### Environmental variables and occurrence validation
 
 The plot on the right shows the environmental variables used to fit the model, allowing you to quickly compare them with the probability projections. Below this, another plot displays the occurrence points that were retained or filtered out during the analysis.
 
 ![](images/env_vars.png){width=40% fig-align="center"}
 
-### Functional responses and Variable importance
+### Functional responses and variable importance
 
-In the last row, you can view:
+Below, you can explore the relationship and importance of each predictor variable:
 
--   **Functional response:** These illustrate the relationship between each environmental variable and the predicted suitable habitat (response curves).
--   **Variable importance:** Displays the importance of each variable for both the native range and the suitable habitat.
+- **Functional responses:** Partial dependence plots showing how each environmental predictor influences predicted suitability.
+- **Variable importance:** Displays the importance of each variable measuring the change in the prediction error using a permutation-based approach.
 
 ![](images/func_res.png){width=60% fig-align="center"}
 
 ### Cross-validation
 
-In the cross-validation panel, you'll find performance metrics such as:
+In the cross-validation panel you can see the mean and median values for different performance metrics, including metrics tailored for models without real absences such as the Continuous Boyce Index, and the occurrence record grouped by folds.
 
--   **AIC (Akaike Information Criterion)**
--   **RMSE (Root Mean Square Error)**
--   **5-Fold Cross-Validation Results**
+![](images/cv_get_started.png){width=40% fig-align="center"}
 
+### Model summary
 
+Apart from the cross-validation, the final section summarizes the fitted model with a ROC curve with performance metrics of the fitted model, a confusion matrix, and the distribution of predicted values.
+
+![](images/model_summary_get_started.png){width=80% fig-align="center"}
 
 ## Exports
 
-In the *Exports* tab, you can export the results of your analysis. This includes all projection maps, the data used to fit the model, variable importance metrics, cross-validation results, etc. You can export almost everything, enabling you to explore the results further or create your own visualizations for your work!
+In the *Exports* tab, you can export the results of your analysis. This includes all projection maps, the data used to fit the model, variable importance metrics, cross-validation results, etc. You can export almost everything, enabling you to explore the results further or create your own visualizations for your work! Additionally, A `.json` file is also generated saving the inputs and analysis settings used.
 
 ![](images/exports_tab.png){width=80% fig-align="center"}
 
-## Next Steps
+# Next steps
 
-This *Quick start guide* for GLOSSA should help you get up and running. For more detailed instructions, check out the *Tutorial* tab, where you’ll find tutorials on how to prepare your data for GLOSSA or even worked examples that guide you through using GLOSSA from end-to-end.
+Now that you've successfully run a toy example following this *Quick start guide*, you can continue with the full documentation. You'll find information on how to:
 
-Additionally, the *Documentation* tab offers a comprehensive guide to every aspect of the GLOSSA app. Here, you’ll find not only in-depth information on how GLOSSA works but also tips and tricks to help you get the most out of the app.
+- [Prepare your data]()
+- [Generate pseudo-absences]()
+- [Running a new analysis]()
+- [Understanding BART]()
+- [Explore the results]()
+- [Export the results]()
+- [Tutorials and examples]()
+- [Function reference]()
 
-If you have further questions, visit the *FAQs* tab, or if you still need help, you can reach us through the *Contact Us* tab.
+**Need more help?**
+
+Visit the [FAQs](under_construction.qmd) tab, or if you still need help, you can reach us through the [Contact Us](contact_us.qmd) tab.
 
 Thank you for using GLOSSA, and enjoy your species distribution modeling!
+
+## Resources
+
+> Araújo, M. B., Anderson, R. P., Márcia Barbosa, A., Beale, C. M., Dormann, C. F., Early, R., ... & Rahbek, C. (2019). Standards for distribution models in biodiversity assessments. *Science advances, 5*(1), eaat4858. <https://doi.org/10.1126/sciadv.aat4858>
+
+> Guisan, A., Thuiller, W., & Zimmermann, N. E. (2017). *Habitat suitability and distribution models: with applications in R*. Cambridge University Press. <https://doi.org/10.1017/9781139028271>
+
+> Kass, J. M., Smith, A. B., Warren, D. L., Vignali, S., Schmitt, S., Aiello‐Lammens, M. E., ... & Zurell, D. (2025). Achieving higher standards in species distribution modeling by leveraging the diversity of available software. *Ecography, 2025*(2), e07346. <https://doi.org/10.1111/ecog.07346>
+
+> Melo-Merino, S. M., Reyes-Bonilla, H., & Lira-Noriega, A. (2020). Ecological niche models and species distribution models in marine environments: A literature review and spatial analysis of evidence. *Ecological Modelling, 415*, 108837. <https://doi.org/10.1016/j.ecolmodel.2019.108837>
+
+> Peterson, A. T., Aiello-Lammens, M., Amatulli, G., Anderson, R., Cobos, M., Diniz-Filho, J. A., ... & Zurell, D. (2022). ENM2020: A free online course and set of resources on modeling Species' niches and distributions. <https://doi.org/10.17161/bi.v17i.15016>
+
+> Peterson, A. T., Soberón, J., Pearson, R. G., Anderson, R. P., Martínez-Meyer, E., Nakamura, M., & Araújo, M. B. (2011). Ecological niches and geographic distributions. In *Ecological niches and geographic distributions*. Princeton University Press. <https://doi.org/10.1515/9781400840670>
+
+> Robinson, N. M., Nelson, W. A., Costello, M. J., Sutherland, J. E., & Lundquist, C. J. (2017). A systematic review of marine-based species distribution models (SDMs) with recommendations for best practice. *Frontiers in Marine Science, 4*, 421. <https://doi.org/10.3389/fmars.2017.00421>
+
+> Sánchez-Mercado, A. Y., Ferrer-Paris, J. R., & Franklin, J. (2010). Mapping species distributions: spatial inference and prediction. *Oryx, 44*(4), 615. <https://doi.org/10.1017/S0030605310001201>
+
+> Sillero, N., Arenas-Castro, S., Enriquez‐Urzelai, U., Vale, C. G., Sousa-Guedes, D., Martínez-Freiría, F., ... & Barbosa, A. M. (2021). Want to model a species niche? A step-by-step guideline on correlative ecological niche modelling. *Ecological Modelling, 456*, 109671. <https://doi.org/10.1016/j.ecolmodel.2021.109671> 
+
+> Zurell, D., Franklin, J., König, C., Bouchet, P. J., Dormann, C. F., Elith, J., ... & Merow, C. (2020). A standard protocol for reporting species distribution models. *Ecography, 43*(9), 1261-1277. <https://doi.org/10.1111/ecog.04960>

@@ -183,17 +183,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome-to-glossa" id="toc-welcome-to-glossa" class="nav-link active" data-scroll-target="#welcome-to-glossa">Welcome to GLOSSA</a>
+  <li><a href="#how-glossa-works" id="toc-how-glossa-works" class="nav-link active" data-scroll-target="#how-glossa-works">How GLOSSA works</a>
   <ul class="collapse">
-  <li><a href="#requirements" id="toc-requirements" class="nav-link" data-scroll-target="#requirements">Requirements</a></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#data-upload" id="toc-data-upload" class="nav-link" data-scroll-target="#data-upload">1. Data upload</a></li>
+  <li><a href="#data-processing" id="toc-data-processing" class="nav-link" data-scroll-target="#data-processing">2. Data processing</a></li>
+  <li><a href="#model-fitting-evaluation-and-prediction" id="toc-model-fitting-evaluation-and-prediction" class="nav-link" data-scroll-target="#model-fitting-evaluation-and-prediction">3. Model fitting, evaluation, and prediction</a></li>
+  <li><a href="#visualization-and-export" id="toc-visualization-and-export" class="nav-link" data-scroll-target="#visualization-and-export">4. Visualization and export</a></li>
   </ul></li>
-  <li><a href="#glossa-workflow-overview" id="toc-glossa-workflow-overview" class="nav-link" data-scroll-target="#glossa-workflow-overview">GLOSSA workflow overview</a></li>
-  <li><a href="#running-your-first-analysis" id="toc-running-your-first-analysis" class="nav-link" data-scroll-target="#running-your-first-analysis">Running your first analysis</a>
+  <li><a href="#install-and-launch-the-application" id="toc-install-and-launch-the-application" class="nav-link" data-scroll-target="#install-and-launch-the-application">Install and launch the application</a></li>
+  <li><a href="#run-a-toy-example" id="toc-run-a-toy-example" class="nav-link" data-scroll-target="#run-a-toy-example">Run a toy example</a>
   <ul class="collapse">
   <li><a href="#sidebar-overview" id="toc-sidebar-overview" class="nav-link" data-scroll-target="#sidebar-overview">Sidebar overview</a></li>
-  </ul></li>
-  <li><a href="#running-your-first-analysis-1" id="toc-running-your-first-analysis-1" class="nav-link" data-scroll-target="#running-your-first-analysis-1">Running your first analysis</a>
+  <li><a href="#new-analysis-tab" id="toc-new-analysis-tab" class="nav-link" data-scroll-target="#new-analysis-tab">New analysis tab</a>
   <ul class="collapse">
   <li><a href="#required-files-for-analysis" id="toc-required-files-for-analysis" class="nav-link" data-scroll-target="#required-files-for-analysis">Required files for analysis</a></li>
   <li><a href="#analysis-options" id="toc-analysis-options" class="nav-link" data-scroll-target="#analysis-options">Analysis options</a></li>
@@ -204,12 +205,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#analysis-results" id="toc-analysis-results" class="nav-link" data-scroll-target="#analysis-results">Analysis results</a>
   <ul class="collapse">
   <li><a href="#glossa-predictions" id="toc-glossa-predictions" class="nav-link" data-scroll-target="#glossa-predictions">GLOSSA predictions</a></li>
-  <li><a href="#environmental-variables-and-presence-validation" id="toc-environmental-variables-and-presence-validation" class="nav-link" data-scroll-target="#environmental-variables-and-presence-validation">Environmental variables and Presence validation</a></li>
-  <li><a href="#functional-responses-and-variable-importance" id="toc-functional-responses-and-variable-importance" class="nav-link" data-scroll-target="#functional-responses-and-variable-importance">Functional responses and Variable importance</a></li>
+  <li><a href="#environmental-variables-and-occurrence-validation" id="toc-environmental-variables-and-occurrence-validation" class="nav-link" data-scroll-target="#environmental-variables-and-occurrence-validation">Environmental variables and occurrence validation</a></li>
+  <li><a href="#functional-responses-and-variable-importance" id="toc-functional-responses-and-variable-importance" class="nav-link" data-scroll-target="#functional-responses-and-variable-importance">Functional responses and variable importance</a></li>
   <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation">Cross-validation</a></li>
+  <li><a href="#model-summary" id="toc-model-summary" class="nav-link" data-scroll-target="#model-summary">Model summary</a></li>
   </ul></li>
   <li><a href="#exports" id="toc-exports" class="nav-link" data-scroll-target="#exports">Exports</a></li>
-  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  </ul></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a>
+  <ul class="collapse">
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/iMARES-group/glossa/edit/main/get_started.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/iMARES-group/glossa/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -235,110 +241,118 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="welcome-to-glossa" class="level2">
-<h2 class="anchored" data-anchor-id="welcome-to-glossa">Welcome to GLOSSA</h2>
-<p>GLOSSA is a user-friendly R <code>shiny</code> app designed to help you model marine species distributions using <strong>species occurrences and environmental data</strong>. Below is a quick guide to help you get started.</p>
-<section id="requirements" class="level3">
-<h3 class="anchored" data-anchor-id="requirements">Requirements</h3>
-<p>Before you begin, ensure you have <strong>R version 4.0.0 or higher</strong> installed on your system:</p>
-<div class="callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<p><strong>Welcome to GLOSSA</strong></p>
+<p><strong>GLOSSA</strong> (Global Ocean Species Spatio-temporal Analysis) is an open-source R package and <code>shiny</code> application for fitting <strong>marine species distribution models</strong> (SDMs) using <strong>Bayesian Additive Regression Trees</strong> (BART) with <strong>species occurrences and environmental data</strong>. It makes SDM analysis more accessible through a user-friendly interface, with reproducible and exportable outputs.</p>
+<p>Species distribution modeling involves more than just fitting an algorithm, it includes selecting appropriate predictors, checking data quality, mitigating biases, understanding species ecology, and interpreting results with care. While GLOSSA is not designed to handle the entire SDM pipeline, it supports several key steps and makes them accessible.</p>
+<p>To support good modeling practices, we include links at the end of this guide to established references and recommended guidelines for SDM, particularly in marine contexts.</p>
+<section id="how-glossa-works" class="level1">
+<h1>How GLOSSA works</h1>
+<p>GLOSSA implements a streamlined modeling pipeline, from data upload to posterior prediction and uncertainty quantification.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/glossa_workflow.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
 </div>
-<div class="callout-body-container">
-<p><a href="https://cran.rstudio.com/">Download R</a></p>
-</div>
-</div>
-</div>
+<section id="data-upload" class="level3">
+<h3 class="anchored" data-anchor-id="data-upload">1. Data upload</h3>
+<p>You can upload:</p>
+<ul>
+<li><strong>Species occurrences</strong>: Tab-separated file(s) with presence/(pseudo-)absence records containing latitude, longitude, and a column indicating presence (1) or absence (0). Timestamp is optional but required for time-varying predictors. If you only have presence data, GLOSSA can generate pseudo-absences. In addition, you can also upload multiple files to analyze them independently within the same session</li>
+<li><strong>Environmental data</strong>: A ZIP file of raster files representing gridded predictor variables. Occurrence points will be matched in space and time to extract raster values.</li>
+<li><strong>Projections</strong> <em>(optional)</em>: Raster ZIPs used to project the model beyond the fitting data. These can represent future time periods or climate scenarios.</li>
+<li><strong>Study area</strong> <em>(optional)</em>: A polygon file to define the study region and modeling extent. If not included, GLOSSA will use the extent of the environmental layers.</li>
+</ul>
 </section>
-<section id="installation" class="level3">
-<h3 class="anchored" data-anchor-id="installation">Installation</h3>
-<p>To install GLOSSA, simply run the following command in your R console:</p>
+<section id="data-processing" class="level3">
+<h3 class="anchored" data-anchor-id="data-processing">2. Data processing</h3>
+<ul>
+<li><strong>Occurrence processing</strong>: GLOSSA automatically removes duplicate records, filters out invalid points, and applies optional spatial thinning.</li>
+<li><strong>Environmental data processing</strong>: Raster layers are harmonized in resolution and extent, then cropped and masked to the study area. Predictor values at occurrence locations are extracted and can optionally be standardized (z-score).</li>
+<li><strong>Generate pseudo-absences</strong> <em>(if needed)</em>: If no absences or pseudo-absences were uploaded before, GLOSSA supports random background, target-group, or spatial buffer strategies for sampling pseudo-absences.</li>
+</ul>
+</section>
+<section id="model-fitting-evaluation-and-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="model-fitting-evaluation-and-prediction">3. Model fitting, evaluation, and prediction</h3>
+<p>The core modeling approach used in GLOSSA is BART:</p>
+<ul>
+<li><strong>Fit BART model</strong>: You can choose between two model types, a suitable habitat model (uses only environmental predictors) or a native range model (aso includes spatial coordinates as covariates). GLOSSA uses BART to fit the model and estimate uncertainty.</li>
+<li><strong>Model evaluation</strong>: GLOSSA estimates a threshold to turn probability into binary presence/absence and generates a model summary including summary metrics and diagnostic plots. You can also run cross-validation, including random <em>k</em>-fold, spatial block, and temporal splits.</li>
+<li><strong>Model output</strong>: Outputs include posterior point and interval estimates of predictions, binary maps, functional response curves, and variable importance scores.</li>
+<li><strong>Projections</strong>: Use the fitted model to project under new environmental conditions.</li>
+</ul>
+</section>
+<section id="visualization-and-export" class="level3">
+<h3 class="anchored" data-anchor-id="visualization-and-export">4. Visualization and export</h3>
+<p>After the analysis, GLOSSA provides interactive maps and charts to explore results. You can export all outputs as a ZIP file and a configuration file for reproducibility.</p>
+<hr>
+</section>
+</section>
+<section id="install-and-launch-the-application" class="level1">
+<h1>Install and launch the application</h1>
+<p>GLOSSA is available on <a href="https://cran.r-project.org/package=glossa">CRAN</a> and <a href="https://github.com/iMARES-group/glossa">GitHub</a>. To install GLOSSA, simply run the following command in your R console:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"glossa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Alternatively, you can install the latest development version from GitHub to get the latest updates and fixes:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"devtools"</span>)) </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"iMARES-group/glossa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("devtools")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"iMARES-group/glossa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>After installation, you can launch the GLOSSA app by running this command:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glossa)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_glossa</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You can find more information on the <a href="./pages/documentation/installation_setup.html">Installation</a> page.</p>
+<p>For more details, see the <a href="./pages/documentation/installation_setup.html">Installation</a> guide</p>
 <hr>
 </section>
-</section>
-<section id="glossa-workflow-overview" class="level2">
-<h2 class="anchored" data-anchor-id="glossa-workflow-overview">GLOSSA workflow overview</h2>
-<p>GLOSSA is designed to be intuitive, with a simple step-by-step workflow:</p>
-<ol type="1">
-<li><strong>Data input</strong>:</li>
-</ol>
-<ul>
-<li>Upload <strong>species occurrence data</strong>, either presence-absence or presence-only data (in which case, pseudo-absences will be generated).</li>
-<li>Upload <strong>environmental data</strong>, for example, climate variables in raster format.</li>
-<li>Optionally, provide <strong>projection layers</strong>, for example, to project future scenarios.</li>
-<li>Optionnally, provide a <strong>study area polygon</strong> to define the study area.</li>
-</ul>
-<ol start="2" type="1">
-<li><strong>Data processing</strong>:</li>
-</ol>
-<ul>
-<li><strong>Clean coordinates</strong>: GLOSSA automatically removes duplicates and points outside the study area.</li>
-<li><strong>Process layers</strong>: Environmental layers are cropped and Z-score standardized if needed.</li>
-<li><strong>Generate pseudo-absences</strong>: For presence-only data, pseudo-absences are randomly generated.</li>
-</ul>
-<ol start="3" type="1">
-<li><strong>Model fitting and prediction</strong>:</li>
-</ol>
-<ul>
-<li>GLOSSA fits the <strong>BART (Bayesian Additive Regression Trees)</strong> model to predict species distributions. <strong>Two models</strong> can be fitted—one based on environmental data and another including spatial smoothing.</li>
-<li>You can explore model outputs, including probability maps, performance metrics, and variable importance.</li>
-</ul>
-<ol start="4" type="1">
-<li><strong>Results and visualization</strong>:</li>
-</ol>
-<ul>
-<li>Explore interactive maps and charts showing predictions and analysis results.</li>
-<li>Export results for further use or reporting.</li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/glossa_small_workflow.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>GLOSSA workflow overview.</figcaption>
-</figure>
+<section id="run-a-toy-example" class="level1">
+<h1>Run a toy example</h1>
+<p>This section is a <strong>hands-on introduction</strong> to GLOSSA using a <strong>toy example</strong>. Without going into every detail, you’ll run your first model to get familiar with the interface and build confidence to explore the full documentation and run your own analysis.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Download example data">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
 </div>
-<hr>
-</section>
-<section id="running-your-first-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="running-your-first-analysis">Running your first analysis</h2>
-<p>Here’s a quick guide on how to use the app. First, launch the app by running the <code>run_glossa()</code> function:</p>
+<div class="callout-title-container flex-fill">
+Download example data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before starting, we will download a toy dataset to use as a demo for running our first analysis with GLOSSA. The dataset can be downloaded from Zenodo: <a href="https://doi.org/10.5281/zenodo.14223866" target="_blank">https://doi.org/10.5281/zenodo.14223866</a>.</p>
+<p>The repository includes:</p>
+<ul>
+<li>Two species occurrence datasets:</li>
+<li><code>sp1.txt</code>: a globally distributed species</li>
+<li><code>sp2.csv</code>: an endemic species on the Australian continental shelf</li>
+<li>Environmental predictors: <code>fit_layers.zip</code> (2 continuous, 2 categorical rasters)</li>
+<li>Two projected climate scenarios: <code>project_layers_1.zip</code>, <code>project_layers_2.zip</code></li>
+<li>Two polygon files defining study regions:</li>
+<li><code>world.gpkg</code> (global)</li>
+<li><code>oceania.gpkg</code> (Australia)</li>
+</ul>
+</div>
+</div>
+<p>Once you’ve downloaded the data, launch the GLOSSA app:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glossa)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_glossa</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will open the app in your web browser directly in the <strong>Home</strong> tab. Here, you can start a new analysis, watch a demo, or read tutorials.</p>
+<p>This will open the app in your web browser directly in the <strong>Home</strong> tab. Here, you can start a new analysis, explore a demo, or access tutorials.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/home_tab.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Screenshot of the “Home” tab, the landing page.</figcaption>
+<p><img src="images/home_tab.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
-<p>Clicking on the question mark icon <img src="images/question_icon.png" class="inline img-fluid"> on the top right corner will bring up a brief explanation of what each tab and button does.</p>
+<p>Use the question mark icon <img src="images/question_icon.png" class="inline img-fluid"> in the top-right corner to display a brief explanation of what each tab and button does.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/help_tab.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
-<section id="sidebar-overview" class="level3">
-<h3 class="anchored" data-anchor-id="sidebar-overview">Sidebar overview</h3>
+<section id="sidebar-overview" class="level2">
+<h2 class="anchored" data-anchor-id="sidebar-overview">Sidebar overview</h2>
 <p>On the sidebar, you’ll find two main sections: <em>Modelling</em> and <em>Resources</em>.</p>
 <ul>
-<li><p><strong>Resources:</strong> This section provides essential information to help you run the app. It’s a great place to refresh your knowledge, especially if it’s been a while since you last used GLOSSA. Note that the full documentation is hosted outside the app in this website.</p></li>
 <li><p><strong>Modelling:</strong> This section includes the <em>New Analysis</em>, <em>Reports</em>, and <em>Exports</em> tabs. Typically, you’ll go through these tabs in sequence:</p>
 <ol type="1">
 <li><strong>New Analysis:</strong> Set up your analysis, upload your data, and select analysis options.</li>
 <li><strong>Reports:</strong> Explore the results and visualizations generated by the analysis.</li>
 <li><strong>Exports:</strong> Download the results for further use.</li>
 </ol></li>
+<li><p><strong>Resources:</strong> Contains brief documentation and guidance. Please note that the complete and most current documentation is hosted outside the app in this website.</p></li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -346,38 +360,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </section>
-</section>
-<section id="running-your-first-analysis-1" class="level2">
-<h2 class="anchored" data-anchor-id="running-your-first-analysis-1">Running your first analysis</h2>
-<div class="callout callout-style-simple callout-note no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Before starting, we will download a toy dataset to use as a demo for running our first analysis with GLOSSA. The dataset can be downloaded from Zenodo: <a href="https://doi.org/10.5281/zenodo.14223866" target="_blank">https://doi.org/10.5281/zenodo.14223866</a>.</p>
-<p>This repository includes occurrences for two species: one globally distributed (<code>sp1.txt</code>) and another endemic to the continental shelf of Australia (<code>sp2.csv</code>). The dataset also contains four predictor variables: two continuous and two categorical (<code>fit_layers.zip</code>). Additionally, it includes files representing two projected climate scenarios (<code>project_layers_1.zip</code> and <code>project_layers_2.zip</code>). Finally, the dataset provides two polygon files to define the extent of the study area: a global polygon object (<code>world.gpkg</code>) and a polygon delimiting the Australian region (<code>oceania.gpkg</code>).</p>
-</div>
-</div>
-</div>
-<p>To run your first analysis, go to the <em>New Analysis</em> tab. This tab looks like this:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/new_analysis_tab.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
-</figure>
-</div>
-<p>Here, you need to upload the required input files and select your analysis options:</p>
+<section id="new-analysis-tab" class="level2">
+<h2 class="anchored" data-anchor-id="new-analysis-tab">New analysis tab</h2>
+<p>To run your first analysis, go to the <em>New Analysis</em> tab. Here, you’ll upload input files and select the analysis options</p>
 <ol type="1">
 <li><strong>Data upload:</strong> The first panel is where you upload your data and configure the analysis settings.</li>
 <li><strong>Previsualization:</strong> The second panel provides an interactive map to preview your input data.</li>
 <li><strong>Predictor variables:</strong> Choose predictor variables for each uploaded species.</li>
 <li><strong>Uploaded files:</strong> A table indicates if your input files are formatted correctly.</li>
 </ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/new_analysis_tab.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
 <section id="required-files-for-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="required-files-for-analysis">Required files for analysis</h3>
 <p>GLOSSA can function with just occurrence data and environmental variables, but additional options are available. Let’s briefly go through the necessary files:</p>
 <ol type="1">
-<li><p><strong>Occurrences:</strong> Upload a tab-separated CSV file with four columns indicating the occurrence location, whether it is a presence or absence, and the time it was recorded. The columns must be named exactly as follows: <code>decimalLongitude</code>, <code>decimalLatitude</code>, <code>pa</code>, and <code>timestamp</code>. If the <code>pa</code> column is missing, GLOSSA will assume all rows are presences. If <code>timestamp</code> is missing, GLOSSA will assume all observations occurred at the same time. GLOSSA also supports presence-only data but will generate randomly distributed balanced pseudo-absences to fit the model.</p>
+<li><strong>Occurrences:</strong> Upload a tab-separated file (e.g.&nbsp;<code>.tsv</code>) with four columns indicating the occurrence location, whether it is a presence or absence, and the time it was recorded. The columns must be named exactly as follows: <code>decimalLongitude</code>, <code>decimalLatitude</code>, <code>pa</code>, and <code>timestamp</code>. If the <code>pa</code> column is missing, GLOSSA will assume all records are presences. If <code>timestamp</code> is missing, GLOSSA will assume all records occurred at the same time. GLOSSA also supports presence-only data by generating pseudo-absences during preprocessing.</li>
+</ol>
+<p>For example, the <code>sp1.txt</code> file looks like this:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">head</span>(sp1)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  decimalLongitude decimalLatitude timestamp pa</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>          <span class="fl">5.42909</span>        <span class="fl">43.20937</span>         <span class="dv">1</span>  <span class="dv">1</span></span>
@@ -385,8 +388,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span>         <span class="sc">-</span><span class="fl">2.52369</span>        <span class="fl">47.29234</span>         <span class="dv">2</span>  <span class="dv">1</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span>           <span class="fl">34.054</span>         <span class="sc">-</span><span class="fl">26.913</span>         <span class="dv">2</span>  <span class="dv">1</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>           <span class="sc">-</span><span class="fl">41.63</span>            <span class="fl">46.3</span>         <span class="dv">2</span>  <span class="dv">0</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>           <span class="sc">-</span><span class="fl">174.5</span>            <span class="fl">27.5</span>         <span class="dv">3</span>  <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Environmental data:</strong> Upload environmental data as raster files (e.g., .tif or .nc format) in a ZIP file with a specific structure. The ZIP file should contain a subdirectory for each environmental variable, with files sorted by time period. For example, if you have two variables (<code>x1</code> and <code>x2</code>) and your observations are from two different years, your ZIP file should look like this:</p>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>           <span class="sc">-</span><span class="fl">174.5</span>            <span class="fl">27.5</span>         <span class="dv">3</span>  <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li><strong>Environmental data:</strong> Upload a <code>.zip</code> archive containing environmental data as raster files (e.g., <code>.tif</code> or <code>.nc</code> format) with a specific structure. The ZIP file should contain a subdirectory for each environmental variable, with files sorted by time period. For example, if you have two variables (<code>x1</code> and <code>x2</code>) and your observations are from two different years, your ZIP file should look like this:</li>
+</ol>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit_layers.zip</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    ├───x1</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    │       x1_1.tif</span>
@@ -394,18 +399,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    └───x2</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            x2_1.tif</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            x2_2.tif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Ensure that all layers have the same resolution, the same number of layers, and that they match the number of years in your occurrence files. If you want to use the same layer for all observations, include just one file in the subdirectory and set all <code>timestamp</code> values to 1 or remove the <code>timestamp</code> column.</p></li>
-<li><p><strong>Projection layers (Optional):</strong> If you want to make predictions, upload your projection data here. This file has the same format as the environmental data file, and the subdirectories must match those used for fitting the model. You can upload multiple ZIP files if you want to predict multiple scenarios (e.g., different temperature increase scenarios).</p></li>
-<li><p><strong>Study area (Optional):</strong> If your rasters cover a larger area than your study region, you can provide a polygon to delimit your study area (formats: GPKG, KML or GeoJSON). This will remove points outside the polygon and mask the environmental variables accordingly.</p></li>
+<p>Ensure that all layers have the same resolution, the same number of layers, and that they match the number of years in your occurrence files. If you want to use the same layer for all observations, include just one file in the subdirectory and set all <code>timestamp</code> values to 1 or remove the <code>timestamp</code> column.</p>
+<ol start="3" type="1">
+<li><p><strong>Projection layers</strong> <em>(optional)</em>: If you want to make predictions, upload your projection data here. This file has the same format as the environmental data file, and the subdirectories must match those used for fitting the model. You can upload multiple ZIP files if you want to predict multiple scenarios (e.g., different temperature increase scenarios).</p></li>
+<li><p><strong>Study area</strong> <em>(optional)</em>: If your rasters cover a larger area than your study region, you can provide a polygon to delimit your study area (e.g., GPKG, KML or GeoJSON). This will remove points outside the polygon and mask the environmental variables accordingly.</p></li>
 </ol>
-<p>Once all files are uploaded, if they pass the checks and are properly formatted, the table in the bottom right panel will show a checkmark for each file. If something is incorrect, refer to the documentation for a quick solution.</p>
+<p>Once all files are uploaded and validated, a checkmark will appear next to each file in the summary table (bottom-right panel). If any checks fail, refer to the documentation.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>If you have downloaded the toy dataset, you can try uploading the following files: the two species occurrence files (<code>sp1.txt</code> and <code>sp2.csv</code>), the environmental variables for fitting the model (<code>fit_layers.zip</code>), the two climate scenarios for making projections (<code>project_layers_1.zip</code> and <code>project_layers_2.zip</code>), and the polygon file for the Australian region (<code>oceania.gpkg</code>) to delimit the study area and speed up computations for this initial attempt.</p>
+<p>If you have downloaded the toy dataset, you can try uploading the following files: one species occurrence file (e.g.&nbsp;<code>sp2.csv</code>), the environmental variables for fitting the model (<code>fit_layers.zip</code>), the two climate scenarios for making projections (<code>project_layers_1.zip</code> and <code>project_layers_2.zip</code>), and the polygon file for the Australian region (<code>oceania.gpkg</code>) to delimit the study area and speed up computations for this initial attempt.</p>
+<p>To load the data, simply click on the buttons and select one or more files, or drag them to the corresponding place.</p>
 </div>
 </div>
 </div>
@@ -414,21 +421,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="analysis-options">Analysis options</h3>
 <p>In this section, you need to select the desired output. GLOSSA fits two kinds of models:</p>
 <ul>
-<li><strong>Native range:</strong> The model includes environmental variables and uses longitude and latitude coordinates as a spatial smoother.</li>
+<li><strong>Native range:</strong> The model includes environmental predictor variables and uses longitude and latitude coordinates as a spatial smoother.</li>
 <li><strong>Suitable habitat:</strong> The model only includes the environmental variables.</li>
 </ul>
-<p>You can choose to fit the model under the <strong>Model fitting</strong> option. This option will fit the model, compute variable importance, and generate a prediction map representing the mean environmental conditions across all provided layers. If you’ve uploaded projection layers and want to make predictions using the fitted model, select the <strong>Model projection</strong> option.</p>
+<p>You can choose to fit the model under the <strong>Model fitting</strong> option. This option will fit the model and generate a prediction map on an averaged environmental scenario calculated as the mean of the fitting period. If you’ve uploaded projection layers and want to make predictions using the fitted model, select the <strong>Model projection</strong> option.</p>
 <p>When fitting the model, if multiple years or time periods are uploaded, GLOSSA will extract the value of the corresponding environmental layer for each occurrence based on the specific time stamp.</p>
-<p>Additionally, you can check the <strong>Functional responses</strong> checkbox if you want to compute the response curves (i.e., the relationship between the occurrence of a species and each environmental variable). You can also enable <strong>Cross-validation</strong>, which will perform a K-fold cross-validation with (<em>k = 10</em>).</p>
+<p>Additionally, you can check the <strong>Functional responses</strong> checkbox if you want to compute the response curves (i.e., the relationship between the occurrence of a species and each environmental variable) and <strong>Variable importance</strong> to compute the contribution of each predictor. You can also enable <strong>Cross-validation</strong> to assess predictive performance using random <em>k</em>-folds, spatial blocks or temporal splits.</p>
 </section>
 <section id="advanced-options" class="level3">
 <h3 class="anchored" data-anchor-id="advanced-options">Advanced options</h3>
 <p>By selecting the <strong>Advanced options</strong> button, a sidebar will appear with extra options for refining your analysis:</p>
 <ol type="1">
-<li><p><strong>Occurrences thinning:</strong> Specify the number of decimal places to round coordinates, allowing you to apply spatial thinning to your occurrence data using a precision-based method. GLOSSA currently implements this method via the GeoThinneR R package, which is the most time- and memory-efficient option for large datasets. If you need to perform spatial thinning based on distance or a grid, you can do so before uploading your data to GLOSSA using GeoThinneR or other methods.</p></li>
-<li><p><strong>Standardize covariates:</strong> GLOSSA uses a scaling method that subtracts the mean and divides by the standard deviation for standardization. The mean and standard deviation are calculated from the fitting layers, and the same values are used to standardize the projection layers, ensuring consistency across variables.</p></li>
-<li><p><strong>Enlarge polygon:</strong> If your polygon has low resolution, you can apply a buffer in degrees to expand it. This is useful if you have points near the coast that fall outside the polygon due to poor resolution. You can preview the buffer using the “play” icon before running the analysis to find the optimal value.</p></li>
-<li><p><strong>Model:</strong> Choose the model to apply. Currently, GLOSSA only supports the BART model, so no additional selection is needed here.</p></li>
+<li><p><strong>Occurrences thinning</strong>. Apply spatial thinning to your occurrence data using a distance threshold, a regular grid with specific grid cell size, or the number of decimal places to round coordinates. GLOSSA currently implements this method via the GeoThinneR R package. If you need to apply a different thinning strategy (e.g.&nbsp;environmental thinning) or other preprocessing, you can do so before uploading your data to GLOSSA.</p></li>
+<li><p><strong>Pseudo-absences generation</strong>. The user can choose the ratio of pseudo-absences to generate and between three commonly used strategies: random background, target-group, and buffer-restricted.</p></li>
+<li><p><strong>Standardize covariates</strong>. GLOSSA uses a scaling method that subtracts the mean and divides by the standard deviation for standardization. The mean and standard deviation are calculated from the fitting layers, and the same values are used to standardize the projection layers, ensuring consistency across variables.</p></li>
+<li><p><strong>Enlarge polygon:</strong> If your polygon has low resolution, you can apply a buffer in degrees to expand it. This is useful if you have points near the coast that fall outside the polygon due to poor resolution. You can preview the buffer using the “<code>play</code>” preview icon before running the analysis to find the optimal value.</p></li>
+<li><p><strong>Model:</strong> Choose the model to apply and some tuning parameters such as the number of trees of BART or the shrinkage prior parameter to control overfitting. Currently, GLOSSA only supports the BART model.</p></li>
 <li><p><strong>Set a seed:</strong> Specify a seed for reproducibility of your results.</p></li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
@@ -439,7 +447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="predictor-variables" class="level3">
 <h3 class="anchored" data-anchor-id="predictor-variables">Predictor variables</h3>
-<p>If you uploaded multiple species, you can select different predictor variables for each species in the bottom left panel.</p>
+<p>If you uploaded multiple species, you can assign different predictor variables to each one using the panel at the bottom-left.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/predictor_variables.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
@@ -451,8 +459,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Try selecting different analysis options, tuning parameters, and choosing different combinations of predictor variables in different GLOSSA runs to explore how these changes affect the results of your analysis. Additionally, consider changing the seed value. Since the provided toy dataset contains presence-only data, different seeds will generate different random pseudo-absences, which can impact model performance.</p>
-<p>This exercise is intended to help you get comfortable with the GLOSSA environment and its analysis options. By trying different parameters, predictor variables, and seeds, you can explore how these changes influence the results and gain confidence in using GLOSSA effectively.</p>
+<p>Try selecting different combinations of predictors, analysis options, and seeds to explore how each setting influences model results.</p>
+<p>For example, try: <code>sp2.csv</code> for occurrences, <code>fit_layers.zip</code> for environmental data, <code>projection_layers_1.zip</code> and <code>projection_layers_2.zip</code> for projection scenarios, <code>oceania.gpkg</code> as your study area, enable the <em>Model fitting</em> option for both the <em>Native range</em> and <em>Suitable habitat</em> models, project (<em>Model projection</em>) only the suitable habitat, compute <em>Functional responses</em>, <em>Variable importance</em> and a <em>spatial-block cross-validation</em> with block sized computed by residuals autocorrelation, set seed to <code>123</code>.</p>
 </div>
 </div>
 </div>
@@ -490,7 +498,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If multiple projection layers are provided (for example, a time series), a sparkline plot will display the values for each time period, and the text value shown will represent the last one in the time series.</p>
 <section id="glossa-predictions" class="level3">
 <h3 class="anchored" data-anchor-id="glossa-predictions">GLOSSA predictions</h3>
-<p>The first plot, titled <strong>GLOSSA predictions</strong>, shows the presence probability predictions within the study area. As we are working in the Bayesian framework, each grid cell has associated one predictive posterior distribution, therefore we can obtain a more comprenhensive undertanding of the predictions by exploring metrics like the mean, median or quantiles. Using the three-dot icon <img src="images/options_icon.png" class="inline img-fluid">, you can open the sidebar to customize the display:</p>
+<p>The first plot, titled <strong>GLOSSA predictions</strong>, shows the presence probability predictions within the study area. As we are working in the Bayesian framework, each grid cell has associated one predictive posterior distribution, therefore we can obtain a more comprenhensive undertanding of the predictions and estimated uncertainty by exploring metrics like the mean, median or quantiles. Using the three-dot icon <img src="images/options_icon.png" class="inline img-fluid">, you can open the sidebar to customize the display:</p>
 <ul>
 <li>Choose between predictions on the fitting layers or the projection layers.</li>
 <li>Toggle between viewing the native range or the suitable habitat.</li>
@@ -502,8 +510,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </section>
-<section id="environmental-variables-and-presence-validation" class="level3">
-<h3 class="anchored" data-anchor-id="environmental-variables-and-presence-validation">Environmental variables and Presence validation</h3>
+<section id="environmental-variables-and-occurrence-validation" class="level3">
+<h3 class="anchored" data-anchor-id="environmental-variables-and-occurrence-validation">Environmental variables and occurrence validation</h3>
 <p>The plot on the right shows the environmental variables used to fit the model, allowing you to quickly compare them with the probability projections. Below this, another plot displays the occurrence points that were retained or filtered out during the analysis.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -512,11 +520,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="functional-responses-and-variable-importance" class="level3">
-<h3 class="anchored" data-anchor-id="functional-responses-and-variable-importance">Functional responses and Variable importance</h3>
-<p>In the last row, you can view:</p>
+<h3 class="anchored" data-anchor-id="functional-responses-and-variable-importance">Functional responses and variable importance</h3>
+<p>Below, you can explore the relationship and importance of each predictor variable:</p>
 <ul>
-<li><strong>Functional response:</strong> These illustrate the relationship between each environmental variable and the predicted suitable habitat (response curves).</li>
-<li><strong>Variable importance:</strong> Displays the importance of each variable for both the native range and the suitable habitat.</li>
+<li><strong>Functional responses:</strong> Partial dependence plots showing how each environmental predictor influences predicted suitability.</li>
+<li><strong>Variable importance:</strong> Displays the importance of each variable measuring the change in the prediction error using a permutation-based approach.</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -526,31 +534,84 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="cross-validation" class="level3">
 <h3 class="anchored" data-anchor-id="cross-validation">Cross-validation</h3>
-<p>In the cross-validation panel, you’ll find performance metrics such as:</p>
-<ul>
-<li><strong>AIC (Akaike Information Criterion)</strong></li>
-<li><strong>RMSE (Root Mean Square Error)</strong></li>
-<li><strong>5-Fold Cross-Validation Results</strong></li>
-</ul>
+<p>In the cross-validation panel you can see the mean and median values for different performance metrics, including metrics tailored for models without real absences such as the Continuous Boyce Index, and the occurrence record grouped by folds.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/cv_get_started.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+</section>
+<section id="model-summary" class="level3">
+<h3 class="anchored" data-anchor-id="model-summary">Model summary</h3>
+<p>Apart from the cross-validation, the final section summarizes the fitted model with a ROC curve with performance metrics of the fitted model, a confusion matrix, and the distribution of predicted values.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/model_summary_get_started.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
 </section>
 </section>
 <section id="exports" class="level2">
 <h2 class="anchored" data-anchor-id="exports">Exports</h2>
-<p>In the <em>Exports</em> tab, you can export the results of your analysis. This includes all projection maps, the data used to fit the model, variable importance metrics, cross-validation results, etc. You can export almost everything, enabling you to explore the results further or create your own visualizations for your work!</p>
+<p>In the <em>Exports</em> tab, you can export the results of your analysis. This includes all projection maps, the data used to fit the model, variable importance metrics, cross-validation results, etc. You can export almost everything, enabling you to explore the results further or create your own visualizations for your work! Additionally, A <code>.json</code> file is also generated saving the inputs and analysis settings used.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/exports_tab.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </section>
-<section id="next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
-<p>This <em>Quick start guide</em> for GLOSSA should help you get up and running. For more detailed instructions, check out the <em>Tutorial</em> tab, where you’ll find tutorials on how to prepare your data for GLOSSA or even worked examples that guide you through using GLOSSA from end-to-end.</p>
-<p>Additionally, the <em>Documentation</em> tab offers a comprehensive guide to every aspect of the GLOSSA app. Here, you’ll find not only in-depth information on how GLOSSA works but also tips and tricks to help you get the most out of the app.</p>
-<p>If you have further questions, visit the <em>FAQs</em> tab, or if you still need help, you can reach us through the <em>Contact Us</em> tab.</p>
+</section>
+<section id="next-steps" class="level1">
+<h1>Next steps</h1>
+<p>Now that you’ve successfully run a toy example following this <em>Quick start guide</em>, you can continue with the full documentation. You’ll find information on how to:</p>
+<ul>
+<li><a href="">Prepare your data</a></li>
+<li><a href="">Generate pseudo-absences</a></li>
+<li><a href="">Running a new analysis</a></li>
+<li><a href="">Understanding BART</a></li>
+<li><a href="">Explore the results</a></li>
+<li><a href="">Export the results</a></li>
+<li><a href="">Tutorials and examples</a></li>
+<li><a href="">Function reference</a></li>
+</ul>
+<p><strong>Need more help?</strong></p>
+<p>Visit the <a href="./under_construction.html">FAQs</a> tab, or if you still need help, you can reach us through the <a href="./contact_us.html">Contact Us</a> tab.</p>
 <p>Thank you for using GLOSSA, and enjoy your species distribution modeling!</p>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<blockquote class="blockquote">
+<p>Araújo, M. B., Anderson, R. P., Márcia Barbosa, A., Beale, C. M., Dormann, C. F., Early, R., … &amp; Rahbek, C. (2019). Standards for distribution models in biodiversity assessments. <em>Science advances, 5</em>(1), eaat4858. <a href="https://doi.org/10.1126/sciadv.aat4858" class="uri">https://doi.org/10.1126/sciadv.aat4858</a></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Guisan, A., Thuiller, W., &amp; Zimmermann, N. E. (2017). <em>Habitat suitability and distribution models: with applications in R</em>. Cambridge University Press. <a href="https://doi.org/10.1017/9781139028271" class="uri">https://doi.org/10.1017/9781139028271</a></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Kass, J. M., Smith, A. B., Warren, D. L., Vignali, S., Schmitt, S., Aiello‐Lammens, M. E., … &amp; Zurell, D. (2025). Achieving higher standards in species distribution modeling by leveraging the diversity of available software. <em>Ecography, 2025</em>(2), e07346. <a href="https://doi.org/10.1111/ecog.07346" class="uri">https://doi.org/10.1111/ecog.07346</a></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Melo-Merino, S. M., Reyes-Bonilla, H., &amp; Lira-Noriega, A. (2020). Ecological niche models and species distribution models in marine environments: A literature review and spatial analysis of evidence. <em>Ecological Modelling, 415</em>, 108837. <a href="https://doi.org/10.1016/j.ecolmodel.2019.108837" class="uri">https://doi.org/10.1016/j.ecolmodel.2019.108837</a></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Peterson, A. T., Aiello-Lammens, M., Amatulli, G., Anderson, R., Cobos, M., Diniz-Filho, J. A., … &amp; Zurell, D. (2022). ENM2020: A free online course and set of resources on modeling Species’ niches and distributions. <a href="https://doi.org/10.17161/bi.v17i.15016" class="uri">https://doi.org/10.17161/bi.v17i.15016</a></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Peterson, A. T., Soberón, J., Pearson, R. G., Anderson, R. P., Martínez-Meyer, E., Nakamura, M., &amp; Araújo, M. B. (2011). Ecological niches and geographic distributions. In <em>Ecological niches and geographic distributions</em>. Princeton University Press. <a href="https://doi.org/10.1515/9781400840670" class="uri">https://doi.org/10.1515/9781400840670</a></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Robinson, N. M., Nelson, W. A., Costello, M. J., Sutherland, J. E., &amp; Lundquist, C. J. (2017). A systematic review of marine-based species distribution models (SDMs) with recommendations for best practice. <em>Frontiers in Marine Science, 4</em>, 421. <a href="https://doi.org/10.3389/fmars.2017.00421" class="uri">https://doi.org/10.3389/fmars.2017.00421</a></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Sánchez-Mercado, A. Y., Ferrer-Paris, J. R., &amp; Franklin, J. (2010). Mapping species distributions: spatial inference and prediction. <em>Oryx, 44</em>(4), 615. <a href="https://doi.org/10.1017/S0030605310001201" class="uri">https://doi.org/10.1017/S0030605310001201</a></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Sillero, N., Arenas-Castro, S., Enriquez‐Urzelai, U., Vale, C. G., Sousa-Guedes, D., Martínez-Freiría, F., … &amp; Barbosa, A. M. (2021). Want to model a species niche? A step-by-step guideline on correlative ecological niche modelling. <em>Ecological Modelling, 456</em>, 109671. <a href="https://doi.org/10.1016/j.ecolmodel.2021.109671" class="uri">https://doi.org/10.1016/j.ecolmodel.2021.109671</a></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Zurell, D., Franklin, J., König, C., Bouchet, P. J., Dormann, C. F., Elith, J., … &amp; Merow, C. (2020). A standard protocol for reporting species distribution models. <em>Ecography, 43</em>(9), 1261-1277. <a href="https://doi.org/10.1111/ecog.04960" class="uri">https://doi.org/10.1111/ecog.04960</a></p>
+</blockquote>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

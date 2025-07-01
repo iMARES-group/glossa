@@ -10,7 +10,7 @@ This guide will walk you through installing **GLOSSA** on your machine, setting 
 
 Before installing GLOSSA, ensure that your system meets the following requirements:
 
-- **R version**: GLOSSA requires **R version 4.0.0** or higher. If you don’t have R installed, you can download it from [CRAN](https://cran.r-project.org/).
+- **R version**: GLOSSA requires **R version 4.1.0** or higher. If you don’t have R installed, you can download it from [CRAN](https://cran.r-project.org/).
 - **RTools**: Check you have RTools installed for building R packages from source. You can download RTools from [here](https://cran.r-project.org/bin/windows/Rtools/).
 - **Operating system**: GLOSSA is compatible with Windows, macOS, and Linux.
 - **RStudio (optional but recommended)**: We recommend using RStudio as it provides useful tools for working with R. Download RStudio [here](https://posit.co/download/rstudio-desktop/).
