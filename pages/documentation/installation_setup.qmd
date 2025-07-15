@@ -62,5 +62,3 @@ If GLOSSA has been installed successfully, this will return the installed versio
 ## Conclusion
 
 You're now ready to start working with GLOSSA! After installation, you can move on to preparing your data and running your first analysis. Head over to the [Preparing your data](working_with_input_data.qmd) section to learn how to format your species occurrence data and environmental layers for GLOSSA.
-
-If you encounter any issues during installation, visit our [Common issues and troubleshooting](../../under_construction.qmd) page for solutions.

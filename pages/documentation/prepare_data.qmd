@@ -1,0 +1,209 @@
+---
+pagetitle: "Prepare data - GLOSSA"
+title: "Preparing your data"
+editor: source
+---
+
+As with any statistical software or R function, **GLOSSA requires properly formatted input data** to run successfully. This guide walks you through preparing the necessary files: **species occurrence data**, **environmental predictor layers**, and optional **projection layers** and **study area polygons**.
+
+GLOSSA is a modeling tool that depends entirely on user-provided data. It does not make assumptions about data quality, reliability, or sampling design. Therefore, it is the user's responsibility to ensure that the data is appropriate for species distribution modeling and has gone through any necessary preprocessing outside of GLOSSA.
+
+> [Here](https://doi.org/10.5281/zenodo.14223866) you can find example files.
+
+## Species occurrence data
+
+GLOSSA supports both **presence/absence data** and **presence-only data together with pseudo-absences**. Occurrence records may come from different sources such as survey programs, research studies, fisheries logbooks, satellite tracking, or public data repositories such as the Global Biodiversity Information Facility ([GBIF](https://www.gbif.org/)) and the Ocean Biogeographic Information System ([OBIS](https://obis.org/)). If the data set includes several data types, GLOSSA treats them in the same way. If any preprocessing step not implemented in GLOSSA is required, it should be done before using the application.
+
+Species occurrence data must be provided in a **tab-separated file** (`.tsv` or tab-separated file) using the WGS84 coordinate reference system. The file should include the following columns:
+
+- `decimalLongitude`: Longitude of the occurrence point in decimal degrees.
+- `decimalLatitude`: Latitude of the occurrence point in decimal degrees.
+- `pa`: Presence (`1`) or absence (`0`) of the species. If this column is missing, GLOSSA will assume all rows represent presences (`1`, presence-only) and will generate pseudo-absences before the modeling step.
+- `timestamp`: The time when the occurrence was recorded. This column is optional. If used, GLOSSA will match each occurrence to the environmental data from that specific time period. If omitted, GLOSSA will assume all occurrences occurred at the same time.
+
+**Example file format**:
+
+```tsv
+decimalLongitude decimalLatitude pa   timestamp
+5.42909          43.20937        1    1
+-43.05000        49.03000        0    1
+-2.52369         47.29234        1    2
+34.05400         -26.91300       1    3
+```
+
+::: {.callout-tip}
+- Ensure that all occurrence points fall within the study area defined by your environmental data to avoid losing data points due to missing covariate values.
+- Double-check for formatting errors or missing columns before uploading to avoid processing issues.
+- You may fit multiple models for different species simultaneously within a session.
+- If needed, check data quality and preprocess your data to mitigate sampling bias using tools such as `CoordinateCleaner` (Zizka et al., 2019), `OCCUR` (Ronquillo et al., 2024), or thinning techniques (e.g. environmental thinning; Moudrý et al., 2024).
+:::
+
+## Environmental data
+
+Environmental predictor variables are provided as raster layers in formats like `.tif`, `.tiff`,  or `.nc` (NetCDF). All environmental layers should be uploaded as a **ZIP file**, with each variable organized into separate subdirectories. Each subdirectory should contain the raster files corresponding to the different time periods (if applicable).
+
+GLOSSA will automatically extract environmental values at occurrence locations, matching by `timestamp` if multiple temporal layers are available. Only locations with complete environmental data are used for modeling, removing occurrences with missing predictor values. All rasters must be in the WGS84 coordinate reference system. If layers differ in resolution or extent, GLOSSA will harmonize them by aggregating to the coarsest resolution and adjusting extents accordingly.
+
+Predictors may come, for example, from global databases such as the National Oceanic and Atmospheric Administration ([NOAA](https://www.noaa.gov/)), the Inter-Sectoral Impact Model Intercomparison Project ([ISIMIP](https://www.isimip.org/)), or [Bio-ORACLE](https://www.bio-oracle.org/), or represent custom variables such as fishing effort (e.g., [Global Fishing Watch](https://globalfishingwatch.org/)) or covariates representing sampling bias.
+
+GLOSSA also supports the use of categorical variables in your models. These variables can represent categorical data such as ice cover, habitat classes, or other discrete data. Categorical variables are automatically transformed using one-hot encoding by GLOSSA and the `dbarts` package, converting them into new binary columns for modeling. To ensure a good fit in the GLOSSA workflow, categorical layers must be properly formatted before uploading.
+
+::: {.callout-note collapse="true" appearance="simple" icon=false} 
+## Including categorical variables in GLOSSA
+
+GLOSSA (`>= v1.1.0`) now supports including categorical variables in your models, but they must be formatted correctly to ensure a smooth integration.
+
+1. As with continuous variables, categorical layers must be provided as raster files (e.g., `.tif`, `.nc`, `.asc`) where the values are integer IDs that map to specific categories. For example, if representing ice cover, you might define `0` as "no ice" and `1` as "ice-covered."
+2. Rasters must be defined as factors, which typically requires metadata files (e.g., `.xml`) to enable proper mapping between the integer values and their corresponding categories. If categorical variables are not uploaded as factors, GLOSSA will treat them as continuous variables.
+3. When using categorical layers across time steps or for projections, ensure the categories remain consistent. The set of categories must match or be a subset of those observed in the training data. Avoid attempting to predict on unobserved categories.
+
+To include categorical variables in GLOSSA, you need to provide categorical factor rasters. You can create these using functions like `terra::as.factor()` to convert integer rasters into factor rasters with defined levels and labels:
+
+```r
+library(terra)
+raster <- rast("ice_cover.tif")
+raster <- as.factor(raster)
+levels(raster) <- data.frame(id = c(0, 1), label = c("no", "yes"))
+writeRaster(raster, "ice_cover_factor.tif")
+```
+
+When saving your file, the raster metadata is often stored in a separate file (e.g., `.xml`, `.aux.xml`). Ensure these metadata files are placed alongside the corresponding raster file in the same directory of the ZIP file before uploading.
+
+```plaintext
+environmental_data.zip
+    ├── continuous_variable
+    │     └── cont_var.tif
+    ├── categorical_variable
+    │     ├── cat_var.tif
+    │     └── cat_var.tif.aux.xml
+```
+:::
+
+Here are some guidelines for preparing your files:
+
+- **Consistent resolution and extent**: Ensure that all raster layers have the **same resolution** and **geographic extent**. GLOSSA will check for mismatches and notify you with warnings or errors:
+  - If extents differ, smaller rasters will be extended using `NA` to match the largest raster.
+  - If resolutions differ, GLOSSA will aggregate to the coarsest resolution using the mean.
+- **Temporal alignment**: If your occurrence data contains multiple time periods (`timestamp` column in the occurrence data), the rasters must align with those timestamps. GLOSSA expects the raster files to be **ordered alphabetically** by time. For example, if your occurrence data includes years 1 and 3, you should have raster files for **each** environmental variable for **years 1, 2, and 3** (even if you don't have occurrence data for year 2). In this case, you can provide a blank or duplicate raster for year 2, but the file must exist to ensure proper indexing for year 3.
+
+**Example ZIP structure:**
+
+```plaintext
+environmental_data.zip
+    ├── temperature
+    │     ├── temp_1.tif
+    │     ├── temp_2.tif
+    │     └── temp_3.tif
+    ├── salinity
+    │     ├── sal_1.tif
+    │     ├── sal_2.tif
+    │     └── sal_3.tif
+```
+
+::: {.callout-tip}
+- Use clear and consistent file names, especially when handling multiple time periods or variables.
+- Ensure that the number and order of raster layers match the occurrence data timestamps. If more explicit control is needed, you may upload a file specifying the exact time indices (see below).
+- Carefully check the spatial and temporal resolution of your layers. Both the resolution and the extent of your study area should be appropriate for your research question and the scale/precision of your occurrence data.
+- Select predictor variables that are meaningful for your species. Do they reflect known habitat preferences?
+- Check that the predictor variables are available for the whole extent of the study area.
+- Large raster files may slow down the processing. For testing purposes, consider using lower-resolution rasters or aggregating the cells using the `terra::aggregate()` function in R
+:::
+
+## Raster timestamp mapping (optional)
+
+In GLOSSA's advanced options, you can upload a **timestamp mapping file** to gain better control over how raster layers are matched to occurrence data time steps. This is especially useful when, your raster layers do not cover a continuous or complete temporal range, you have gaps in the environmental data, the number of rasters do not match the timestamps in the occurrence file.
+
+The mapping file should be a plain text file (`.txt`) with **one column**, listing the timestamp that corresponds to **each raster layer in the order they appear** in your ZIP file.
+
+By default, GLOSSA assumes that the **first raster** for each environmental variable matches the **first timestamp** in your occurrence data, the second raster matches the second timestamp, and so on. This can cause problems if the raster set includes years not represented in your occurrence data.
+
+**Example**
+
+Suppose your occurrence data includes records from years `2001` and `2003`, but your raster folder includes:
+
+```plaintext
+x_2000.tif
+x_2001.tif
+x_2002.tif
+x_2003.tif
+```
+
+If no timestamp mapping is provided, GLOSSA will incorrectly assume that `x_2000.tif` corresponds to timestamp `2001`. To fix this, you can either remove `x_2000.tif` from the ZIP file and keep only rasters from 2001 onward. Or upload a timestamp mapping file that explicitly defines which raster corresponds to which timestamp.
+
+Another example, if your ZIP includes only `x_2001.tif` and `x_2003.tif`, you can provide a mapping file like this (`.txt`):
+
+```plaintext
+2001
+2003
+```
+
+This tells GLOSSA that the first raster corresponds to timestamp `2001` and that the second raster corresponds to timestamp `2003`.
+
+Alternatively, as timestamps are used only for indexing, you can relabel your occurrence data. For instance, rename timestamps `2001` and `2003` as `1` and `2` respectively, and provide just two rasters:
+
+```plaintext
+x_2001.tif
+x_2003.tif
+```
+
+No mapping file is then needed. GLOSSA will match occurrence timestamp `1` to the first raster, and `2` to the second.
+
+**Just remember** that consistency in layer order and timestamp mapping is crucial for accurate environmental matching.
+
+## Projection layers (optional, but likely your primary interest)
+
+Projection layers allow you to **forecast species distributions** under different environmental conditions, such as future climate scenarios. These layers should follow the exact format as the environmental data, with **identical subdirectory names** and **matching variable names**. 
+
+Some guidelines for preparing your files:
+
+- **File order**: Ensure that the files within each subdirectory are **ordered consistently** across variables. The first file of each variable (e.g., temperature, salinity) will be treated as corresponding to the same time period, and GLOSSA will stack and project them together as part of the same time series. That is, in the following example, GLOSSA will make one projection for the `temp_projection_1.tif` and `sal_projection_1.tif` scenario, and a different projection for the conditions of `temp_projection_2.tif` and `sal_projection_2.tif`.
+- **Multiple scenarios**: If you’re working with multiple independent scenarios (e.g., two different climate models), upload each scenario in a separate **ZIP file**. This way, they won’t be included in the same time series, allowing you to compare scenarios separately during plotting and exporting.
+
+**Example projection ZIP structure:**
+
+```plaintext
+projection_layers.zip
+    ├── temperature
+    │     ├── temp_projection_1.tif
+    │     └── temp_projection_2.tif
+    ├── salinity
+    │     ├── sal_projection_1.tif
+    │     └── sal_projection_2.tif
+```
+
+::: {.callout-tip}
+- Ensure that projection layers have the **same resolution**, **geographic extent**, **coordinate reference systems (CRS - WGS84)**, and **variable names** as the environmental layers used during model fitting. This consistency is crucial for accurate forecasting and projections.
+- If your projections involve different time periods, ensure the raster files are clearly organized and ordered to reflect these periods accurately.
+:::
+
+## Study area polygon (optional)
+
+You can define a **study area polygon** to limit the geographic scope of your analysis. This will crop the environmental layers and filter out occurrence points that fall outside the study area. By default, GLOSSA uses the extent of your environmental rasters to define the study area, fitting the model only with occurrences that have valid values for all predictor variables. It also projects only onto cells covered by all environmental variables.
+
+However, if your rasters cover a larger region than your area of interest or if you have occurrence points outside the region you'd like to filter, you can upload a custom polygon. This allows you to specify the geographic region of interest, and GLOSSA will automatically crop the environmental layers and restrict the analysis to within the polygon boundaries.
+
+The supported formats of this file are:
+
+- **GPKG (GeoPackage)**
+- **KML**
+- **GeoJSON**
+
+**Example use case:**
+You might have environmental data for an entire ocean but only want to model species distributions within the Mediterranean Sea. Uploading a Mediterranean Sea polygon will crop the data accordingly.
+
+
+::: {.callout-tip}
+- If the resolution of your polygon is too coarse, you can apply a buffer to expand or refine it. This buffer option will be explained in the next section of the documentation.
+:::
+
+## Conclusion
+
+By properly formatting your data, you’ll ensure that GLOSSA runs smoothly and provides accurate results. Once your data is ready, move on to the next step: [Running a new analysis](run_new_analysis.qmd).
+
+## References
+
+> Moudrý, V., Bazzichetto, M., Remelgado, R., Devillers, R., Lenoir, J., Mateo, R. G., ... & Šímová, P. (2024). Optimising occurrence data in species distribution models: sample size, positional uncertainty, and sampling bias matter. *Ecography, 2024*(12), e07294. <https://doi.org/10.1111/ecog.07294>
+
+> Ronquillo, C., Stropp, J., & Hortal, J. (2024). OCCUR Shiny application: A user‐friendly guide for curating species occurrence records. *Methods in Ecology and Evolution, 15*(5), 816-823. <https://doi.org/10.1111/2041-210X.14271>
+
+> Zizka, A., Silvestro, D., Andermann, T., Azevedo, J., Duarte Ritter, C., Edler, D., ... & Antonelli, A. (2019). CoordinateCleaner: Standardized cleaning of occurrence records from biological collection databases. *Methods in Ecology and Evolution, 10*(5), 744-751. <https://doi.org/10.1111/2041-210X.13152>

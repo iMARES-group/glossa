@@ -7,44 +7,35 @@ sidebar:
 
 Welcome to the **GLOSSA** documentation! Here, you’ll find everything you need to understand, use, and get the most out of GLOSSA for species distribution modeling. Whether you're new to modeling or already experienced, we've got guides, examples, and detailed explanations to help you.
 
-If you'd like to **contribute**, check out our [contribution guidelines](../../under_construction.qmd). For questions, feel free to reach out via the contact form on the [iMARES website](https://imares.science/).
+If you’d like to **contribute**, please see our [contribution guidelines](../../under_construction.qmd). For questions or feedback, feel free to reach out through our [contact page](../../contact_us.qmd).
 
+## Documentation
 
-## New to GLOSSA?
+Start with our **how-to guides**, where you can find all details about GLOSSA:
 
-Start with our **how-to guides**, which provide simple, step-by-step instructions for common tasks:
-
-- [What is GLOSSA?](what_is_glossa.qmd)
+- [Get started guide](../../get_started.qmd)
 - [Installing and setting up GLOSSA](installation_setup.qmd)
-- [Preparing your data](working_with_input_data.qmd)
+- [Preparing your data](prepare_data.qmd)
+- [Generating pseudo-absences](../../under_construction.qmd)
 - [Running a new analysis](run_new_analysis.qmd)
+- [Understanding BART](../../under_construction.qmd)
 - [Explore the results](explore_results.qmd)
 - [Exporting results](export_outputs.qmd)
 
 ## Tutorials and examples
 
-Explore real-world examples that guide you through complete analyses, from start to finish. You’ll also find specific tutorials on how to source and prepare your data for modeling:
+Explore examples that guide you through GLOSSA analyses. You’ll also find specific tutorials on how to source and prepare your data for modeling:
 
-- [Download and prepare occurrence data](../../under_construction.qmd)
-- [Download and prepare environmental data](../../under_construction.qmd)
 - [Global species distribution model](../tutorials_examples/Thunnus_albacares_example1.qmd)
 - [Using a polygon to define the study area](../tutorials_examples/Caretta_caretta_example2.qmd)
 - [Running GLOSSA on a regional scale](../tutorials_examples/Siganus_luridus_example3.qmd)
-
-## Explanations and reference docs
-
-Want to know what’s happening behind the scenes? Here’s where you can dive deeper into the concepts, like how GLOSSA’s BART model works, how we generate pseudo-absences or detailed technical information about data formats and specific settings:
-
-- [How does GLOSSA work?](../../under_construction.qmd)
-- [What is Bayesian Additive Regression Trees (BART)?](../../under_construction.qmd)
-- [Generating pseudo-absences for presence-only data](pseudo_absences.qmd)
 
 ## Common issues and troubleshooting
 
 Find solutions to common issues, such as installation problems, data formatting errors, and model performance concerns:
 
-- [Troubleshooting](../../under_construction.qmd)
-- [FAQs](../../under_construction.qmd)
+- [GitHub Issues](https://github.com/iMARES-group/glossa/issues)
+- [GitHub Discussions](https://github.com/iMARES-group/glossa/discussions)
 
 ## Contributing to GLOSSA
 

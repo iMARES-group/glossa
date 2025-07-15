@@ -114,147 +114,80 @@
     ]
   },
   {
-    "objectID": "pages/documentation/working_with_input_data.html",
-    "href": "pages/documentation/working_with_input_data.html",
-    "title": "Preparing your data",
+    "objectID": "pages/documentation/what_is_glossa.html",
+    "href": "pages/documentation/what_is_glossa.html",
+    "title": "What is GLOSSA?",
     "section": "",
-    "text": "To ensure smooth and accurate analyses in GLOSSA, your data must be formatted correctly. This guide will walk you through preparing the necessary files: species occurrence data, environmental data, and optional projection layers and study area polygons.",
+    "text": "GLOSSA is a simple, interactive R Shiny app designed to help you model species distributions without needing to code. Using Bayesian Additive Regression Trees (BART), GLOSSA predicts species habitats based on presence and environmental data, allowing you to visualize both current and future distributions.",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?",
-      "Preparing your data"
+      "New to GLOSSA?"
     ]
   },
   {
-    "objectID": "pages/documentation/working_with_input_data.html#species-occurrence-data",
-    "href": "pages/documentation/working_with_input_data.html#species-occurrence-data",
-    "title": "Preparing your data",
-    "section": "Species occurrence data",
-    "text": "Species occurrence data\nSpecies occurrence data must be provided in a tab-separated file (TSV, tab-separated CSV, etc.). This file should include the following columns:\n\ndecimalLongitude: Longitude of the occurrence point in decimal degrees.\ndecimalLatitude: Latitude of the occurrence point in decimal degrees.\npa: Presence (1) or absence (0) of the species. If this column is missing, GLOSSA will assume all rows represent presences (1, presence-only) and will generate pseudo-absences before the modeling step.\ntimestamp: The time when the occurrence was recorded. This column is optional. If used, GLOSSA will match each occurrence to the environmental data from that specific time period. If omitted, GLOSSA will assume all occurrences occurred at the same time.\n\n\nExample:\ndecimalLongitude decimalLatitude pa   timestamp\n5.42909          43.20937        1    1\n-43.05000        49.03000        0    1\n-2.52369         47.29234        1    2\n34.05400         -26.91300       1    3\n\n\n\n\n\n\nTip\n\n\n\n\nEnsure that all occurrence points fall within the study area defined by your environmental data to avoid losing data points due to missing covariate values.\nDouble-check for formatting errors or missing columns before uploading to avoid processing issues.",
+    "objectID": "pages/documentation/what_is_glossa.html#how-glossa-works",
+    "href": "pages/documentation/what_is_glossa.html#how-glossa-works",
+    "title": "What is GLOSSA?",
+    "section": "How GLOSSA works?",
+    "text": "How GLOSSA works?\nGLOSSA’s workflow is designed to be intuitive, with four main steps:\n\n1. Data upload\n\nSpecies occurrence: Upload your species data with either presence/absence or presence-only records. GLOSSA can work with multiple species in one session, generating pseudo-absences when needed.\nEnvironmental data: Upload environmental rasters (e.g., from sources like Bio-ORACLE) matched to the occurrence points by location and time.\nProjections: Include layers representing future time periods or climate scenarios to generate predictions for each.\nStudy area: Upload a polygon to define your study region, or let GLOSSA use the extent of your environmental data.\n\n\n\n2. Data processing\n\nCoordinate cleaning: GLOSSA automatically removes duplicate records, filters out invalid points, and applies spatial thinning if needed.\nLayer processing: Environmental rasters are cropped, masked, and can be standardized.\nGenerate pseudo-absences: For presence-only data, GLOSSA creates randomly distributed pseudo-absences across the study area.\n\n\n\n3. Model fitting and prediction\n\nFit BART model: GLOSSA fits a BART model, generating predictions for suitable habitats and native ranges, and computes an optimal threshold for presence/absence classification.\nModel output: The output includes metrics like AUC, ROC curve, confusion matrix, functional response curves, and variable importance.\nProjections: Projections can be made to different areas, time periods, and climate scenarios.\n\n\n\n4. Visualization and export\nAfter the analysis, GLOSSA provides interactive maps and charts to explore model results, allowing you to export data and visuals for further use.",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?",
-      "Preparing your data"
+      "New to GLOSSA?"
     ]
   },
   {
-    "objectID": "pages/documentation/working_with_input_data.html#environmental-data",
-    "href": "pages/documentation/working_with_input_data.html#environmental-data",
-    "title": "Preparing your data",
-    "section": "Environmental data",
-    "text": "Environmental data\nEnvironmental data is provided as raster layers in formats like .tif or .nc (NetCDF). These layers are used as predictors for species distributions and should represent variables like temperature, salinity, or other relevant data. All environmental layers must be uploaded as a ZIP file, with each variable organized into separate subdirectories. Each subdirectory should contain raster files corresponding to the relevant time periods.\nGLOSSA supports the use of categorical variables in your models. These variables can represent categorical data such as ice cover, habitat classes, or other discrete data. Categorical variables are automatically transformed using one-hot encoding by GLOSSA and the dbarts package, converting them into new binary columns for modeling. To ensure a good fit in the GLOSSA workflow, categorical layers must be properly formatted before uploading.\n\n\n\n\n\n\nIncluding categorical variables in GLOSSA\n\n\n\n\n\nGLOSSA now supports including categorical variables in your models, but they must be formatted correctly to ensure a smooth integration.\n\nAs with continuous variables, categorical layers must be provided as raster files (e.g., .tif, .nc, .asc) where the values are integer IDs that map to specific categories. For example, if representing ice cover, you might define 0 as “no ice” and 1 as “ice-covered.”\nRasters must be defined as factors, which typically requires metadata files (e.g., .xml) to enable proper mapping between the integer values and their corresponding categories. If categorical variables are not uploaded as factors, GLOSSA will treat them as continuous variables.\nWhen using categorical layers across time steps or for projections, ensure the categories remain consistent. The set of categories must match or be a subset of those observed in the training data. Avoid attempting to predict on unobserved categories.\n\nTo include categorical variables in GLOSSA, you need to provide categorical factor rasters. You can create these using functions like terra::as.factor() to convert integer rasters into factor rasters with defined levels and labels:\nlibrary(terra)\nraster &lt;- rast(\"ice_cover.tif\")\nraster &lt;- as.factor(raster)\nlevels(raster) &lt;- data.frame(id = c(0, 1), label = c(\"no\", \"yes\"))\nwriteRaster(raster, \"ice_cover_factor.tif\")\nWhen saving your file, the raster metadata is often stored in a separate file (e.g., .xml, .aux.xml). Ensure these metadata files are placed alongside the corresponding raster file in the same directory of the ZIP file before uploading.\nenvironmental_data.zip\n    ├── continuous_variable\n    │     └── cont_var.tif\n    ├── categorical_variable\n    │     ├── cat_var.tif\n    │     └── cat_var.tif.aux.xml\n\n\n\nHere are some guidelines for preparing your files:\n\nConsistent resolution and extent: Ensure that all raster layers have the same resolution and geographic extent. GLOSSA will check for mismatches and notify you with warnings or errors:\n\nIf the geographic extents differ, GLOSSA will extend the smaller layers with missing values to match the largest raster.\nIf the resolutions differ, GLOSSA will stop and return an error, as all layers need to be at the same resolution.\n\nTemporal alignment: If your occurrence data contains multiple time periods (timestamp column in the occurrence data), the rasters must align with those timestamps. GLOSSA expects the raster files to be ordered alphabetically by time. For example, if your occurrence data includes years 1 and 3, you should have raster files for each environmental variable for years 1, 2, and 3 (even if you don’t have occurrence data for year 2). In this case, you can provide a blank or duplicate raster for year 2, but the file must exist to ensure proper indexing for year 3.\n\n\nExample ZIP structure:\nenvironmental_data.zip\n    ├── temperature\n    │     ├── temp_1.tif\n    │     ├── temp_2.tif\n    │     └── temp_3.tif\n    ├── salinity\n    │     ├── sal_1.tif\n    │     ├── sal_2.tif\n    │     └── sal_3.tif\n\n\n\n\n\n\nTip\n\n\n\n\nLarge raster files may slow down the processing. For testing purposes, consider using lower-resolution rasters or aggregating the cells using the terra::aggregate() function in R\nUse clear and consistent file names, especially when handling multiple time periods or variables.",
+    "objectID": "pages/documentation/what_is_glossa.html#why-use-glossa",
+    "href": "pages/documentation/what_is_glossa.html#why-use-glossa",
+    "title": "What is GLOSSA?",
+    "section": "Why use GLOSSA?",
+    "text": "Why use GLOSSA?\nGLOSSA simplifies species distribution modeling by:\n\nMaking modeling accessible with a no-code interface.\nOffering robust machine learning predictions with BART.\nSupporting independent multi-species and scenario-based analysis in a single run.\nProviding detailed visualizations and export options for further analysis or publication.",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?",
-      "Preparing your data"
+      "New to GLOSSA?"
     ]
   },
   {
-    "objectID": "pages/documentation/working_with_input_data.html#projection-layers-optional-but-likely-your-primary-interest",
-    "href": "pages/documentation/working_with_input_data.html#projection-layers-optional-but-likely-your-primary-interest",
-    "title": "Preparing your data",
-    "section": "Projection layers (optional, but likely your primary interest)",
-    "text": "Projection layers (optional, but likely your primary interest)\nProjection layers allow you to forecast species distributions under different environmental conditions, such as future climate scenarios. These layers should follow the exact format as the environmental data, with identical subdirectory names and matching variable names.\nSome guidelines for preparing your files:\n\nFile order: Ensure that the files within each subdirectory are ordered consistently across variables. The first file of each variable (e.g., temperature, salinity) will be treated as corresponding to the same time period, and GLOSSA will stack and project them together as part of the same time series. That is, in the following example, GLOSSA will make one projection for the temp_projection_1.tif and sal_projection_1.tif scenario, and a different projection for the conditions of temp_projection_2.tif and sal_projection_2.tif.\nMultiple scenarios: If you’re working with multiple independent scenarios (e.g., two different climate models), upload each scenario in a separate ZIP file. This way, they won’t be included in the same time series, allowing you to compare scenarios separately during plotting and exporting.\n\n\nExample projection ZIP structure:\nprojection_layers.zip\n    ├── temperature\n    │     ├── temp_projection_1.tif\n    │     └── temp_projection_2.tif\n    ├── salinity\n    │     ├── sal_projection_1.tif\n    │     └── sal_projection_2.tif\n\n\n\n\n\n\nTip\n\n\n\n\nEnsure that projection layers have the same resolution, geographic extent, coordinate reference systems (CRS - WGS84), and variable names as the environmental layers used during model fitting. This consistency is crucial for accurate forecasting and projections.\nIf your projections involve different time periods, ensure the raster files are clearly organized and ordered to reflect these periods accurately.",
+    "objectID": "pages/documentation/what_is_glossa.html#ready-to-get-started",
+    "href": "pages/documentation/what_is_glossa.html#ready-to-get-started",
+    "title": "What is GLOSSA?",
+    "section": "Ready to get started?",
+    "text": "Ready to get started?\nLearn how to install and set up GLOSSA: Installation guide.",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?",
-      "Preparing your data"
+      "New to GLOSSA?"
     ]
   },
   {
-    "objectID": "pages/documentation/working_with_input_data.html#study-area-polygon-optional",
-    "href": "pages/documentation/working_with_input_data.html#study-area-polygon-optional",
-    "title": "Preparing your data",
-    "section": "Study area polygon (optional)",
-    "text": "Study area polygon (optional)\nYou can define a study area polygon to limit the geographic scope of your analysis. This will crop the environmental layers and filter out occurrence points that fall outside the study area. By default, GLOSSA uses the extent of your environmental rasters to define the study area, fitting the model only with occurrences that have valid values for all predictor variables. It also projects only onto cells covered by all environmental variables.\nHowever, if your rasters cover a larger region than your area of interest or if you have occurrence points outside the region you’d like to filter, you can upload a custom polygon. This allows you to specify the geographic region of interest, and GLOSSA will automatically crop the environmental layers and restrict the analysis to within the polygon boundaries.\nThe supported formats of this file are:\n\nGPKG (GeoPackage)\nKML\nGeoJSON\n\n\nExample use case:\nYou might have environmental data for an entire ocean but only want to model species distributions within the Mediterranean Sea. Uploading a Mediterranean Sea polygon will crop the data accordingly.\n\n\n\n\n\n\nTip\n\n\n\n\nIf the resolution of your polygon is too coarse, you can apply a buffer to expand or refine it. This buffer option can be tuned in the next section of the documentation.",
-    "crumbs": [
-      "Documentation",
-      "New to GLOSSA?",
-      "Preparing your data"
-    ]
-  },
-  {
-    "objectID": "pages/documentation/working_with_input_data.html#conclusion",
-    "href": "pages/documentation/working_with_input_data.html#conclusion",
-    "title": "Preparing your data",
-    "section": "Conclusion",
-    "text": "Conclusion\nBy properly formatting your data, you’ll ensure that GLOSSA runs smoothly and provides accurate results. Once your data is ready, move on to the next step: Running a new analysis.",
-    "crumbs": [
-      "Documentation",
-      "New to GLOSSA?",
-      "Preparing your data"
-    ]
-  },
-  {
-    "objectID": "pages/documentation/run_new_analysis.html",
-    "href": "pages/documentation/run_new_analysis.html",
-    "title": "Running a new analysis",
+    "objectID": "pages/documentation/pseudo_absences.html",
+    "href": "pages/documentation/pseudo_absences.html",
+    "title": "Generating pseudo-absences for presence-only data",
     "section": "",
-    "text": "In this section, we’ll guide you through setting up and running your first species distribution analysis in GLOSSA. Whether you’re new to modeling or experienced, this walkthrough will help you configure the analysis step-by-step.",
+    "text": "When dealing with presence-only species distribution data, two main approaches are commonly used to handle the absence of true absence points. The first approach is to model the presence points directly as a point process, which treats presences as an observed spatial pattern. This approach doesn’t require absence data and instead estimates the intensity of occurrences across the study area. The second approach is to generate pseudo-absence points, creating false absences across the study region, allowing the model to learn from contrasting presence and absence locations.\nIn GLOSSA, we take the second approach as we fit a Bayesian Additive Regression Trees (BART) model using a binary response variable (presence = 1, absence = 0) with a probit link function. Generating pseudo-absences allows the model to estimate the probability of species presence by learning from both the observed presences and the generated pseudo-absences.",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?",
-      "Running a new analysis"
+      "Explanations and reference docs"
     ]
   },
   {
-    "objectID": "pages/documentation/run_new_analysis.html#step-1-launch-glossa",
-    "href": "pages/documentation/run_new_analysis.html#step-1-launch-glossa",
-    "title": "Running a new analysis",
-    "section": "Step 1: Launch GLOSSA",
-    "text": "Step 1: Launch GLOSSA\nAfter installing GLOSSA, open R or RStudio, load the package, and launch the app:\nlibrary(glossa)\nrun_glossa()\nThis will open the GLOSSA interface in your default web browser, where you’ll start your analysis by clicking the “New analysis” button.\n\n\n\nHow to move to the New analysis tab from the Home tab of GLOSSA",
+    "objectID": "pages/documentation/pseudo_absences.html#the-challenge-of-generating-pseudo-absences",
+    "href": "pages/documentation/pseudo_absences.html#the-challenge-of-generating-pseudo-absences",
+    "title": "Generating pseudo-absences for presence-only data",
+    "section": "The challenge of generating pseudo-absences",
+    "text": "The challenge of generating pseudo-absences\nGenerating pseudo-absences for presence-only data is a critical decision in species distribution modeling. There exist multiple methods for generating pseudo-absences, each with its own strengths and limitations, and there is currently no consensus on a standard approach. Some common methods include random sampling, geographic exclusion (e.g., excluding areas close to presence points), and environmental filtering (e.g., selecting pseudo-absences in contrasting environmental conditions).\nEach method can influence model outcomes differently, depending on the study area, species, and modeling objectives. Given the absence of a definitive standard, GLOSSA uses a balanced random sampling approach that provides broad applicability and ease of use across diverse datasets.",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?",
-      "Running a new analysis"
+      "Explanations and reference docs"
     ]
   },
   {
-    "objectID": "pages/documentation/run_new_analysis.html#step-2-upload-your-data",
-    "href": "pages/documentation/run_new_analysis.html#step-2-upload-your-data",
-    "title": "Running a new analysis",
-    "section": "Step 2: Upload your data",
-    "text": "Step 2: Upload your data\nIn the New analysis tab, you’ll upload your input data. You’ll need the following:\n\nOccurrences:\n\nUpload your tab-separated file containing species occurrence data with decimalLongitude, decimalLatitude, pa (optional), and timestamp (optional). You can upload multiple files, and each will be analyzed in independent models within the same run. For example, in the figure below, two files (sp1.txt and sp2.csv) for different species were uploaded. The plot on the right shows a preview of the occurrences.\n\nEnvironmental data:\n\nUpload your environmental raster layers as a ZIP file, following the structure described in the Preparing Your Data section. Make sure all rasters have the same resolution and extent. In the figure, we uploaded fit_layers.zip, which contains the environmental data.\n\nProjection layers (optional):\n\nIf you have future scenarios (e.g., climate change projections), upload your projection layers. Using the fitted model, GLOSSA wil predict using this rasters. You can upload multiple ZIP files with different projection layers, as shown in the figure where proj_layers_1.zip and proj_layers_2.zip were uploaded.\n\nStudy area (optional):\n\nTo limit your analysis to a specific region, upload a study area polygon in GPKG, KML, or GeoJSON format. The previsualization plot will help you check the spatial coverage of the polygon.\n\n\n\n\n\nNew analysis tab",
+    "objectID": "pages/documentation/pseudo_absences.html#pseudo-absence-generation-with-glossa",
+    "href": "pages/documentation/pseudo_absences.html#pseudo-absence-generation-with-glossa",
+    "title": "Generating pseudo-absences for presence-only data",
+    "section": "Pseudo-absence generation with GLOSSA",
+    "text": "Pseudo-absence generation with GLOSSA\nWhen you upload an occurrence file with presence-only data (the pa column just includes ones or is missing), GLOSSA uses a balanced random sampling approach for generating pseudo-absences, that is, GLOSSA generates pseudo-absence points randomly across the defined study area, ensuring that the number of pseudo-absence points matches the number of presence points.\n\n\n\n\n\n\nNote\n\n\n\nThe spatial extent within which pseudo-absences are generated is an essential factor.\n\n\nWhen the presence data includes several timestamps, GLOSSA generates the same number of pseudo-absences as presences for each time period. This approach ensures that the model captures temporal variation in species occurrence, which can be important for species with temporal patterns.\n\n\n\n\n\n\nNote\n\n\n\nIf you prefer an alternative method for generating pseudo-absences, you can create them outside of GLOSSA using your preferred method and include them in your occurrence putting a 0 in the pa column of these records.",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?",
-      "Running a new analysis"
-    ]
-  },
-  {
-    "objectID": "pages/documentation/run_new_analysis.html#step-3-configure-your-analysis",
-    "href": "pages/documentation/run_new_analysis.html#step-3-configure-your-analysis",
-    "title": "Running a new analysis",
-    "section": "Step 3: Configure your analysis",
-    "text": "Step 3: Configure your analysis\nOnce the data is uploaded, you’ll configure your analysis by adjusting the following settings:\n\nChoose a model type:\n\n\nNative range: Includes both environmental variables and spatial coordinates to predict the species’ native distribution.\nSuitable habitat: Uses only environmental variables to predict suitable habitats, ignoring spatial coordinates.\n\n\n\n\n\nModel fitting: This option fits the selected model, enabling you to compute functional responses and variable importance. It also makes predictions based on an averaged environmental scenario, which is created by calculating the mean values of each environmental variable across all provided timestamps.\nModel projection: If enabled, the fitted model will be used to make projections on the uploaded projection layers.\n\n\nOther analysis options:\n\n\nFunctional responses: This option generates response curves, which show the relationship between species occurrence and each environmental variable using partial dependence plots. These plots show the marginal effect of each variable on the predicted outcome of the BART model. Response curves are calculated only for the suitable habitat model without variable standardization, so they can be interpreted on the original scale.\nVariable importance: When selected, variable importance is computed using a permutation-based approach. This measures the change in prediction error after shuffling the values of each variable, using the F-score as a metric.\nCross-validation: Enables k-fold cross-validation (k = 5) to evaluate your model’s predictive performance. The cross-validation is conducted randomly, without accounting for spatial or temporal blocks or autocorrelation\n\n\nAdvanced options:\n\n\nOccurrence thinning - Rounding precision: Apply spatial thinning to your occurrence data using a precision-based approach. You can specify the decimal precision for latitude and longitude, and GLOSSA will remove duplicate records based on the rounded coordinates.\nLayers processing - Standardized covariates: This option z-score standardizes all environmental variables (subtract the mean and divide by the standard deviation). Mean and sd are computed based on the fitting layers and is also applied to projection layers.\nPolygon processing - Enlarge polygon: If your study area polygon has a low resolution or you want to extend its coverage, you can apply a buffer to enlarge it. The buffer value is specified in degrees, and you can preview the result by clicking the “play” button in the previsualization plot.\nModel: Currently, only the BART model is available for fitting\nSet a seed: Set a seed for reproducibility.",
-    "crumbs": [
-      "Documentation",
-      "New to GLOSSA?",
-      "Running a new analysis"
-    ]
-  },
-  {
-    "objectID": "pages/documentation/run_new_analysis.html#step-4-run-the-analysis",
-    "href": "pages/documentation/run_new_analysis.html#step-4-run-the-analysis",
-    "title": "Running a new analysis",
-    "section": "Step 4: Run the analysis",
-    "text": "Step 4: Run the analysis\nAfter configuring your settings, click Run Job to start the analysis. A confirmation dialog will appear, prompting you to double-check your input and settings. It’s important to ensure everything is configured correctly since some analyses may take a long time to complete, and you wouldn’t want to realize a mistake afterward.\n\n\n\n\n\nOnce confirmed, GLOSSA will begin the analysis by following these steps:\n\nData processing: GLOSSA processes your input data, removing duplicate coordinates, excluding records outside the study area, and filtering points with missing covariate values. If spatial thinning or standardization is enabled, these steps will also be applied. If a study area polygon is provided, the rasters will be cropped accordingly. For presence-only data, pseudo-absences will be generated.\nModel fitting: GLOSSA fits the BART model using presence/(pseudo-)absence data as the response variable, with environmental variables (for the suitable habitat model) and also geographic coordinates (for the native range model) as predictors. After fitting the model, GLOSSA calculates an optimal cutoff for predicting presence/absence using Youden’s index, also known as the True Skill Statistic (TSS).\nModel validation and additional analyses: GLOSSA computes validation metrics such as AUC, a confusion matrix, and the distribution of fitted values. If requested, GLOSSA also calculates functional responses, variable importance, and performs cross-validation to evaluate model performance.\nProjections: The fitted models are used to make projections based on the uploaded projection layers. Since GLOSSA operates within a Bayesian framework, it computes a predictive posterior distribution for each grid cell.\nResults: Once the analysis is complete, you’ll be automatically redirected to the Reports tab, where you can explore and interpret your results.\n\n\n\n\n\n\n\nNote\n\n\n\nThis process may take time depending on the size and resolution of your data, the number of projections, and additional options you have enabled (e.g., functional responses, cross-validation).\n\n\n\n\n\nSummary of the GLOSSA analysis workflow.",
-    "crumbs": [
-      "Documentation",
-      "New to GLOSSA?",
-      "Running a new analysis"
-    ]
-  },
-  {
-    "objectID": "pages/documentation/run_new_analysis.html#conclusion",
-    "href": "pages/documentation/run_new_analysis.html#conclusion",
-    "title": "Running a new analysis",
-    "section": "Conclusion",
-    "text": "Conclusion\nYou’ve successfully run your first analysis in GLOSSA! Now it’s time to explore the outputs and dive into the results. Head over to the next section to learn how to interpret your findings: Explore the results.",
-    "crumbs": [
-      "Documentation",
-      "New to GLOSSA?",
-      "Running a new analysis"
+      "Explanations and reference docs"
     ]
   },
   {
@@ -322,7 +255,7 @@
     "href": "pages/documentation/installation_setup.html#conclusion",
     "title": "Installing and setting up GLOSSA",
     "section": "Conclusion",
-    "text": "Conclusion\nYou’re now ready to start working with GLOSSA! After installation, you can move on to preparing your data and running your first analysis. Head over to the Preparing your data section to learn how to format your species occurrence data and environmental layers for GLOSSA.\nIf you encounter any issues during installation, visit our Common issues and troubleshooting page for solutions.",
+    "text": "Conclusion\nYou’re now ready to start working with GLOSSA! After installation, you can move on to preparing your data and running your first analysis. Head over to the Preparing your data section to learn how to format your species occurrence data and environmental layers for GLOSSA.",
     "crumbs": [
       "Documentation",
       "New to GLOSSA?",
@@ -417,7 +350,7 @@
     "href": "contact_us.html",
     "title": "Contact us",
     "section": "",
-    "text": "Contact us\nWe value your feedback and are here to help you with any questions, support needs or collaboration requests. Please use the following means to get in touch with us:\n\nGitHub\nFor issues, feature requests, questions, or general feedback, please use the Issues tab on our GitHub repository:\n\nGLOSSA GitHub issues\n\n\n\nContact form\nFor special support or collaboration requests, please contact us via the contact form at the end of the iMARES website:\n\niMARES\n\n\n\nOutreach channels\nFollow our research group on Bluesky and X (Twitter) for the latest news and updates:\n\nBluesky: @iMARES_group\nX (Twitter): @iMARES_group\n\nThank you for your support! If you want to know more about the group go and visit our website: iMARES"
+    "text": "Contact us\nWe value your feedback and are here to help you with any questions, support needs or collaboration requests. Please use the following means to get in touch with us:\n\nGeneral support\nFor general questions, help with data or functionality, or to engage with other users and developers, use our GitHub Discussions forum:\n\nGLOSSA GitHub Discussions\n\n\n\nReport issues or request features\nIf you encounter a bug, need help with an error, or want to request a new feature, please open a GitHub issue:\n\nGLOSSA GitHub Issues\n\n\n\nContact the team\nFor inquiries related to collaboration, outreach, or other non-technical matters, feel free to reach us through the contact form on our group’s website:\n\niMARES\n\n\n\nOutreach channels\nFollow our research group on Bluesky and X (Twitter) for updates, publications, and outreach content:\n\nBluesky: @iMARES_group\nX (Twitter): @iMARES_group\n\nThank you for using GLOSSA! If you want to know more about the group go and visit our website: iMARES"
   },
   {
     "objectID": "get_started.html",
@@ -574,18 +507,18 @@
     "href": "pages/documentation/index.html",
     "title": "GLOSSA documentation guide",
     "section": "",
-    "text": "Welcome to the GLOSSA documentation! Here, you’ll find everything you need to understand, use, and get the most out of GLOSSA for species distribution modeling. Whether you’re new to modeling or already experienced, we’ve got guides, examples, and detailed explanations to help you.\nIf you’d like to contribute, check out our contribution guidelines. For questions, feel free to reach out via the contact form on the iMARES website.",
+    "text": "Welcome to the GLOSSA documentation! Here, you’ll find everything you need to understand, use, and get the most out of GLOSSA for species distribution modeling. Whether you’re new to modeling or already experienced, we’ve got guides, examples, and detailed explanations to help you.\nIf you’d like to contribute, please see our contribution guidelines. For questions or feedback, feel free to reach out through our contact page.",
     "crumbs": [
       "Documentation",
       "GLOSSA documentation guide"
     ]
   },
   {
-    "objectID": "pages/documentation/index.html#new-to-glossa",
-    "href": "pages/documentation/index.html#new-to-glossa",
+    "objectID": "pages/documentation/index.html#documentation",
+    "href": "pages/documentation/index.html#documentation",
     "title": "GLOSSA documentation guide",
-    "section": "New to GLOSSA?",
-    "text": "New to GLOSSA?\nStart with our how-to guides, which provide simple, step-by-step instructions for common tasks:\n\nWhat is GLOSSA?\nInstalling and setting up GLOSSA\nPreparing your data\nRunning a new analysis\nExplore the results\nExporting results",
+    "section": "Documentation",
+    "text": "Documentation\nStart with our how-to guides, where you can find all details about GLOSSA:\n\nGet started guide\nInstalling and setting up GLOSSA\nPreparing your data\nGenerating pseudo-absences\nRunning a new analysis\nUnderstanding BART\nExplore the results\nExporting results",
     "crumbs": [
       "Documentation",
       "GLOSSA documentation guide"
@@ -596,18 +529,7 @@
     "href": "pages/documentation/index.html#tutorials-and-examples",
     "title": "GLOSSA documentation guide",
     "section": "Tutorials and examples",
-    "text": "Tutorials and examples\nExplore real-world examples that guide you through complete analyses, from start to finish. You’ll also find specific tutorials on how to source and prepare your data for modeling:\n\nDownload and prepare occurrence data\nDownload and prepare environmental data\nGlobal species distribution model\nUsing a polygon to define the study area\nRunning GLOSSA on a regional scale",
-    "crumbs": [
-      "Documentation",
-      "GLOSSA documentation guide"
-    ]
-  },
-  {
-    "objectID": "pages/documentation/index.html#explanations-and-reference-docs",
-    "href": "pages/documentation/index.html#explanations-and-reference-docs",
-    "title": "GLOSSA documentation guide",
-    "section": "Explanations and reference docs",
-    "text": "Explanations and reference docs\nWant to know what’s happening behind the scenes? Here’s where you can dive deeper into the concepts, like how GLOSSA’s BART model works, how we generate pseudo-absences or detailed technical information about data formats and specific settings:\n\nHow does GLOSSA work?\nWhat is Bayesian Additive Regression Trees (BART)?\nGenerating pseudo-absences for presence-only data",
+    "text": "Tutorials and examples\nExplore examples that guide you through GLOSSA analyses. You’ll also find specific tutorials on how to source and prepare your data for modeling:\n\nGlobal species distribution model\nUsing a polygon to define the study area\nRunning GLOSSA on a regional scale",
     "crumbs": [
       "Documentation",
       "GLOSSA documentation guide"
@@ -618,7 +540,7 @@
     "href": "pages/documentation/index.html#common-issues-and-troubleshooting",
     "title": "GLOSSA documentation guide",
     "section": "Common issues and troubleshooting",
-    "text": "Common issues and troubleshooting\nFind solutions to common issues, such as installation problems, data formatting errors, and model performance concerns:\n\nTroubleshooting\nFAQs",
+    "text": "Common issues and troubleshooting\nFind solutions to common issues, such as installation problems, data formatting errors, and model performance concerns:\n\nGitHub Issues\nGitHub Discussions",
     "crumbs": [
       "Documentation",
       "GLOSSA documentation guide"
@@ -647,80 +569,131 @@
     ]
   },
   {
-    "objectID": "pages/documentation/pseudo_absences.html",
-    "href": "pages/documentation/pseudo_absences.html",
-    "title": "Generating pseudo-absences for presence-only data",
+    "objectID": "pages/documentation/prepare_data.html",
+    "href": "pages/documentation/prepare_data.html",
+    "title": "Preparing your data",
     "section": "",
-    "text": "When dealing with presence-only species distribution data, two main approaches are commonly used to handle the absence of true absence points. The first approach is to model the presence points directly as a point process, which treats presences as an observed spatial pattern. This approach doesn’t require absence data and instead estimates the intensity of occurrences across the study area. The second approach is to generate pseudo-absence points, creating false absences across the study region, allowing the model to learn from contrasting presence and absence locations.\nIn GLOSSA, we take the second approach as we fit a Bayesian Additive Regression Trees (BART) model using a binary response variable (presence = 1, absence = 0) with a probit link function. Generating pseudo-absences allows the model to estimate the probability of species presence by learning from both the observed presences and the generated pseudo-absences.",
-    "crumbs": [
-      "Documentation",
-      "Explanations and reference docs"
-    ]
+    "text": "As with any statistical software or R function, GLOSSA requires properly formatted input data to run successfully. This guide walks you through preparing the necessary files: species occurrence data, environmental predictor layers, and optional projection layers and study area polygons.\nGLOSSA is a modeling tool that depends entirely on user-provided data. It does not make assumptions about data quality, reliability, or sampling design. Therefore, it is the user’s responsibility to ensure that the data is appropriate for species distribution modeling and has gone through any necessary preprocessing outside of GLOSSA."
   },
   {
-    "objectID": "pages/documentation/pseudo_absences.html#the-challenge-of-generating-pseudo-absences",
-    "href": "pages/documentation/pseudo_absences.html#the-challenge-of-generating-pseudo-absences",
-    "title": "Generating pseudo-absences for presence-only data",
-    "section": "The challenge of generating pseudo-absences",
-    "text": "The challenge of generating pseudo-absences\nGenerating pseudo-absences for presence-only data is a critical decision in species distribution modeling. There exist multiple methods for generating pseudo-absences, each with its own strengths and limitations, and there is currently no consensus on a standard approach. Some common methods include random sampling, geographic exclusion (e.g., excluding areas close to presence points), and environmental filtering (e.g., selecting pseudo-absences in contrasting environmental conditions).\nEach method can influence model outcomes differently, depending on the study area, species, and modeling objectives. Given the absence of a definitive standard, GLOSSA uses a balanced random sampling approach that provides broad applicability and ease of use across diverse datasets.",
-    "crumbs": [
-      "Documentation",
-      "Explanations and reference docs"
-    ]
+    "objectID": "pages/documentation/prepare_data.html#species-occurrence-data",
+    "href": "pages/documentation/prepare_data.html#species-occurrence-data",
+    "title": "Preparing your data",
+    "section": "Species occurrence data",
+    "text": "Species occurrence data\nGLOSSA supports both presence/absence data and presence-only data together with pseudo-absences. Occurrence records may come from different sources such as survey programs, research studies, fisheries logbooks, satellite tracking, or public data repositories such as the Global Biodiversity Information Facility (GBIF) and the Ocean Biogeographic Information System (OBIS). If the data set includes several data types, GLOSSA treats them in the same way. If any preprocessing step not implemented in GLOSSA is required, it should be done before using the application.\nSpecies occurrence data must be provided in a tab-separated file (.tsv or tab-separated file) using the WGS84 coordinate reference system. The file should include the following columns:\n\ndecimalLongitude: Longitude of the occurrence point in decimal degrees.\ndecimalLatitude: Latitude of the occurrence point in decimal degrees.\npa: Presence (1) or absence (0) of the species. If this column is missing, GLOSSA will assume all rows represent presences (1, presence-only) and will generate pseudo-absences before the modeling step.\ntimestamp: The time when the occurrence was recorded. This column is optional. If used, GLOSSA will match each occurrence to the environmental data from that specific time period. If omitted, GLOSSA will assume all occurrences occurred at the same time.\n\nExample file format:\ndecimalLongitude decimalLatitude pa   timestamp\n5.42909          43.20937        1    1\n-43.05000        49.03000        0    1\n-2.52369         47.29234        1    2\n34.05400         -26.91300       1    3\n\n\n\n\n\n\nTip\n\n\n\n\nEnsure that all occurrence points fall within the study area defined by your environmental data to avoid losing data points due to missing covariate values.\nDouble-check for formatting errors or missing columns before uploading to avoid processing issues.\nYou may fit multiple models for different species simultaneously within a session.\nIf needed, check data quality and preprocess your data to mitigate sampling bias using tools such as CoordinateCleaner (Zizka et al., 2019), OCCUR (Ronquillo et al., 2024), or thinning techniques (e.g. environmental thinning; Moudrý et al., 2024)."
   },
   {
-    "objectID": "pages/documentation/pseudo_absences.html#pseudo-absence-generation-with-glossa",
-    "href": "pages/documentation/pseudo_absences.html#pseudo-absence-generation-with-glossa",
-    "title": "Generating pseudo-absences for presence-only data",
-    "section": "Pseudo-absence generation with GLOSSA",
-    "text": "Pseudo-absence generation with GLOSSA\nWhen you upload an occurrence file with presence-only data (the pa column just includes ones or is missing), GLOSSA uses a balanced random sampling approach for generating pseudo-absences, that is, GLOSSA generates pseudo-absence points randomly across the defined study area, ensuring that the number of pseudo-absence points matches the number of presence points.\n\n\n\n\n\n\nNote\n\n\n\nThe spatial extent within which pseudo-absences are generated is an essential factor.\n\n\nWhen the presence data includes several timestamps, GLOSSA generates the same number of pseudo-absences as presences for each time period. This approach ensures that the model captures temporal variation in species occurrence, which can be important for species with temporal patterns.\n\n\n\n\n\n\nNote\n\n\n\nIf you prefer an alternative method for generating pseudo-absences, you can create them outside of GLOSSA using your preferred method and include them in your occurrence putting a 0 in the pa column of these records.",
-    "crumbs": [
-      "Documentation",
-      "Explanations and reference docs"
-    ]
+    "objectID": "pages/documentation/prepare_data.html#environmental-data",
+    "href": "pages/documentation/prepare_data.html#environmental-data",
+    "title": "Preparing your data",
+    "section": "Environmental data",
+    "text": "Environmental data\nEnvironmental predictor variables are provided as raster layers in formats like .tif, .tiff, or .nc (NetCDF). All environmental layers should be uploaded as a ZIP file, with each variable organized into separate subdirectories. Each subdirectory should contain the raster files corresponding to the different time periods (if applicable).\nGLOSSA will automatically extract environmental values at occurrence locations, matching by timestamp if multiple temporal layers are available. Only locations with complete environmental data are used for modeling, removing occurrences with missing predictor values. All rasters must be in the WGS84 coordinate reference system. If layers differ in resolution or extent, GLOSSA will harmonize them by aggregating to the coarsest resolution and adjusting extents accordingly.\nPredictors may come, for example, from global databases such as the National Oceanic and Atmospheric Administration (NOAA), the Inter-Sectoral Impact Model Intercomparison Project (ISIMIP), or Bio-ORACLE, or represent custom variables such as fishing effort (e.g., Global Fishing Watch) or covariates representing sampling bias.\nGLOSSA also supports the use of categorical variables in your models. These variables can represent categorical data such as ice cover, habitat classes, or other discrete data. Categorical variables are automatically transformed using one-hot encoding by GLOSSA and the dbarts package, converting them into new binary columns for modeling. To ensure a good fit in the GLOSSA workflow, categorical layers must be properly formatted before uploading.\n\n\n\n\n\n\nIncluding categorical variables in GLOSSA\n\n\n\n\n\nGLOSSA (&gt;= v1.1.0) now supports including categorical variables in your models, but they must be formatted correctly to ensure a smooth integration.\n\nAs with continuous variables, categorical layers must be provided as raster files (e.g., .tif, .nc, .asc) where the values are integer IDs that map to specific categories. For example, if representing ice cover, you might define 0 as “no ice” and 1 as “ice-covered.”\nRasters must be defined as factors, which typically requires metadata files (e.g., .xml) to enable proper mapping between the integer values and their corresponding categories. If categorical variables are not uploaded as factors, GLOSSA will treat them as continuous variables.\nWhen using categorical layers across time steps or for projections, ensure the categories remain consistent. The set of categories must match or be a subset of those observed in the training data. Avoid attempting to predict on unobserved categories.\n\nTo include categorical variables in GLOSSA, you need to provide categorical factor rasters. You can create these using functions like terra::as.factor() to convert integer rasters into factor rasters with defined levels and labels:\nlibrary(terra)\nraster &lt;- rast(\"ice_cover.tif\")\nraster &lt;- as.factor(raster)\nlevels(raster) &lt;- data.frame(id = c(0, 1), label = c(\"no\", \"yes\"))\nwriteRaster(raster, \"ice_cover_factor.tif\")\nWhen saving your file, the raster metadata is often stored in a separate file (e.g., .xml, .aux.xml). Ensure these metadata files are placed alongside the corresponding raster file in the same directory of the ZIP file before uploading.\nenvironmental_data.zip\n    ├── continuous_variable\n    │     └── cont_var.tif\n    ├── categorical_variable\n    │     ├── cat_var.tif\n    │     └── cat_var.tif.aux.xml\n\n\n\nHere are some guidelines for preparing your files:\n\nConsistent resolution and extent: Ensure that all raster layers have the same resolution and geographic extent. GLOSSA will check for mismatches and notify you with warnings or errors:\n\nIf extents differ, smaller rasters will be extended using NA to match the largest raster.\nIf resolutions differ, GLOSSA will aggregate to the coarsest resolution using the mean.\n\nTemporal alignment: If your occurrence data contains multiple time periods (timestamp column in the occurrence data), the rasters must align with those timestamps. GLOSSA expects the raster files to be ordered alphabetically by time. For example, if your occurrence data includes years 1 and 3, you should have raster files for each environmental variable for years 1, 2, and 3 (even if you don’t have occurrence data for year 2). In this case, you can provide a blank or duplicate raster for year 2, but the file must exist to ensure proper indexing for year 3.\n\nExample ZIP structure:\nenvironmental_data.zip\n    ├── temperature\n    │     ├── temp_1.tif\n    │     ├── temp_2.tif\n    │     └── temp_3.tif\n    ├── salinity\n    │     ├── sal_1.tif\n    │     ├── sal_2.tif\n    │     └── sal_3.tif\n\n\n\n\n\n\nTip\n\n\n\n\nUse clear and consistent file names, especially when handling multiple time periods or variables.\nEnsure that the number and order of raster layers match the occurrence data timestamps. If more explicit control is needed, you may upload a file specifying the exact time indices (see below).\nCarefully check the spatial and temporal resolution of your layers. Both the resolution and the extent of your study area should be appropriate for your research question and the scale/precision of your occurrence data.\nSelect predictor variables that are meaningful for your species. Do they reflect known habitat preferences?\nCheck that the predictor variables are available for the whole extent of the study area.\nLarge raster files may slow down the processing. For testing purposes, consider using lower-resolution rasters or aggregating the cells using the terra::aggregate() function in R"
   },
   {
-    "objectID": "pages/documentation/what_is_glossa.html",
-    "href": "pages/documentation/what_is_glossa.html",
-    "title": "What is GLOSSA?",
+    "objectID": "pages/documentation/prepare_data.html#raster-timestamp-mapping-optional",
+    "href": "pages/documentation/prepare_data.html#raster-timestamp-mapping-optional",
+    "title": "Preparing your data",
+    "section": "Raster timestamp mapping (optional)",
+    "text": "Raster timestamp mapping (optional)\nIn GLOSSA’s advanced options, you can upload a timestamp mapping file to gain better control over how raster layers are matched to occurrence data time steps. This is especially useful when, your raster layers do not cover a continuous or complete temporal range, you have gaps in the environmental data, the number of rasters do not match the timestamps in the occurrence file.\nThe mapping file should be a plain text file (.txt) with one column, listing the timestamp that corresponds to each raster layer in the order they appear in your ZIP file.\nBy default, GLOSSA assumes that the first raster for each environmental variable matches the first timestamp in your occurrence data, the second raster matches the second timestamp, and so on. This can cause problems if the raster set includes years not represented in your occurrence data.\nExample\nSuppose your occurrence data includes records from years 2001 and 2003, but your raster folder includes:\nx_2000.tif\nx_2001.tif\nx_2002.tif\nx_2003.tif\nIf no timestamp mapping is provided, GLOSSA will incorrectly assume that x_2000.tif corresponds to timestamp 2001. To fix this, you can either remove x_2000.tif from the ZIP file and keep only rasters from 2001 onward. Or upload a timestamp mapping file that explicitly defines which raster corresponds to which timestamp.\nAnother example, if your ZIP includes only x_2001.tif and x_2003.tif, you can provide a mapping file like this (.txt):\n2001\n2003\nThis tells GLOSSA that the first raster corresponds to timestamp 2001 and that the second raster corresponds to timestamp 2003.\nAlternatively, as timestamps are used only for indexing, you can relabel your occurrence data. For instance, rename timestamps 2001 and 2003 as 1 and 2 respectively, and provide just two rasters:\nx_2001.tif\nx_2003.tif\nNo mapping file is then needed. GLOSSA will match occurrence timestamp 1 to the first raster, and 2 to the second.\nJust remember that consistency in layer order and timestamp mapping is crucial for accurate environmental matching."
+  },
+  {
+    "objectID": "pages/documentation/prepare_data.html#projection-layers-optional-but-likely-your-primary-interest",
+    "href": "pages/documentation/prepare_data.html#projection-layers-optional-but-likely-your-primary-interest",
+    "title": "Preparing your data",
+    "section": "Projection layers (optional, but likely your primary interest)",
+    "text": "Projection layers (optional, but likely your primary interest)\nProjection layers allow you to forecast species distributions under different environmental conditions, such as future climate scenarios. These layers should follow the exact format as the environmental data, with identical subdirectory names and matching variable names.\nSome guidelines for preparing your files:\n\nFile order: Ensure that the files within each subdirectory are ordered consistently across variables. The first file of each variable (e.g., temperature, salinity) will be treated as corresponding to the same time period, and GLOSSA will stack and project them together as part of the same time series. That is, in the following example, GLOSSA will make one projection for the temp_projection_1.tif and sal_projection_1.tif scenario, and a different projection for the conditions of temp_projection_2.tif and sal_projection_2.tif.\nMultiple scenarios: If you’re working with multiple independent scenarios (e.g., two different climate models), upload each scenario in a separate ZIP file. This way, they won’t be included in the same time series, allowing you to compare scenarios separately during plotting and exporting.\n\nExample projection ZIP structure:\nprojection_layers.zip\n    ├── temperature\n    │     ├── temp_projection_1.tif\n    │     └── temp_projection_2.tif\n    ├── salinity\n    │     ├── sal_projection_1.tif\n    │     └── sal_projection_2.tif\n\n\n\n\n\n\nTip\n\n\n\n\nEnsure that projection layers have the same resolution, geographic extent, coordinate reference systems (CRS - WGS84), and variable names as the environmental layers used during model fitting. This consistency is crucial for accurate forecasting and projections.\nIf your projections involve different time periods, ensure the raster files are clearly organized and ordered to reflect these periods accurately."
+  },
+  {
+    "objectID": "pages/documentation/prepare_data.html#study-area-polygon-optional",
+    "href": "pages/documentation/prepare_data.html#study-area-polygon-optional",
+    "title": "Preparing your data",
+    "section": "Study area polygon (optional)",
+    "text": "Study area polygon (optional)\nYou can define a study area polygon to limit the geographic scope of your analysis. This will crop the environmental layers and filter out occurrence points that fall outside the study area. By default, GLOSSA uses the extent of your environmental rasters to define the study area, fitting the model only with occurrences that have valid values for all predictor variables. It also projects only onto cells covered by all environmental variables.\nHowever, if your rasters cover a larger region than your area of interest or if you have occurrence points outside the region you’d like to filter, you can upload a custom polygon. This allows you to specify the geographic region of interest, and GLOSSA will automatically crop the environmental layers and restrict the analysis to within the polygon boundaries.\nThe supported formats of this file are:\n\nGPKG (GeoPackage)\nKML\nGeoJSON\n\nExample use case: You might have environmental data for an entire ocean but only want to model species distributions within the Mediterranean Sea. Uploading a Mediterranean Sea polygon will crop the data accordingly.\n\n\n\n\n\n\nTip\n\n\n\n\nIf the resolution of your polygon is too coarse, you can apply a buffer to expand or refine it. This buffer option will be explained in the next section of the documentation."
+  },
+  {
+    "objectID": "pages/documentation/prepare_data.html#conclusion",
+    "href": "pages/documentation/prepare_data.html#conclusion",
+    "title": "Preparing your data",
+    "section": "Conclusion",
+    "text": "Conclusion\nBy properly formatting your data, you’ll ensure that GLOSSA runs smoothly and provides accurate results. Once your data is ready, move on to the next step: Running a new analysis."
+  },
+  {
+    "objectID": "pages/documentation/prepare_data.html#references",
+    "href": "pages/documentation/prepare_data.html#references",
+    "title": "Preparing your data",
+    "section": "References",
+    "text": "References\n\nMoudrý, V., Bazzichetto, M., Remelgado, R., Devillers, R., Lenoir, J., Mateo, R. G., … & Šímová, P. (2024). Optimising occurrence data in species distribution models: sample size, positional uncertainty, and sampling bias matter. Ecography, 2024(12), e07294. https://doi.org/10.1111/ecog.07294\n\n\nRonquillo, C., Stropp, J., & Hortal, J. (2024). OCCUR Shiny application: A user‐friendly guide for curating species occurrence records. Methods in Ecology and Evolution, 15(5), 816-823. https://doi.org/10.1111/2041-210X.14271\n\n\nZizka, A., Silvestro, D., Andermann, T., Azevedo, J., Duarte Ritter, C., Edler, D., … & Antonelli, A. (2019). CoordinateCleaner: Standardized cleaning of occurrence records from biological collection databases. Methods in Ecology and Evolution, 10(5), 744-751. https://doi.org/10.1111/2041-210X.13152"
+  },
+  {
+    "objectID": "pages/documentation/run_new_analysis.html",
+    "href": "pages/documentation/run_new_analysis.html",
+    "title": "Running a new analysis",
     "section": "",
-    "text": "GLOSSA is a simple, interactive R Shiny app designed to help you model species distributions without needing to code. Using Bayesian Additive Regression Trees (BART), GLOSSA predicts species habitats based on presence and environmental data, allowing you to visualize both current and future distributions.",
+    "text": "In this section, we’ll guide you through setting up and running your first species distribution analysis in GLOSSA. Whether you’re new to modeling or experienced, this walkthrough will help you configure the analysis step-by-step.",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?"
+      "New to GLOSSA?",
+      "Running a new analysis"
     ]
   },
   {
-    "objectID": "pages/documentation/what_is_glossa.html#how-glossa-works",
-    "href": "pages/documentation/what_is_glossa.html#how-glossa-works",
-    "title": "What is GLOSSA?",
-    "section": "How GLOSSA works?",
-    "text": "How GLOSSA works?\nGLOSSA’s workflow is designed to be intuitive, with four main steps:\n\n1. Data upload\n\nSpecies occurrence: Upload your species data with either presence/absence or presence-only records. GLOSSA can work with multiple species in one session, generating pseudo-absences when needed.\nEnvironmental data: Upload environmental rasters (e.g., from sources like Bio-ORACLE) matched to the occurrence points by location and time.\nProjections: Include layers representing future time periods or climate scenarios to generate predictions for each.\nStudy area: Upload a polygon to define your study region, or let GLOSSA use the extent of your environmental data.\n\n\n\n2. Data processing\n\nCoordinate cleaning: GLOSSA automatically removes duplicate records, filters out invalid points, and applies spatial thinning if needed.\nLayer processing: Environmental rasters are cropped, masked, and can be standardized.\nGenerate pseudo-absences: For presence-only data, GLOSSA creates randomly distributed pseudo-absences across the study area.\n\n\n\n3. Model fitting and prediction\n\nFit BART model: GLOSSA fits a BART model, generating predictions for suitable habitats and native ranges, and computes an optimal threshold for presence/absence classification.\nModel output: The output includes metrics like AUC, ROC curve, confusion matrix, functional response curves, and variable importance.\nProjections: Projections can be made to different areas, time periods, and climate scenarios.\n\n\n\n4. Visualization and export\nAfter the analysis, GLOSSA provides interactive maps and charts to explore model results, allowing you to export data and visuals for further use.",
+    "objectID": "pages/documentation/run_new_analysis.html#step-1-launch-glossa",
+    "href": "pages/documentation/run_new_analysis.html#step-1-launch-glossa",
+    "title": "Running a new analysis",
+    "section": "Step 1: Launch GLOSSA",
+    "text": "Step 1: Launch GLOSSA\nAfter installing GLOSSA, open R or RStudio, load the package, and launch the app:\nlibrary(glossa)\nrun_glossa()\nThis will open the GLOSSA interface in your default web browser, where you’ll start your analysis by clicking the “New analysis” button.\n\n\n\nHow to move to the New analysis tab from the Home tab of GLOSSA",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?"
+      "New to GLOSSA?",
+      "Running a new analysis"
     ]
   },
   {
-    "objectID": "pages/documentation/what_is_glossa.html#why-use-glossa",
-    "href": "pages/documentation/what_is_glossa.html#why-use-glossa",
-    "title": "What is GLOSSA?",
-    "section": "Why use GLOSSA?",
-    "text": "Why use GLOSSA?\nGLOSSA simplifies species distribution modeling by:\n\nMaking modeling accessible with a no-code interface.\nOffering robust machine learning predictions with BART.\nSupporting independent multi-species and scenario-based analysis in a single run.\nProviding detailed visualizations and export options for further analysis or publication.",
+    "objectID": "pages/documentation/run_new_analysis.html#step-2-upload-your-data",
+    "href": "pages/documentation/run_new_analysis.html#step-2-upload-your-data",
+    "title": "Running a new analysis",
+    "section": "Step 2: Upload your data",
+    "text": "Step 2: Upload your data\nIn the New analysis tab, you’ll upload your input data. You’ll need the following:\n\nOccurrences:\n\nUpload your tab-separated file containing species occurrence data with decimalLongitude, decimalLatitude, pa (optional), and timestamp (optional). You can upload multiple files, and each will be analyzed in independent models within the same run. For example, in the figure below, two files (sp1.txt and sp2.csv) for different species were uploaded. The plot on the right shows a preview of the occurrences.\n\nEnvironmental data:\n\nUpload your environmental raster layers as a ZIP file, following the structure described in the Preparing Your Data section. Make sure all rasters have the same resolution and extent. In the figure, we uploaded fit_layers.zip, which contains the environmental data.\n\nProjection layers (optional):\n\nIf you have future scenarios (e.g., climate change projections), upload your projection layers. Using the fitted model, GLOSSA wil predict using this rasters. You can upload multiple ZIP files with different projection layers, as shown in the figure where proj_layers_1.zip and proj_layers_2.zip were uploaded.\n\nStudy area (optional):\n\nTo limit your analysis to a specific region, upload a study area polygon in GPKG, KML, or GeoJSON format. The previsualization plot will help you check the spatial coverage of the polygon.\n\n\n\n\n\nNew analysis tab",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?"
+      "New to GLOSSA?",
+      "Running a new analysis"
     ]
   },
   {
-    "objectID": "pages/documentation/what_is_glossa.html#ready-to-get-started",
-    "href": "pages/documentation/what_is_glossa.html#ready-to-get-started",
-    "title": "What is GLOSSA?",
-    "section": "Ready to get started?",
-    "text": "Ready to get started?\nLearn how to install and set up GLOSSA: Installation guide.",
+    "objectID": "pages/documentation/run_new_analysis.html#step-3-configure-your-analysis",
+    "href": "pages/documentation/run_new_analysis.html#step-3-configure-your-analysis",
+    "title": "Running a new analysis",
+    "section": "Step 3: Configure your analysis",
+    "text": "Step 3: Configure your analysis\nOnce the data is uploaded, you’ll configure your analysis by adjusting the following settings:\n\nChoose a model type:\n\n\nNative range: Includes both environmental variables and spatial coordinates to predict the species’ native distribution.\nSuitable habitat: Uses only environmental variables to predict suitable habitats, ignoring spatial coordinates.\n\n\n\n\n\nModel fitting: This option fits the selected model, enabling you to compute functional responses and variable importance. It also makes predictions based on an averaged environmental scenario, which is created by calculating the mean values of each environmental variable across all provided timestamps.\nModel projection: If enabled, the fitted model will be used to make projections on the uploaded projection layers.\n\n\nOther analysis options:\n\n\nFunctional responses: This option generates response curves, which show the relationship between species occurrence and each environmental variable using partial dependence plots. These plots show the marginal effect of each variable on the predicted outcome of the BART model. Response curves are calculated only for the suitable habitat model without variable standardization, so they can be interpreted on the original scale.\nVariable importance: When selected, variable importance is computed using a permutation-based approach. This measures the change in prediction error after shuffling the values of each variable, using the F-score as a metric.\nCross-validation: Enables k-fold cross-validation (k = 5) to evaluate your model’s predictive performance. The cross-validation is conducted randomly, without accounting for spatial or temporal blocks or autocorrelation\n\n\nAdvanced options:\n\n\nOccurrence thinning - Rounding precision: Apply spatial thinning to your occurrence data using a precision-based approach. You can specify the decimal precision for latitude and longitude, and GLOSSA will remove duplicate records based on the rounded coordinates.\nLayers processing - Standardized covariates: This option z-score standardizes all environmental variables (subtract the mean and divide by the standard deviation). Mean and sd are computed based on the fitting layers and is also applied to projection layers.\nPolygon processing - Enlarge polygon: If your study area polygon has a low resolution or you want to extend its coverage, you can apply a buffer to enlarge it. The buffer value is specified in degrees, and you can preview the result by clicking the “play” button in the previsualization plot.\nModel: Currently, only the BART model is available for fitting\nSet a seed: Set a seed for reproducibility.",
     "crumbs": [
       "Documentation",
-      "New to GLOSSA?"
+      "New to GLOSSA?",
+      "Running a new analysis"
+    ]
+  },
+  {
+    "objectID": "pages/documentation/run_new_analysis.html#step-4-run-the-analysis",
+    "href": "pages/documentation/run_new_analysis.html#step-4-run-the-analysis",
+    "title": "Running a new analysis",
+    "section": "Step 4: Run the analysis",
+    "text": "Step 4: Run the analysis\nAfter configuring your settings, click Run Job to start the analysis. A confirmation dialog will appear, prompting you to double-check your input and settings. It’s important to ensure everything is configured correctly since some analyses may take a long time to complete, and you wouldn’t want to realize a mistake afterward.\n\n\n\n\n\nOnce confirmed, GLOSSA will begin the analysis by following these steps:\n\nData processing: GLOSSA processes your input data, removing duplicate coordinates, excluding records outside the study area, and filtering points with missing covariate values. If spatial thinning or standardization is enabled, these steps will also be applied. If a study area polygon is provided, the rasters will be cropped accordingly. For presence-only data, pseudo-absences will be generated.\nModel fitting: GLOSSA fits the BART model using presence/(pseudo-)absence data as the response variable, with environmental variables (for the suitable habitat model) and also geographic coordinates (for the native range model) as predictors. After fitting the model, GLOSSA calculates an optimal cutoff for predicting presence/absence using Youden’s index, also known as the True Skill Statistic (TSS).\nModel validation and additional analyses: GLOSSA computes validation metrics such as AUC, a confusion matrix, and the distribution of fitted values. If requested, GLOSSA also calculates functional responses, variable importance, and performs cross-validation to evaluate model performance.\nProjections: The fitted models are used to make projections based on the uploaded projection layers. Since GLOSSA operates within a Bayesian framework, it computes a predictive posterior distribution for each grid cell.\nResults: Once the analysis is complete, you’ll be automatically redirected to the Reports tab, where you can explore and interpret your results.\n\n\n\n\n\n\n\nNote\n\n\n\nThis process may take time depending on the size and resolution of your data, the number of projections, and additional options you have enabled (e.g., functional responses, cross-validation).\n\n\n\n\n\nSummary of the GLOSSA analysis workflow.",
+    "crumbs": [
+      "Documentation",
+      "New to GLOSSA?",
+      "Running a new analysis"
+    ]
+  },
+  {
+    "objectID": "pages/documentation/run_new_analysis.html#conclusion",
+    "href": "pages/documentation/run_new_analysis.html#conclusion",
+    "title": "Running a new analysis",
+    "section": "Conclusion",
+    "text": "Conclusion\nYou’ve successfully run your first analysis in GLOSSA! Now it’s time to explore the outputs and dive into the results. Head over to the next section to learn how to interpret your findings: Explore the results.",
+    "crumbs": [
+      "Documentation",
+      "New to GLOSSA?",
+      "Running a new analysis"
     ]
   },
   {
