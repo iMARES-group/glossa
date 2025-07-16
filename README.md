@@ -28,16 +28,6 @@ habitats and visualize results with minimal coding expertise.
 
 ![](https://github.com/iMARES-group/glossa/blob/main/inst/app/www/img/glossa_short_flowchart.png)
 
-**Important news (26/05/2025)**
-
-GLOSSA may not work correctly with `shiny` v1.11.0 or later due to a
-known compatibility issue with `shinyWidgets`. Please downgrade `shiny`
-to version 1.10.0.
-
-See the GitHub issue for details and a fix:
-
-- <https://github.com/iMARES-group/glossa/issues/10>
-
 ## Getting started
 
 You can install and run GLOSSA using the following R code:
@@ -74,8 +64,8 @@ website](https://iMARES-group.github.io/glossa/):
 
 ### Current version
 
-- **Development version** in progress (23/06/2025)
-- CRAN release: **v1.2.1** (20/06/2024)
+- **Development version** in progress (15/07/2025)
+- CRAN release: **v1.2.2** (15/07/2024)
 
 See the full
 [changelog](https://github.com/iMARES-group/glossa/blob/main/NEWS.md)

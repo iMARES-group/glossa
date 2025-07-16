@@ -1,14 +1,10 @@
 ## Release summary
 
-This is the CRAN submission of `glossa` v1.2.1.
+This is the CRAN submission of `glossa` v1.2.2.
 
-#### Changed
+#### Added
 
-* Moved the `automap` package to `Imports` and `jsonlite` to `Suggests` (20/06/2025).
-
-#### Fixed
-
-* Fixed an UI issue in the validation table of the study area polygon. Although the upload worked, the validation table sometimes incorrectly flagged the format as invalid. This did not affect the analysis but was misleading (20/06/2025).
+* Results are now automatically assigned to `glossa_autosave` in the global environment after analysis completes, unless `clear_global_env = TRUE` in the `run_glossa()` function. This allows recovery even if the browser is accidentally closed before completion. (23/06/2025, #8)
 
 ## Test environments
 
@@ -22,7 +18,7 @@ The package was tested on the following environments:
 The package passed `R CMD check` on all tested platforms with one NOTE:
 
 ```
-0 errors | 0 warnings | 1 note
+0 errors | 1 warnings | 1 note
 ```
 
 ```
@@ -39,3 +35,11 @@ Possibly misspelled words in DESCRIPTION:
 
 * This is a new submission after the package was archived.
 * The flagged words in the DESCRIPTION file refer to proper nouns and standard terminology.
+
+```
+CRAN repository db overrides:
+  X-CRAN-Comment: Archived on 2025-06-30 as requires archived package
+    'automap'.
+```
+
+* The package 'automap' is back to CRAN. No further issues.
