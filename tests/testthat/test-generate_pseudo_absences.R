@@ -6,10 +6,10 @@ library(glossa)  # or source manually if not installed
 # Simulated time-indexed raster stacks
 raster_stack <- lapply(1:3, function(i) {
   r1 <- rast(nrows = 10, ncols = 10, xmin = 0, xmax = 10, ymin = 0, ymax = 10)
-  values(r1) <- i
+  values(r1) <- runif(10*10, min = i-1, max = i)
 
   r2 <- rast(nrows = 10, ncols = 10, xmin = 0, xmax = 10, ymin = 0, ymax = 10)
-  values(r2) <- i
+  values(r2) <- runif(10*10, min = i-1, max = i)
 
   s <- c(r1, r2)
   names(s) <- c("var1", "var2")
@@ -92,6 +92,22 @@ test_that("generate_pseudo_absences() buffer_out enforces buffer", {
   #plot(raster_stack[[1]][[1]], main = "Buffer")
   #points(res[res$pa == 1, c("decimalLongitude", "decimalLatitude")], col = "blue", pch = 20)
   #points(res[res$pa == 0, c("decimalLongitude", "decimalLatitude")], col = "red", pch = 3)
+})
+
+test_that("generate_pseudo_absences() env_space_flexsdm returns valid output", {
+  skip_if_not_installed("flexsdm")
+  res <- suppressWarnings(generate_pseudo_absences(
+    method = "env_space_flexsdm",
+    presences = presences,
+    raster_stack = raster_stack,
+    predictor_variables = c("var1", "var2"),
+    ratio = 1,
+    seed = 123
+  ))
+
+  expect_true(nrow(res) <= 10)
+  expect_true(all(res$pa %in% c(0, 1)))
+  expect_true(all(complete.cases(res[, c("var1", "var2")])))
 })
 
 test_that("Wrapper fails with invalid method", {

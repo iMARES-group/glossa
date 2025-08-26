@@ -5,7 +5,7 @@
 \title{Generate Pseudo-Absence Points Using Different Methods Based on Presence Points, Covariates, and Study Area Polygon}
 \usage{
 generate_pseudo_absences(
-  method = c("random", "target_group", "buffer_out"),
+  method = c("random", "target_group", "buffer_out", "env_space_flexsdm"),
   presences,
   raster_stack,
   predictor_variables,
@@ -19,7 +19,7 @@ generate_pseudo_absences(
 )
 }
 \arguments{
-\item{method}{Character; one of "random", "target_group", or "buffer_out".}
+\item{method}{Character; one of "random", "target_group", "buffer_out", or "env_space_flexsdm".}
 
 \item{presences}{Data frame of presence points with coordinates and timestamp.}
 

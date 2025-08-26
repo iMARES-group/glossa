@@ -20,7 +20,7 @@
 #' @param cv_folds Integer indicating the number of folds to generate.
 #' @param cv_block_source For spatial blocks, how to determine block size. One of: `"residuals_autocorrelation"`, `"predictors_autocorrelation"`, `"manual"`.
 #' @param cv_block_size Numeric block size in meters (used if `cv_block_source = "manual"`).
-#' @param pseudoabsence_method Method for generating pseudo-absences. One of "random", "target_group", or "buffer_out".
+#' @param pseudoabsence_method Method for generating pseudo-absences. One of "random", "target_group", "buffer_out", or "env_space_flexsdm".
 #' @param pa_ratio Ratio of pseudo-absences to presences (pseudo-absence:presences).
 #' @param target_group_points Optional data frame for sampling points for target-group method.
 #' @param pa_buffer_distance Numeric buffer radius in degrees around each presence. Default is NULL.
@@ -59,6 +59,11 @@ glossa_analysis <- function(
   # Set seed
   if (is.na(seed)){
     seed <- NULL
+  }
+
+  # Check for missing packages
+  if (pseudoabsence_method == "env_space_flexsdm"){
+    if (!requireNamespace("flexsdm", quietly = TRUE)) stop("`flexsdm` is not installed; please install it from GitHub or choose another pseudo-absence generation method.")
   }
 
   # Check format of study area mask
@@ -281,7 +286,7 @@ glossa_analysis <- function(
   names(presence_absence_list$model_pa) <- names(presence_absence_list$clean_pa)
 
   #=========================================================#
-  # 5. Randomly generate balanced pseudoabsences ----
+  # 5. Randomly generate pseudoabsences ----
   #=========================================================#
 
   # If only occurrences were provided generate balanced random pseudoabsences

@@ -469,7 +469,7 @@ body <- bs4Dash::bs4DashBody(
                 shinyWidgets::pickerInput(
                   inputId = "pseudoabsence_method",
                   label = "Pseudo-absence method",
-                  choices = c("Random" = "random", "Target-group" = "target_group", "Buffer-restricted" = "buffer_out"),
+                  choices = c("Random" = "random", "Target-group" = "target_group", "Buffer-restricted" = "buffer_out", "Environmental space" = "env_space_flexsdm"),
                   selected = "Random",
                   width = "90%"
                 ),

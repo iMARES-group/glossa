@@ -58,7 +58,7 @@ For detailed documentation, tutorials, and examples on how to use **GLOSSA**, vi
 
 ### Current version
 
-* **Development version** in progress (15/07/2025)
+* **Development version** in progress (26/08/2025)
 * CRAN release: **v1.2.2** (15/07/2024)
 
 See the full [changelog](https://github.com/iMARES-group/glossa/blob/main/NEWS.md)

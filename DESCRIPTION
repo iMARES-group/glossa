@@ -50,6 +50,7 @@ Imports:
     waiter,
     zip
 Suggests:
+    flexsdm,
     jsonlite,
     knitr,
     matrixStats,

@@ -1034,10 +1034,28 @@ function(input, output, session) {
   observeEvent(input$previsualization_plot_layer, {
     req(fit_layers_previs())
     if (input$previsualization_plot_layer != "None"){
+      # Pick layer
+      r_prev <- terra::crop(fit_layers_previs()[input$previsualization_plot_layer], ext(-180, 180, -87, 87))
+
+      # Compute raster size
+      is_fac   <- terra::is.factor(r_prev)[1]
+      if (is_fac) {
+        colors <- colorFactor("Set1", domain = NULL, na.color = "#00000000", alpha = TRUE)
+      } else {
+        colors <- colorNumeric("Spectral", domain = NULL, na.color = "#00000000", alpha = TRUE)
+      }
+      tileData <- terra::values(r_prev) |> as.vector() |> colors() |> col2rgb(alpha = TRUE) |> as.raw()
+      dim(tileData) <- c(4, ncol(r_prev), nrow(r_prev))
+      pngData <- png::writePNG(tileData)
+      max_bytes <- 4 * 1024 * 1024
+      if (length(pngData) > max_bytes) {
+        r_prev <- terra::spatSample(r_prev, 80000, method="regular", as.raster=TRUE)
+        showNotification("Downsampling layer just for previsualization", type = "message")
+      }
+
       previsualization_plot %>%
         leaflet::clearImages() %>%
-        leaflet::addRasterImage(terra::crop(fit_layers_previs()[input$previsualization_plot_layer], ext(-180, 180, -87, 87)),
-                                colors = c("#A1D4B1","#2BAF90","#F1A512","#DD4111","#8C0027"), opacity = 0.5)
+        leaflet::addRasterImage(r_prev, colors = c("#A1D4B1","#2BAF90","#F1A512","#DD4111","#8C0027"), opacity = 0.5)
     } else {
       previsualization_plot %>%
         leaflet::clearImages()

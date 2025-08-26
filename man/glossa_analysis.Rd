@@ -65,7 +65,7 @@ glossa_analysis(
 
 \item{cv_block_size}{Numeric block size in meters (used if `cv_block_source = "manual"`).}
 
-\item{pseudoabsence_method}{Method for generating pseudo-absences. One of "random", "target_group", or "buffer_out".}
+\item{pseudoabsence_method}{Method for generating pseudo-absences. One of "random", "target_group", "buffer_out", or "env_space_flexsdm".}
 
 \item{pa_ratio}{Ratio of pseudo-absences to presences (pseudo-absence:presences).}
 

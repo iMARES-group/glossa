@@ -1,10 +1,14 @@
 ## Release summary
 
-This is the CRAN submission of `glossa` v1.2.2.
+This is the CRAN submission of `glossa` v1.2.3.
 
 #### Added
 
-* Results are now automatically assigned to `glossa_autosave` in the global environment after analysis completes, unless `clear_global_env = TRUE` in the `run_glossa()` function. This allows recovery even if the browser is accidentally closed before completion. (23/06/2025, #8)
+* New pseudo-absence generation method: `"env_space_flexsdm"`, which samples pseudo-absences from regions with lower suitability in the environmental space using the `sample_pseudoabs(method=c(method='env_const', env = somevar))` function from the *flexsdm* package. (26/08/2025, #6)
+
+#### Fixed
+
+* Large raster previews that exceed the 4 MB limit from *leaflet* are now automatically downsampled for visualization, while full-resolution rasters are kept for analysis and export. (26/08/2025, #11)
 
 ## Test environments
 
@@ -27,10 +31,10 @@ New submission
 Package was archived on CRAN
 
 Possibly misspelled words in DESCRIPTION:
-  Chipman (15:18)
+  Chipman (15:29)
   GLOSSA (13:56, 20:55)
-  McCulloch (15:39)
-  Spatiotemporal (14:13)
+  McCulloch (15:50)
+  Spatio (14:19)
 ```
 
 * This is a new submission after the package was archived.
@@ -38,8 +42,28 @@ Possibly misspelled words in DESCRIPTION:
 
 ```
 CRAN repository db overrides:
-  X-CRAN-Comment: Archived on 2025-06-30 as requires archived package
-    'automap'.
+  X-CRAN-Comment: Archived on 2025-07-30 as required archived package
+    'blockCV'.
 ```
 
-* The package 'automap' is back to CRAN. No further issues.
+* The package 'blockCV' is back to CRAN. No further issues.
+
+```
+Suggests or Enhances not in mainstream repositories:
+  flexsdm
+```
+
+* The package `flexsdm` is an R package only available in GitHub (<https://github.com/sjevelazco/flexsdm>) and listed under Suggests because it is only needed for an optional pseudo-absence generation method ("env_space_flexsdm"). All core functions of GLOSSA work fully without `flexsdm`. 
+* The code has been written to handle the absence of this package, if `flexsdm` is not installed, users are prompted to choose another pseudo-absence method. This ensures the package passes checks and runs without `flexsdm`. 
+* Installation instructions for using the environmental-space pseudo-absence method with `flexsdm` (from GitHub) are provided in the online documentation (<https://imares-group.github.io/glossa/pages/documentation/installation_setup.html>).
+
+```
+# flexsdm installation
+# install.packages("remotes")
+
+# For Windows and Mac OS operating systems
+remotes::install_github("sjevelazco/flexsdm")
+
+# For Linux operating system
+remotes::install_github("sjevelazco/flexsdm@HEAD")
+```

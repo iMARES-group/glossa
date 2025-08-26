@@ -3,7 +3,7 @@
 #' Wrapper function for pseudo-absence generation methods, such as
 #' background random points, target-group, and using buffer area.
 #'
-#' @param method Character; one of "random", "target_group", or "buffer_out".
+#' @param method Character; one of "random", "target_group", "buffer_out", or "env_space_flexsdm".
 #' @param presences Data frame of presence points with coordinates and timestamp.
 #' @param raster_stack SpatRaster of covariates.
 #' @param predictor_variables Character vector of selected predictors.
@@ -17,7 +17,7 @@
 #'
 #' @return A data frame of pseudo-absence points (pa = 0) with covariates.
 #' @export
-generate_pseudo_absences <- function(method = c("random", "target_group", "buffer_out"), presences, raster_stack, predictor_variables,
+generate_pseudo_absences <- function(method = c("random", "target_group", "buffer_out", "env_space_flexsdm"), presences, raster_stack, predictor_variables,
                                      study_area = NULL, target_group_points = NULL,
                                      coords = c("decimalLongitude", "decimalLatitude"),
                                      pa_buffer_distance = 0.5,
@@ -63,8 +63,21 @@ generate_pseudo_absences <- function(method = c("random", "target_group", "buffe
       seed = seed
     ))
 
+  } else if (method == "env_space_flexsdm") {
+    if (!requireNamespace("flexsdm", quietly = TRUE)) stop("`flexsdm` is not installed; please install it from GitHub or choose another pseudo-absence generation method.")
+
+    pseudo_absences <- suppressMessages(generate_pa_env_space_flexsdm(
+      presences = presences,
+      raster_stack = raster_stack,
+      predictor_variables = predictor_variables,
+      coords = coords,
+      ratio = ratio,
+      attempts = attempts,
+      seed = seed
+    ))
+
   } else {
-    stop("Invalid pseudo-absence method. Must be one of: 'random', 'target_group', 'buffer_out'")
+    stop("Invalid pseudo-absence method. Must be one of: 'random', 'target_group', 'buffer_out', 'env_space_flexsdm'")
   }
 
   # Asign timestamp_original as 0
@@ -346,6 +359,96 @@ generate_pa_buffer_out <- function(presences, raster_stack, predictor_variables,
   absences$pa <- 0
   return(absences)
 }
+
+#' Generate Environmental-space Pseudo-Absences via flexsdm (per temporal stratum)
+#'
+#' Uses flexsdm::sample_pseudoabs(method = c("env_const", env = predictors) within each timestamp stratum so that
+#' pseudo-absences match the temporal distribution of presences. Extracts covariate values
+#' for the sampled coordinates and returns a data.frame with the same predictor columns.
+#'
+#' @param presences Data frame containing presence points.
+#' @param raster_stack `SpatRaster` object containing covariate data. Uses continuous predictor only and samples per timestamp.
+#' @param predictor_variables Character vector of the predictor variables selected for this species.
+#' @param coords Character vector specifying the column names for latitude and longitude. Defaults to `c("decimalLongitude", "decimalLatitude")`.
+#' @param ratio Ratio of pseudo-absences to presences (default 1 = balanced).
+#' @param attempts Integer specifying the number of attempts to generate exact pseudo-absences. Defaults to 100.
+#' @param seed Optional seed for reproducibility.
+#'
+#' @return A data frame of pseudo-absences with coordinates, timestamp, `pa = 0`, and covariate values.
+#' @export
+generate_pa_env_space_flexsdm <- function(presences, raster_stack, predictor_variables,
+                                          coords = c("decimalLongitude", "decimalLatitude"),
+                                          ratio = 1, attempts = 100, seed = NULL) {
+
+  if (!requireNamespace("flexsdm", quietly = TRUE)) {
+    stop("'flexsdm' is not installed; choose another pseudo-absence method or install flexsdm.")
+  }
+  stopifnot(all(coords %in% colnames(presences)))
+
+  set.seed(seed)
+  n_presences <- nrow(presences)
+  n_required <- n_presences * ratio
+  if (ratio == 1){
+    timestamp_values <- presences$timestamp
+  } else {
+    timestamp_values <- sample(presences$timestamp, n_required, replace = TRUE)
+  }
+  timestamp_tab <- table(timestamp_values)
+  col_names <- c(coords, "timestamp", predictor_variables)
+  absences <- data.frame(matrix(ncol = length(col_names), nrow = 0))
+  colnames(absences) <- col_names
+
+  # keep only continuous predictors
+  is_fac <- terra::is.factor(raster_stack[[1]][[predictor_variables]])
+  cont_vars <- names(raster_stack[[1]][[predictor_variables]])[!is_fac]
+
+  if (length(cont_vars) == 0) {
+    stop("No continuous predictors available, skipping environmental pseudo-absence generation.")
+  }
+
+  for (ts in as.integer(names(timestamp_tab))) {
+    n_here <- as.integer(timestamp_tab[[as.character(ts)]])
+    if (n_here <= 0) next
+
+    pres_ts <- presences[presences$timestamp == ts, , drop = FALSE]
+    if (nrow(pres_ts) < 2) {
+      warning(paste("Skipping timestamp", ts, ", not enough occurrences for environmental pseudo-absence generation."))
+      next
+    }
+
+    # flexsdm environmental constraint for this timestamp
+    r_ts <- raster_stack[[ts]]
+    stopifnot(inherits(r_ts, "SpatRaster"))
+
+    dat_xy <- data.frame(x = pres_ts[[coords[1]]], y = pres_ts[[coords[2]]])
+    pa_xy <- tryCatch({
+      flexsdm::sample_pseudoabs(
+        data = dat_xy,
+        x = "x",
+        y = "y",
+        n = n_here,
+        method = c("env_const", env = r_ts[[cont_vars]]),
+        rlayer = r_ts[[cont_vars[1]]]
+      )
+    }, error = function(e) NULL)
+
+    if (is.null(pa_xy) || !all(c("x","y") %in% names(pa_xy))) next
+
+    new_abs <- data.frame(
+      decimalLongitude = pa_xy$x,
+      decimalLatitude = pa_xy$y,
+      timestamp = ts
+    )
+    names(new_abs)[1:2] <- coords
+    new_abs <- extract_noNA_cov_values(new_abs, raster_stack, predictor_variables)
+    absences <- rbind(absences, new_abs[, col_names, drop = FALSE])
+  }
+
+  # Set absence indicator
+  absences$pa <- 0
+  return(absences)
+}
+
 
 
 
