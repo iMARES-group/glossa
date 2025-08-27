@@ -64,8 +64,8 @@ website](https://iMARES-group.github.io/glossa/):
 
 ### Current version
 
-- **Development version** in progress (26/08/2025)
-- CRAN release: **v1.2.2** (15/07/2024)
+- **Development version** in progress (27/08/2025)
+- CRAN release: **v1.2.3** (27/08/2024)
 
 See the full
 [changelog](https://github.com/iMARES-group/glossa/blob/main/NEWS.md)

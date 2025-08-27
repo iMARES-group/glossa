@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## glossa (development version)
 
+## glossa 1.2.3 - 27/08/2025
+
 ### Added
 
 * New pseudo-absence generation method: `"env_space_flexsdm"`, which samples pseudo-absences from regions with lower suitability in the environmental space using the `sample_pseudoabs(method=c(method='env_const', env = somevar))` function from the *flexsdm* package. (26/08/2025, #6)
