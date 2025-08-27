@@ -19,7 +19,11 @@ Description: A user-friendly 'shiny' application for Bayesian machine
     cross-validation, and scenario-based projections. GLOSSA is designed
     to facilitate ecological research by providing easy-to-use tools for
     analyzing and visualizing marine species distributions across
-    different spatial and temporal scales.
+    different spatial and temporal scales. Optionally, pseudo-absences can
+    be generated within the environmental space using the external package
+    'flexsdm' (not on CRAN), which can be downloaded from
+    <https://github.com/sjevelazco/flexsdm>; this functionality is used
+    conditionally when available and all core features work without it.
 License: GPL-3
 URL: https://github.com/iMARES-group/glossa,
     https://iMARES-group.github.io/glossa/

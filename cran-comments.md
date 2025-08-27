@@ -53,8 +53,8 @@ Suggests or Enhances not in mainstream repositories:
   flexsdm
 ```
 
+* `flexsdm` remains in Suggests and is used conditionally. We have added a statement in DESCRIPTION indicating where to obtain it (GitHub). The package passes checks and runs without `flexsdm`.
 * The package `flexsdm` is an R package only available in GitHub (<https://github.com/sjevelazco/flexsdm>) and listed under Suggests because it is only needed for an optional pseudo-absence generation method ("env_space_flexsdm"). All core functions of GLOSSA work fully without `flexsdm`. 
-* The code has been written to handle the absence of this package, if `flexsdm` is not installed, users are prompted to choose another pseudo-absence method. This ensures the package passes checks and runs without `flexsdm`. 
 * Installation instructions for using the environmental-space pseudo-absence method with `flexsdm` (from GitHub) are provided in the online documentation (<https://imares-group.github.io/glossa/pages/documentation/installation_setup.html>).
 
 ```
