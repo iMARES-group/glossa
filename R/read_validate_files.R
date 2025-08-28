@@ -118,11 +118,12 @@ read_presences_absences_csv <- function(file_path, file_name = NULL, show_modal 
 #' @param extend If TRUE it will take the largest extent, if FALSE the smallest.
 #' @param first_layer If TRUE it will return only the layers from the first timestamp.
 #' @param show_modal Optional. Logical. Whether to show a modal notification for warnings. Default is FALSE.
+#' @param is_fit Logical. Should be `TRUE` when the ZIP contains the covariate layers used for model fitting, and `FALSE` when the ZIP contains projection layers. This flag is only used internally to place the extracted files in separate subdirectories under `tempdir()`, preventing fit and projection layers from being mixed. Default is TRUE.
 #'
 #' @return A list containing raster layers for each covariate.
 #' @keywords internal
 #' @export
-read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_modal = FALSE) {
+read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_modal = FALSE, is_fit = TRUE) {
 
   # Helper function to show warnings and notifications
   show_warning <- function(message) {
@@ -131,10 +132,14 @@ read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_
   }
 
   # Extract contents of the zip file
-  tmpdir <- tempdir()
+  zip_name <- sub("\\.zip$", "", basename(file_path), ignore.case = TRUE)
+  layer_type <- if (isTRUE(is_fit)) "fit" else "proj"
+  tmpdir <- file.path(tempdir(), layer_type, zip_name)
   zip_contents <- utils::unzip(file_path, exdir = tmpdir)
   # Clean out macOS hidden files/folders (.__, .DS_Store, and __MACOSX folder)
-  zip_contents <- zip_contents[!grepl("(^|/)__MACOSX|/\\._|/\\.DS_Store$", zip_contents)]
+  zip_contents <- zip_contents[!grepl("(^|/)__MACOSX|/\\._|(^|/)\\.DS_Store$", zip_contents)]
+  # Remove R history and RStudio project files
+  zip_contents <- zip_contents[!grepl("(^|/)(\\.Rhistory|\\.Rproj|\\.Rproj.user)$", zip_contents)]
   covariates <- unique(dirname(zip_contents))
 
   # Filter files to include only raster formats (e.g., .tif, .asc, .nc)
@@ -346,10 +351,13 @@ validate_layers_zip <- function(file_path, timestamp_mapping = NULL, show_modal 
   }
 
   # Extract contents of the ZIP file
-  tmpdir <- tempdir()
+  zip_name <- sub("\\.zip$", "", basename(file_path), ignore.case = TRUE)
+  tmpdir <- file.path(tempdir(), zip_name)
   zip_contents <- utils::unzip(file_path, exdir = tmpdir)
   # Clean out macOS hidden files/folders (.__, .DS_Store, and __MACOSX folder)
-  zip_contents <- zip_contents[!grepl("(^|/)__MACOSX|/\\._|/\\.DS_Store$", zip_contents)]
+  zip_contents <- zip_contents[!grepl("(^|/)__MACOSX|/\\._|(^|/)\\.DS_Store$", zip_contents)]
+  # Remove R history and RStudio project files
+  zip_contents <- zip_contents[!grepl("(^|/)(\\.Rhistory|\\.Rproj|\\.Rproj.user)$", zip_contents)]
   # Get unique covariate directories
   covariate_dirs <- unique(dirname(zip_contents))
 
@@ -449,13 +457,17 @@ validate_fit_projection_layers <- function(fit_layers_path, proj_layers_path, sh
   }
 
   # Extract contents of the ZIP files
-  tmpdir_fit <- tempdir()
-  tmpdir_proj <- tempdir()
+  zip_name_fit <- sub("\\.zip$", "", basename(fit_layers_path), ignore.case = TRUE)
+  tmpdir_fit <- file.path(tempdir(), zip_name_fit)
+  zip_name_proj <- sub("\\.zip$", "", basename(proj_layers_path), ignore.case = TRUE)
+  tmpdir_proj <- file.path(tempdir(), zip_name_proj)
   fit_layers_content <- utils::unzip(fit_layers_path, exdir = tmpdir_fit)
   proj_contents <- utils::unzip(proj_layers_path, exdir = tmpdir_proj)
   # Clean out macOS hidden files/folders (.__, .DS_Store, and __MACOSX folder)
-  fit_layers_content <- fit_layers_content[!grepl("(^|/)__MACOSX|/\\._|/\\.DS_Store$", fit_layers_content)]
-  proj_contents <- proj_contents[!grepl("(^|/)__MACOSX|/\\._|/\\.DS_Store$", proj_contents)]
+  fit_layers_content <- fit_layers_content[!grepl("(^|/)__MACOSX|/\\._|(^|/)\\.DS_Store$", fit_layers_content)]
+  fit_layers_content <- fit_layers_content[!grepl("(^|/)(\\.Rhistory|\\.Rproj|\\.Rproj.user)$", fit_layers_content)]
+  proj_contents <- proj_contents[!grepl("(^|/)__MACOSX|/\\._|(^|/)\\.DS_Store$", proj_contents)]
+  proj_contents <- proj_contents[!grepl("(^|/)(\\.Rhistory|\\.Rproj|\\.Rproj.user)$", proj_contents)]
 
 
   # Filter files to include only raster formats (e.g., .tif, .asc, .nc)
@@ -498,7 +510,9 @@ validate_pa_fit_time <- function(pa_data, fit_layers_path, show_modal = FALSE) {
   # Calculate the length of the time period in the fit layers
   zip_contents <- utils::unzip(fit_layers_path, list = TRUE)
   # Clean out macOS hidden files/folders (.__, .DS_Store, and __MACOSX folder)
-  zip_contents <- zip_contents[!grepl("(^|/)__MACOSX|/\\._|/\\.DS_Store$", zip_contents$Name), ]
+  zip_contents <- zip_contents[!grepl("(^|/)__MACOSX|/\\._|(^|/)\\.DS_Store$", zip_contents$Name), ]
+  # Remove R history and RStudio project files
+  zip_contents <- zip_contents[!grepl("(^|/)(\\.Rhistory|\\.Rproj|\\.Rproj.user)$", zip_contents)]
 
   raster_extensions <- c("tif", "tiff", "asc", "nc")
   files <- zip_contents$Name[grepl(paste0("\\.(", paste(raster_extensions, collapse = "|"), ")$"), zip_contents$Name)]

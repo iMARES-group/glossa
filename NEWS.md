@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## glossa (development version)
 
+### Fixed
+
+* Reading environmental layers from ZIP files in Shiny no longer mixes fit and projection layers. Each upload is now isolated in its own temporary subdirectory, preventing files from different inputs from being combined. (28/08/2025)
+* Fixed regex used to ignore hidden macOS `.DS_Store` files from uploaded ZIP archives. (28/08/2025)
+* Ignore R history and RStudio project files from environmental layers zipped files. (28/08/2025)
+
 ## glossa 1.2.3 - 27/08/2025
 
 ### Added

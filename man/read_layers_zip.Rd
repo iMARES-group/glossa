@@ -8,7 +8,8 @@ read_layers_zip(
   file_path,
   extend = TRUE,
   first_layer = FALSE,
-  show_modal = FALSE
+  show_modal = FALSE,
+  is_fit = TRUE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ read_layers_zip(
 \item{first_layer}{If TRUE it will return only the layers from the first timestamp.}
 
 \item{show_modal}{Optional. Logical. Whether to show a modal notification for warnings. Default is FALSE.}
+
+\item{is_fit}{Logical. Should be `TRUE` when the ZIP contains the covariate layers used for model fitting, and `FALSE` when the ZIP contains projection layers. This flag is only used internally to place the extracted files in separate subdirectories under `tempdir()`, preventing fit and projection layers from being mixed. Default is TRUE.}
 }
 \value{
 A list containing raster layers for each covariate.

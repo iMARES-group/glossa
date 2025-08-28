@@ -98,7 +98,8 @@ glossa_analysis <- function(
   covariate_list$fit_layers <- tryCatch({
     read_layers_zip(
       fit_layers,
-      extend = ifelse(is.null(study_area_poly), FALSE, TRUE)
+      extend = ifelse(is.null(study_area_poly), FALSE, TRUE),
+      is_fit = TRUE
     )
   }, error = function(e) {
     stop("Failed to read fit layers: ", e$message)
@@ -123,7 +124,7 @@ glossa_analysis <- function(
     }
     covariate_list$projections <- tryCatch({
       lapply(proj_files, function(x, extend){
-        read_layers_zip(x, extend)},
+        read_layers_zip(x, extend, is_fit = FALSE)},
         extend = ifelse(is.null(study_area_poly), FALSE, TRUE))
     }, error = function(e) {
       stop("Failed to read projections: ", e$message)
