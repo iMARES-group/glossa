@@ -4,26 +4,63 @@ title: "Generating pseudo-absences for presence-only data"
 editor: source
 ---
 
-When dealing with presence-only species distribution data, two main approaches are commonly used to handle the absence of true absence points. The first approach is to model the presence points directly as a **point process**, which treats presences as an observed spatial pattern. This approach doesn’t require absence data and instead estimates the intensity of occurrences across the study area. The second approach is to **generate pseudo-absence points**, creating false absences across the study region, allowing the model to learn from contrasting presence and absence locations.
+Correlative methods for species distribution modeling can be categorized by the type of species occurrence data used: **presence/absence**, **presence/pseudo-absence** (or background), and **presence-only**. In general, presence/absence data tend to produce more conservative and accurate predictions of species distributions, while presence-only or pseudo-absence data often predict broader suitable areas (Sillero *et al*., 2021).
 
-In GLOSSA, we take the second approach as we fit a **Bayesian Additive Regression Trees (BART) model** using a **binary response variable** (presence = 1, absence = 0) with a **probit link function**. Generating pseudo-absences allows the model to estimate the probability of species presence by learning from both the observed presences and the generated pseudo-absences.
+However, in most cases, especially in the marine context, only presence data are available. In these cases, there are two main approaches:
 
-## The challenge of generating pseudo-absences
+- **Model directly using presence-only methods**, such as envelope algorithms (Booth *et al*., 2014) or point process models (Warton and Shepher, 2010; Renner *et al*., 2015).
+- **Generate pseudo-absences (or background points)** to simulate absences across the study area, allowing the use of binary classification models to learn from contrasting presence and pseudo-absence locations.
 
-Generating pseudo-absences for presence-only data is a critical decision in species distribution modeling. There exist multiple methods for generating pseudo-absences, each with its own strengths and limitations, and there is currently no consensus on a standard approach. Some common methods include random sampling, geographic exclusion (e.g., excluding areas close to presence points), and environmental filtering (e.g., selecting pseudo-absences in contrasting environmental conditions).
+GLOSSA follows the second approach by requiring either presence/absence data or presence/pseudo-absence to fit the model using **Bayesian Additive Regression Trees (BART)**. The model is fit with a **binary response variable** (`1` = presence, `0` = (pseudo-)absence) using a **probit link function**. When true absences are not available, GLOSSA allows you to generate pseudo-absences using different strategies.
 
-Each method can influence model outcomes differently, depending on the study area, species, and modeling objectives. Given the absence of a definitive standard, GLOSSA uses a balanced random sampling approach that provides broad applicability and ease of use across diverse datasets.
+## Pseudo-absence generation in GLOSSA
 
-## Pseudo-absence generation with GLOSSA
+If your occurrence file contains only presences (i.e., all values in the `pa` column are `1` or the column is missing), GLOSSA will generate pseudo-absences during execution. In the the *New analysis* tab you can choose from four available methods in the **Advanced options**. You’ll also be able to set the **pseudo-absence to presence ratio** (e.g., `2` means 2x as many pseudo-absences as presences). The available pseudo-absence generation methods are:
 
-When you upload an occurrence file with presence-only data (the `pa` column just includes ones or is missing), GLOSSA uses a **balanced random sampling approach** for generating pseudo-absences, that is, GLOSSA generates pseudo-absence points randomly across the defined study area, ensuring that the number of pseudo-absence points matches the number of presence points.
+- **Random**: Pseudo-absences are sampled randomly across the study area (excluding presences and duplicates). When the `timestamp column is provided and the PA:P ratio is 1, GLOSSA balances pseudo-absences per time point.
+- **Target-group**: Uses the records of a species group (which is the target-group) observed or collected using the same methods and equipment to create background data matching same potential bias as the presence data. This method requires a second tab-separated file with same structure as the occurrence file (tab-separated file with `decimalLongitude` and `decimalLatitude` columns, and only presences as GLOSSA will sample from those records) to be uploaded to the *Target-group locations (tab-separated)* file input.
+- **Buffer-restricted**: Pseudo-absences are randomly sampled from within a convex hull around presence records, but outside a defined buffer distance (in decimal degrees). You can define the buffer size in the *Buffer distance (in decimal degrees)* option.
+- **Environmental space**: Pseudo-absences are sampled within the environmental space constrained to areas with lower suitability using the `sample_pseudoabs(method=c(method='env_const', env = somevar))` function and method from the `flexsdm` R package (Velazco *et al*., 2022). This approach requires installing `flexsdm` from GitHub (see [Installation guide](installation_setup.qmd). Many other methods exist to sample within the environmental space that are not implemented in GLOSSA and the user might want to explore - see, for example, Da Re *et al* (2023) and Broussin *et al*. (2024).
+
+These methods are implemented to simplify common workflows, but if you require more control or alternative methods, you can always generate pseudo-absences externally and upload them as part of the occurrence file.
+
+## How to generate pseudo-absences
+
+Generating pseudo-absences is a **critical decision** in in species distribution modeling. Pseudo-absences are not true absences, generally they are proxies meant to represent the available environment, and their sampling strategy, number of points, and distribution can affect model performance (Phillips *et al*., 2009; Barbet-Massin *et al*., 2012; Whitford *et al*., 2024).
+
+It doesn't exist a **single best strategy**, some considerations include the generation method (Iturbide *et al*., 2015; Broussin *et al*., 2024), location of points (VanDerWal *et al*., 2009), the number of pseudo-absences (Barbet-Massin *et al*., 2012), the modeling technique used (Barbet-Massin *et al*., 2012), and the sources of biases in the data (Phillips *et al*., 2009; Hertzog *et al*., 2014), among others.
+
+Below, you’ll find a list of references and benchmark studies to help guide your decision.
 
 ::: {.callout-note}
-The spatial extent within which pseudo-absences are generated is an essential factor.
+If the methods implemented in GLOSSA do not meet your needs, you can generate pseudo-absences externally using your preferred method and upload them with the occurrence data (using `pa = 0` for pseudo-absences).
 :::
 
-When the presence data includes several timestamps, GLOSSA generates the same number of pseudo-absences as presences for each time period.  This approach ensures that the model captures temporal variation in species occurrence, which can be important for species with temporal patterns.
+## References
 
-::: {.callout-note}
-If you prefer an alternative method for generating pseudo-absences, you can create them outside of GLOSSA using your preferred method and include them in your occurrence putting a `0` in the `pa` column of these records.
-:::
+> Barbet‐Massin, M., Jiguet, F., Albert, C. H., & Thuiller, W. (2012). Selecting pseudo‐absences for species distribution models: How, where and how many?. *Methods in ecology and evolution, 3*(2), 327-338. <https://doi.org/10.1111/j.2041-210X.2011.00172.x>
+
+> Booth, T. H., Nix, H. A., Busby, J. R., & Hutchinson, M. F. (2014). BIOCLIM: the first species distribution modelling package, its early applications and relevance to most current MAXENT studies. *Diversity and distributions, 20*(1), 1-9. <https://doi.org/10.1111/ddi.12144>
+
+> Broussin, J., Mouchet, M., & Goberville, E. (2024). Generating pseudo-absences in the ecological space improves the biological relevance of response curves in species distribution models. *Ecological Modelling, 498*, 110865. <https://doi.org/10.1016/j.ecolmodel.2024.110865>
+
+> Da Re, D., Tordoni, E., Lenoir, J., Lembrechts, J. J., Vanwambeke, S. O., Rocchini, D., & Bazzichetto, M. (2023). USE it: Uniformly sampling pseudo‐absences within the environmental space for applications in habitat suitability models. *Methods in Ecology and Evolution, 14*(11), 2873-2887. <https://doi.org/10.1111/2041-210X.14209>
+
+> Hertzog, L. R., Besnard, A., & Jay‐Robert, P. (2014). Field validation shows bias‐corrected pseudo‐absence selection is the best method for predictive species‐distribution modelling. *Diversity and distributions, 20*(12), 1403-1413. <https://doi.org/10.1111/ddi.12249>
+
+> Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., & Gutiérrez, J. M. (2015). A framework for species distribution modelling with improved pseudo-absence generation. *Ecological Modelling, 312*, 166-174. <https://doi.org/10.1016/j.ecolmodel.2015.05.018>
+
+> Phillips, S. J., Dudík, M., Elith, J., Graham, C. H., Lehmann, A., Leathwick, J., & Ferrier, S. (2009). Sample selection bias and presence‐only distribution models: implications for background and pseudo‐absence data. *Ecological applications, 19*(1), 181-197. <https://doi.org/10.1890/07-2153.1>
+
+> Renner, I. W., Elith, J., Baddeley, A., Fithian, W., Hastie, T., Phillips, S. J., ... & Warton, D. I. (2015). Point process models for presence‐only analysis. *Methods in Ecology and Evolution, 6*(4), 366-379. <https://doi.org/10.1111/2041-210X.12352>
+
+> Sillero, N., Arenas-Castro, S., Enriquez‐Urzelai, U., Vale, C. G., Sousa-Guedes, D., Martínez-Freiría, F., ... & Barbosa, A. M. (2021). Want to model a species niche? A step-by-step guideline on correlative ecological niche modelling. *Ecological Modelling, 456*, 109671. <https://doi.org/10.1016/j.ecolmodel.2021.109671>
+
+> VanDerWal, J., Shoo, L. P., Graham, C., & Williams, S. E. (2009). Selecting pseudo-absence data for presence-only distribution modeling: how far should you stray from what you know?. *Ecological modelling, 220*(4), 589-594. <https://doi.org/10.1016/j.ecolmodel.2008.11.010>
+
+> Velazco, S. J. E., Rose, M. B., de Andrade, A. F. A., Minoli, I., & Franklin, J. (2022). flexsdm: An R package for supporting a comprehensive and flexible species distribution modelling workflow. *Methods in Ecology and Evolution, 13*(8), 1661-1669. <https://doi.org/10.1111/2041-210X.13874>
+
+> Warton, D. I., & Shepherd, L. C. (2010). Poisson point process models solve the" pseudo-absence problem" for presence-only data in ecology. *The Annals of Applied Statistics*, 1383-1402. <https://www.jstor.org/stable/29765559>
+
+> Whitford, A. M., Shipley, B. R., & McGuire, J. L. (2024). The influence of the number and distribution of background points in presence-background species distribution models. *Ecological Modelling, 488*, 110604. <https://doi.org/10.1016/j.ecolmodel.2023.110604>
+

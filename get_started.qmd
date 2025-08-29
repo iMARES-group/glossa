@@ -30,7 +30,7 @@ You can upload:
 
 - **Occurrence processing**: GLOSSA automatically removes duplicate records, filters out invalid points, and applies optional spatial thinning.
 - **Environmental data processing**: Raster layers are harmonized in resolution and extent, then cropped and masked to the study area. Predictor values at occurrence locations are extracted and can optionally be standardized (z-score).
-- **Generate pseudo-absences** *(if needed)*: If no absences or pseudo-absences were uploaded before, GLOSSA supports random background, target-group, or spatial buffer strategies for sampling pseudo-absences.
+- **Generate pseudo-absences** *(if needed)*: If no absences or pseudo-absences were uploaded before, GLOSSA supports random background, target-group, spatial buffer, or environmentally constrained strategies for sampling pseudo-absences.
 
 ### 3. Model fitting, evaluation, and prediction
 
@@ -195,7 +195,7 @@ By selecting the **Advanced options** button, a sidebar will appear with extra o
 
 1. **Occurrences thinning**. Apply spatial thinning to your occurrence data using a distance threshold, a regular grid with specific grid cell size, or the number of decimal places to round coordinates. GLOSSA currently implements this method via the GeoThinneR R package. If you need to apply a different thinning strategy (e.g. environmental thinning) or other preprocessing, you can do so before uploading your data to GLOSSA.
 
-2. **Pseudo-absences generation**. The user can choose the ratio of pseudo-absences to generate and between three commonly used strategies: random background, target-group, and buffer-restricted.
+2. **Pseudo-absences generation**. The user can choose the ratio of pseudo-absences to generate and between four commonly used strategies: random background, target-group, buffer-restricted, and environmentally constrained.
 
 3. **Standardize covariates**. GLOSSA uses a scaling method that subtracts the mean and divides by the standard deviation for standardization. The mean and standard deviation are calculated from the fitting layers, and the same values are used to standardize the projection layers, ensuring consistency across variables.
 
@@ -290,8 +290,8 @@ In the *Exports* tab, you can export the results of your analysis. This includes
 
 Now that you've successfully run a toy example following this *Quick start guide*, you can continue with the full documentation. You'll find information on how to:
 
-- [Prepare your data]()
-- [Generate pseudo-absences]()
+- [Prepare your data](pages/documentation/prepare_data.qmd)
+- [Generate pseudo-absences](pages/documentatpseudo_absences.qmd)
 - [Running a new analysis]()
 - [Understanding BART]()
 - [Explore the results]()

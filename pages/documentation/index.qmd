@@ -16,7 +16,7 @@ Start with our **how-to guides**, where you can find all details about GLOSSA:
 - [Get started guide](../../get_started.qmd)
 - [Installing and setting up GLOSSA](installation_setup.qmd)
 - [Preparing your data](prepare_data.qmd)
-- [Generating pseudo-absences](../../under_construction.qmd)
+- [Generating pseudo-absences](pseudo_absences.qmd)
 - [Running a new analysis](run_new_analysis.qmd)
 - [Understanding BART](../../under_construction.qmd)
 - [Explore the results](explore_results.qmd)

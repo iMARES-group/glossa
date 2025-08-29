@@ -49,11 +49,12 @@ website:
       contents:
         - pages/documentation/index.qmd
         - section: "New to GLOSSA?"
-          href: pages/documentation/what_is_glossa.qmd
+          href: get_started.qmd
           contents:
-            - pages/documentation/what_is_glossa.qmd
+            - get_started.qmd
             - pages/documentation/installation_setup.qmd
-            - pages/documentation/working_with_input_data.qmd
+            - pages/documentation/prepare_data.qmp
+            - pages/documentation/pseudo_absences.qmp
             - pages/documentation/run_new_analysis.qmd
             - pages/documentation/explore_results.qmd
             - pages/documentation/export_outputs.qmd
@@ -66,20 +67,6 @@ website:
               href: pages/tutorials_examples/Caretta_caretta_example2.qmd
             - text: "Running GLOSSA on a regional scale"
               href: pages/tutorials_examples/Siganus_luridus_example3.qmd
-        - section: "Explanations and reference docs"
-          href: pages/documentation/pseudo_absences.qmd
-          contents:
-            - pages/documentation/pseudo_absences.qmd
-    - id: tutorials_examples
-      title: "Tutorials and Examples"
-      contents:
-        - pages/tutorials_examples/index.qmd
-        - text: "Example: Global scale yellowfin tuna"
-          href: pages/tutorials_examples/Thunnus_albacares_example1.qmd
-        - text: "Example: Mediterranean Sea logerhead turtle"
-          href: pages/tutorials_examples/Caretta_caretta_example2.qmd
-        - text: "Example: Greek Seas risk of invasive species"
-          href: pages/tutorials_examples/Siganus_luridus_example3.qmd
                   
 format:
   html:

@@ -15,7 +15,16 @@ Before installing GLOSSA, ensure that your system meets the following requiremen
 - **Operating system**: GLOSSA is compatible with Windows, macOS, and Linux.
 - **RStudio (optional but recommended)**: We recommend using RStudio as it provides useful tools for working with R. Download RStudio [here](https://posit.co/download/rstudio-desktop/).
 
-## 2. Installing GLOSSA
+## 2. Installing required packages
+
+GLOSSA depends on several CRAN packages that will be installed automatically when you install the `glossa` R package. However, one additional package must be installed manually if you plan to generate pseudo-absences within the environmental space. For so, you must install the [`flexsdm`](https://github.com/sjevelazco/flexsdm) package from GitHub:
+
+```r
+# install.packages("remotes")
+remotes::install_github("sjevelazco/flexsdm")
+```
+
+## 3. Installing GLOSSA
 
 ### Install from CRAN (stable version)
 
@@ -38,7 +47,7 @@ Then, install GLOSSA from GitHub:
 devtools::install_github("iMARES-group/glossa")
 ```
 
-## 3. Launching GLOSSA
+## 4. Launching GLOSSA
 
 Once GLOSSA is installed, you can launch it in R or RStudio by running:
 
@@ -49,7 +58,7 @@ run_glossa()
 
 This command starts the GLOSSA `shiny` web app, which will open in your default browser.
 
-## 4. Verifying Your Installation
+## 5. Verifying Your Installation
 
 After installation, you can verify that GLOSSA is correctly installed by checking the package version:
 
