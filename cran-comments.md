@@ -1,14 +1,12 @@
 ## Release summary
 
-This is the CRAN submission of `glossa` v1.2.3.
-
-#### Added
-
-* New pseudo-absence generation method: `"env_space_flexsdm"`, which samples pseudo-absences from regions with lower suitability in the environmental space using the `sample_pseudoabs(method=c(method='env_const', env = somevar))` function from the *flexsdm* package. (26/08/2025, #6)
+This is the CRAN submission of `glossa` v1.2.4.
 
 #### Fixed
 
-* Large raster previews that exceed the 4 MB limit from *leaflet* are now automatically downsampled for visualization, while full-resolution rasters are kept for analysis and export. (26/08/2025, #11)
+* Reading environmental layers from ZIP files in Shiny no longer mixes fit and projection layers. Each upload is now isolated in its own temporary subdirectory, preventing files from different inputs from being combined. (28/08/2025)
+* Fixed regex used to ignore hidden macOS `.DS_Store` files from uploaded ZIP archives. (28/08/2025)
+* Ignore R history and RStudio project files from environmental layers zipped files. (28/08/2025)
 
 ## Test environments
 
@@ -28,8 +26,6 @@ The package passed `R CMD check` on all tested platforms with one NOTE:
 ```
 New submission
 
-Package was archived on CRAN
-
 Possibly misspelled words in DESCRIPTION:
   Chipman (15:29)
   GLOSSA (13:56, 20:55)
@@ -37,16 +33,7 @@ Possibly misspelled words in DESCRIPTION:
   Spatio (14:19)
 ```
 
-* This is a new submission after the package was archived.
 * The flagged words in the DESCRIPTION file refer to proper nouns and standard terminology.
-
-```
-CRAN repository db overrides:
-  X-CRAN-Comment: Archived on 2025-07-30 as required archived package
-    'blockCV'.
-```
-
-* The package 'blockCV' is back to CRAN. No further issues.
 
 ```
 Suggests or Enhances not in mainstream repositories:

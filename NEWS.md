@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## glossa (development version)
 
+## glossa 1.2.4 - 19/09/2025
+
 ### Fixed
 
 * Reading environmental layers from ZIP files in Shiny no longer mixes fit and projection layers. Each upload is now isolated in its own temporary subdirectory, preventing files from different inputs from being combined. (28/08/2025)
