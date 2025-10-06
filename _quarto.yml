@@ -62,11 +62,11 @@ website:
           href: pages/tutorials_examples/index.qmd
           contents:
             - text: "Global species distribution model"
-              href: pages/tutorials_examples/Thunnus_albacares_example1.qmd
+              href: pages/tutorials_examples/tutorial1_Thunnus_albacares.qmd
             - text: "Using a polygon to define the study area"
-              href: pages/tutorials_examples/Caretta_caretta_example2.qmd
+              href: pages/tutorials_examples/tutorial2_Caretta_caretta.qmd
             - text: "Running GLOSSA on a regional scale"
-              href: pages/tutorials_examples/Siganus_luridus_example3.qmd
+              href: pages/tutorials_examples/tutorial3_Siganus_luridus.qmd
                   
 format:
   html:

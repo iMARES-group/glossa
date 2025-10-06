@@ -291,13 +291,13 @@ In the *Exports* tab, you can export the results of your analysis. This includes
 Now that you've successfully run a toy example following this *Quick start guide*, you can continue with the full documentation. You'll find information on how to:
 
 - [Prepare your data](pages/documentation/prepare_data.qmd)
-- [Generate pseudo-absences](pages/documentatpseudo_absences.qmd)
-- [Running a new analysis]()
-- [Understanding BART]()
-- [Explore the results]()
-- [Export the results]()
-- [Tutorials and examples]()
-- [Function reference]()
+- [Generate pseudo-absences](pages/documentation/pseudo_absences.qmd)
+- [Running a new analysis](pages/documentation/run_new_analysis.qmd)
+- [Understanding BART](under_construction.qmd)
+- [Explore the results](pages/documentation/explore_results.qmd)
+- [Export the results](pages/documentation/export_outputs.qmd)
+- [Tutorials and examples](pages/tutorials_examples/index.qmd)
+- [Function reference](under_construction.qmd)
 
 **Need more help?**
 

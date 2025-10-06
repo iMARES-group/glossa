@@ -26,9 +26,9 @@ Start with our **how-to guides**, where you can find all details about GLOSSA:
 
 Explore examples that guide you through GLOSSA analyses. You’ll also find specific tutorials on how to source and prepare your data for modeling:
 
-- [Global species distribution model](../tutorials_examples/Thunnus_albacares_example1.qmd)
-- [Using a polygon to define the study area](../tutorials_examples/Caretta_caretta_example2.qmd)
-- [Running GLOSSA on a regional scale](../tutorials_examples/Siganus_luridus_example3.qmd)
+- [Global species distribution model](../tutorials_examples/tutorial1_Thunnus_albacares.qmd)
+- [Using a polygon to define the study area](../tutorials_examples/tutorial2_Caretta_caretta.qmd)
+- [Running GLOSSA on a regional scale](../tutorials_examples/tutorial3_Siganus_luridus.qmd)
 
 ## Common issues and troubleshooting
 

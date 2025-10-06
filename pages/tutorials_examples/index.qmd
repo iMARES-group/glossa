@@ -6,9 +6,9 @@ toc: false
 listing:
   type: grid
   contents:
-    - Thunnus_albacares_example1.qmd
-    - Caretta_caretta_example2.qmd
-    - Siganus_luridus_example3.qmd
+    - tutorial1_Thunnus_albacares.qmd
+    - tutorial2_Caretta_caretta.qmd
+    - tutorial3_Siganus_luridus.qmd
   fields: [image, title, subtitle, description, reading-time]
   image-placeholder: "images/home_background.png"
 ---
