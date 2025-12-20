@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## glossa (development version)
 
+### Added
+
+* Updated the citation to the journal reference. (08/12/2025)
+
 ## glossa 1.2.4 - 19/09/2025
 
 ### Fixed

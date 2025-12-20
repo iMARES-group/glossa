@@ -3,12 +3,12 @@ citHeader("To cite in publications, please use:")
 # GLOSSA manuscript
 bibentry(
   bibtype  = "Article",
-  title    = "GLOSSA: a user-friendly R Shiny application for Bayesian machine learning analysis of marine species distribution",
+  title    = "GLOSSA: A user-friendly R Shiny application for Bayesian machine learning analysis of marine species distribution",
   author   = c(person("Jorge", "Mestre-Tomás"),
                person("Alba", "Fuster-Alonso"),
                person(c("Jose", "M."), "Bellido"),
                person("Marta", "Coll")),
-  journal  = "arXiv preprint",
+  journal  = "Methods in Ecology and Evolution",
   year     = "2025",
-  doi      = "10.48550/arXiv.2505.05862"
+  doi      = "10.1111/2041-210x.70167"
 )
