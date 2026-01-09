@@ -315,6 +315,14 @@ read_extent_polygon <- function(file_path, show_modal = FALSE) {
     return(NULL)
   }
 
+  # Check for valid format
+  if (length(sf::st_geometry(extent_polygon)) > 1) {
+    show_warning("Study area contains more than 1 polygon feature, merging into a single MULTIPOLYGON with sf::st_union()")
+    extent_polygon <- sf::st_sf(extent_polygon) |>
+      sf::st_geometry() |>
+      sf::st_union()
+  }
+
   # Check if the geometry is valid
   if (!all(sf::st_is_valid(extent_polygon))) {
     show_warning("Warning: The polygon geometry is not valid. We will try to fix it.")

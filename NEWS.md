@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 * Updated the citation to the journal reference. (08/12/2025)
 
+### Fixed
+
+* Fixed handling of study area inputs with multiple polygon features: now applies `sf::st_union()` and prints a warning. (09/01/2026, #13)
+
 ## glossa 1.2.4 - 19/09/2025
 
 ### Fixed
