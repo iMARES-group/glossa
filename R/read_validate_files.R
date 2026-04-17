@@ -180,7 +180,7 @@ read_layers_zip <- function(file_path, extend = TRUE, first_layer = FALSE, show_
   res_list <- lapply(layers, terra::res)
   is_consistent <- all(sapply(res_list[-1], function(x) isTRUE(all.equal(x, res_list[[1]], tolerance = 1e-7))))
   if (!is_consistent) {
-    show_warning("The layers uploaded have different resolution. We will aggregate to coarsest resolution.")
+    show_warning("Warning: The layers uploaded have different resolution. We will aggregate to coarsest resolution.")
     max_res <- apply(do.call(rbind, res_list), 2, max)
   }
 
@@ -418,8 +418,7 @@ validate_layers_zip <- function(file_path, timestamp_mapping = NULL, show_modal 
   res_list <- lapply(layers, terra::res)
   is_consistent <- all(sapply(res_list[-1], function(x) isTRUE(all.equal(x, res_list[[1]], tolerance = 1e-7))))
   if (!is_consistent) {
-    show_warning("The layers uploaded have different resolutions.")
-    return(FALSE)
+    show_warning("Warning: The layers uploaded have different resolution. We will aggregate to coarsest resolution.")
   }
 
   # Check if all layers have the same extent

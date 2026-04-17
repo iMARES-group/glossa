@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 * Fixed handling of study area inputs with multiple polygon features: now applies `sf::st_union()` and prints a warning. (09/01/2026, #13)
+* Fixed issue where environmental layers files with different resolutions did not load. (14/04/2026)
 
 ## glossa 1.2.4 - 19/09/2025
 

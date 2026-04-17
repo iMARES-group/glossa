@@ -10,9 +10,9 @@ residual_df <- df
 residual_df$residual <- rnorm(nrow(df))
 
 r1 <- terra::rast(nrows=10, ncols=10, xmin=-5, xmax=5, ymin=-5, ymax=5)
-values(r1) <- runif(ncell(r1), 0, 1)
+terra::values(r1) <- runif(terra::ncell(r1), 0, 1)
 r2 <- terra::rast(nrows=10, ncols=10, xmin=-5, xmax=5, ymin=-5, ymax=5)
-values(r2) <- runif(ncell(r2), 0, 1)
+terra::values(r2) <- runif(terra::ncell(r2), 0, 1)
 pred_stack <- c(r1, r2)
 terra::crs(pred_stack) <- "epsg:4326"
 names(pred_stack) <- c("var1", "var2")
