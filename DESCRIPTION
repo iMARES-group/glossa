@@ -43,7 +43,6 @@ Imports:
     htmltools,
     leaflet,
     markdown,
-    mcp,
     pROC,
     sf,
     shinyWidgets,

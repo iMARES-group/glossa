@@ -185,8 +185,9 @@ response_curve_bart <- function(bart_model, data, predictor_names) {
   var_r <- dbarts::pdbart(bart_model, xind = xind, levs = levs, pl = FALSE)
 
   # Compute inverse probit values for each predictor variable
+  phi = stats::binomial(link = "probit")$linkinv
   inv_probit_df <- lapply(var_r$fd, function(fd) {
-    data.frame(matrix(mcp::phi(fd), nrow = nrow(fd), ncol = ncol(fd)))
+    data.frame(matrix(phi(fd), nrow = nrow(fd), ncol = ncol(fd)))
   })
 
   # Calculate mean, 2.5th percentile, 97.5th percentile, and values of predictor variables
