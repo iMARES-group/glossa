@@ -1,12 +1,19 @@
 ## Release summary
 
-This is the CRAN submission of `glossa` v1.2.4.
+This is the CRAN submission of `glossa` v1.2.5.
 
-#### Fixed
+### Added
 
-* Reading environmental layers from ZIP files in Shiny no longer mixes fit and projection layers. Each upload is now isolated in its own temporary subdirectory, preventing files from different inputs from being combined. (28/08/2025)
-* Fixed regex used to ignore hidden macOS `.DS_Store` files from uploaded ZIP archives. (28/08/2025)
-* Ignore R history and RStudio project files from environmental layers zipped files. (28/08/2025)
+* Updated the citation to the journal reference. (08/12/2025)
+
+### Changed
+
+* Removed the dependency on `mcp`. GLOSSA now use the inverse probit link from `stats` package preserving existing results. Thanks to @lindeloev for the contribution. (29/10/2026, #14).
+
+### Fixed
+
+* Fixed handling of study area inputs with multiple polygon features: now applies `sf::st_union()` and prints a warning. (09/01/2026, #13)
+* Fixed issue where environmental layers files with different resolutions did not load. (14/04/2026)
 
 ## Test environments
 

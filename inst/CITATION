@@ -9,6 +9,9 @@ bibentry(
                person(c("Jose", "M."), "Bellido"),
                person("Marta", "Coll")),
   journal  = "Methods in Ecology and Evolution",
-  year     = "2025",
+  year     = "2026",
+  volume   = "17",
+  number   = "2",
+  pages    = "505--517",
   doi      = "10.1111/2041-210x.70167"
 )

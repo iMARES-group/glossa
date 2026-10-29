@@ -11,3 +11,4 @@ LICENSE.md
 ^codecov\.yml$
 ^\.github$
 ^\.github/workflows/R-CMD-check\.yaml$
+^CITATION\.cff$

@@ -64,8 +64,8 @@ website](https://iMARES-group.github.io/glossa/):
 
 ### Current version
 
-- **Development version** in progress (19/09/2025)
-- CRAN release: **v1.2.4** (19/09/2025)
+- **Development version** in progress (29/10/2026)
+- CRAN release: **v1.2.5** (29/10/2026))
 
 See the full
 [changelog](https://github.com/iMARES-group/glossa/blob/main/NEWS.md)
@@ -77,7 +77,7 @@ Please cite the following
 in your research:
 
 > Mestre-Tomás, J., Fuster-Alonso, A., Bellido, J. M., & Coll, M.
-> (2025). GLOSSA: A user-friendly R Shiny application for Bayesian
+> (2026). GLOSSA: A user-friendly R Shiny application for Bayesian
 > machine learning analysis of marine species distribution. *Methods in
-> Ecology and Evolution*, 00, 1–13.
+> Ecology and Evolution*, 17(2), 505-517.
 > <https://doi.org/10.1111/2041-210x.70167>

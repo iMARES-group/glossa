@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## glossa (development version)
 
+## glossa 1.2.5 - 29/10/2026
+
 ### Added
 
 * Updated the citation to the journal reference. (08/12/2025)
+
+### Changed
+
+* Removed the dependency on `mcp`. GLOSSA now use the inverse probit link from `stats` package preserving existing results. Thanks to @lindeloev for the contribution. (29/10/2026, #14).
 
 ### Fixed
 

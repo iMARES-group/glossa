@@ -12,7 +12,7 @@ text-align: justify}
 
 Thank you for using **GLOSSA**! If you are using GLOSSA in your research, please cite the following paper:
 
-> Mestre-Tomás, J., Fuster-Alonso, A., Bellido, J. M., & Coll, M. (2025). GLOSSA: A user-friendly R Shiny application for Bayesian machine learning analysis of marine species distribution. *Methods in Ecology and Evolution*, 00, 1–13. https://doi.org/10.1111/2041-210x.70167
+> Mestre-Tomás, J., Fuster-Alonso, A., Bellido, J. M., & Coll, M. (2026). GLOSSA: A user-friendly R Shiny application for Bayesian machine learning analysis of marine species distribution. *Methods in Ecology and Evolution*, 17(2), 505-517. https://doi.org/10.1111/2041-210x.70167
 
 GLOSSA is built on the work of many researchers and developers. To acknowledge their work, we provide citation guidelines for key contributions and inspirational works.
 
